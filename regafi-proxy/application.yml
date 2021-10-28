@@ -1,0 +1,39 @@
+server:
+  port: ${SERVER_PORT:9000}
+management:
+  server:
+    port: ${ACTUATOR_PORT:9001}
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      base-path: ${ACTUATOR_CONTEXT_PATH:/actuator}
+      exposure:
+        include: info,health,prometheus
+spring:
+  application:
+    name: regafi-proxy
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:semefa}
+    username: ${DB_USER:semefa}
+    password: ${DB_PASSWORD:semefa}
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 8
+mq:
+  queue-manager: ${MQ_QUEUE_MANAGER:QM.002.999.AF}
+  queue-in: ${MQ_QUEUE_IN:QL.CLI.SEMEFA.SUSALUD.AF.REQ}
+  queue-out: ${MQ_QUEUE_OUT:QL.CLI.SEMEFA.SUSALUD.AF.RES}
+  channel: ${MQ_CHANNEL:CH.CLIENTE.SEMEFA}
+  hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
+  port: ${MQ_PORT:21437}
+date:
+  time-zone: ${TIME_ZONE:UTC-5}
+jwt:
+  issuer: saludaunclic
+  expiration-sec: ${JWT_EXPIRATION_SEC:86400}
+  clock-skew-sec: ${JWT_CLOCK_SKEW_SEC:300}
+  secret: ${JWT_SECRET:changeme}

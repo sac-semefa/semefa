@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT:9002}
+management:
+  server:
+    port: ${ACTUATOR_PORT:9003}
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      base-path: ${ACTUATOR_CONTEXT_PATH:/actuator}
+      exposure:
+        include: info,health,prometheus
+spring:
+  application:
+    name: siteds-gateway
+mq:
+  queue-manager: ${MQ_QUEUE_MANAGER:QM.002.999.AF}
+  queue-in: ${MQ_QUEUE_IN:QL.CLI.SEMEFA.SUSALUD.AF.REQ}
+  queue-out: ${MQ_QUEUE_OUT:QL.CLI.SEMEFA.SUSALUD.AF.RES}
+  channel: ${MQ_CHANNEL:CH.CLIENTE.SEMEFA}
+  hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
+  port: ${MQ_PORT:21437}
+cxf:
+  path: /api/soap
+siteds:
+  iafa-code: ${SITEDS_IAFA_CODE:30009}

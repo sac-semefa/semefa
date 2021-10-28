@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SitedsService" targetNamespace="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:sch="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:sch="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <!--  Primer metodo  -->
+            <xs:element name="getConsultaAsegNomRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaAsegNomResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Segundo metodo  -->
+            <xs:element name="getConsultaAsegCodRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaAsegCodResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Tercer metodo  -->
+            <xs:element name="getConsultaSCTRRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaSCTRResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Cuarto metodo  -->
+            <xs:element name="getConsultaDerivaRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaDerivaResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Quinto metodo  -->
+            <xs:element name="getConsultaProcRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaProcResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Sexto metodo  -->
+            <xs:element name="getConsultaDatosAdiRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaDatosAdiResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Septimo metodo  -->
+            <xs:element name="getCondicionMedicaRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getCondicionMedicaResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Octavo metodo  -->
+            <xs:element name="getConsultaObservacionRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaObservacionResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                        <xs:element name="rptObs" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Novena metodo  -->
+            <xs:element name="getNumAutorizacionRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getNumAutorizacionResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Decimo metodo  -->
+            <xs:element name="getFotoRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coAfPaciente" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFotoResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="coAfPaciente" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txFecha" type="xs:string"></xs:element>
+                        <xs:element name="imFoto" type="xs:base64Binary"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+
+            </xs:element>
+            <!--  Decimo primer metodo  -->
+            <xs:element name="getConsultaRegAfiliadosRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaRegAfiliadosResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Decimo segundo metodo  -->
+            <xs:element name="getConsultaxCartaGarantiaRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaxCartaGarantiaResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Decimo tercero metodo  -->
+            <xs:element name="getConsultaEntVinculadaRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getConsultaEntVinculadaResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <!--  Decimo cuarto  metodo  -->
+            <xs:element name="getRegistroDecAccidenteRequest" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txPeticion" type="xs:string"></xs:element>
+                        <xs:element name="coExcepcion" type="xs:string"></xs:element>
+                        <xs:element name="txDescripcion" type="xs:string"></xs:element>
+
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getRegistroDecAccidenteResponse" tns:maxOccurs="1" tns:minOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="txNombre" type="xs:string"></xs:element>
+                        <xs:element name="coIafa" type="xs:string"></xs:element>
+                        <xs:element name="txRespuesta" type="xs:string"></xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:complexType name="NewType"></xs:complexType>
+
+            <xs:complexType name="NewType1"></xs:complexType>
+        </xs:schema>  </wsdl:types>
+    <wsdl:message name="getCondicionMedicaRequest">
+        <wsdl:part element="sch:getCondicionMedicaRequest" name="getCondicionMedicaRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaAsegCodResponse">
+        <wsdl:part element="sch:getConsultaAsegCodResponse" name="getConsultaAsegCodResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaObservacionRequest">
+        <wsdl:part element="sch:getConsultaObservacionRequest" name="getConsultaObservacionRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaxCartaGarantiaResponse">
+        <wsdl:part element="sch:getConsultaxCartaGarantiaResponse" name="getConsultaxCartaGarantiaResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaSCTRRequest">
+        <wsdl:part element="sch:getConsultaSCTRRequest" name="getConsultaSCTRRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getFotoResponse">
+        <wsdl:part element="sch:getFotoResponse" name="getFotoResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaAsegNomResponse">
+        <wsdl:part element="sch:getConsultaAsegNomResponse" name="getConsultaAsegNomResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaAsegNomRequest">
+        <wsdl:part element="sch:getConsultaAsegNomRequest" name="getConsultaAsegNomRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaDatosAdiRequest">
+        <wsdl:part element="sch:getConsultaDatosAdiRequest" name="getConsultaDatosAdiRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaEntVinculadaRequest">
+        <wsdl:part element="sch:getConsultaEntVinculadaRequest" name="getConsultaEntVinculadaRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaDerivaRequest">
+        <wsdl:part element="sch:getConsultaDerivaRequest" name="getConsultaDerivaRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaObservacionResponse">
+        <wsdl:part element="sch:getConsultaObservacionResponse" name="getConsultaObservacionResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaAsegCodRequest">
+        <wsdl:part element="sch:getConsultaAsegCodRequest" name="getConsultaAsegCodRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaSCTRResponse">
+        <wsdl:part element="sch:getConsultaSCTRResponse" name="getConsultaSCTRResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getCondicionMedicaResponse">
+        <wsdl:part element="sch:getCondicionMedicaResponse" name="getCondicionMedicaResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaRegAfiliadosRequest">
+        <wsdl:part element="sch:getConsultaRegAfiliadosRequest" name="getConsultaRegAfiliadosRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaEntVinculadaResponse">
+        <wsdl:part element="sch:getConsultaEntVinculadaResponse" name="getConsultaEntVinculadaResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaDatosAdiResponse">
+        <wsdl:part element="sch:getConsultaDatosAdiResponse" name="getConsultaDatosAdiResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getNumAutorizacionResponse">
+        <wsdl:part element="sch:getNumAutorizacionResponse" name="getNumAutorizacionResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaDerivaResponse">
+        <wsdl:part element="sch:getConsultaDerivaResponse" name="getConsultaDerivaResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaRegAfiliadosResponse">
+        <wsdl:part element="sch:getConsultaRegAfiliadosResponse" name="getConsultaRegAfiliadosResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getNumAutorizacionRequest">
+        <wsdl:part element="sch:getNumAutorizacionRequest" name="getNumAutorizacionRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaProcRequest">
+        <wsdl:part element="sch:getConsultaProcRequest" name="getConsultaProcRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaxCartaGarantiaRequest">
+        <wsdl:part element="sch:getConsultaxCartaGarantiaRequest" name="getConsultaxCartaGarantiaRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getRegistroDecAccidenteRequest">
+        <wsdl:part element="sch:getRegistroDecAccidenteRequest" name="getRegistroDecAccidenteRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getRegistroDecAccidenteResponse">
+        <wsdl:part element="sch:getRegistroDecAccidenteResponse" name="getRegistroDecAccidenteResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getFotoRequest">
+        <wsdl:part element="sch:getFotoRequest" name="getFotoRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getConsultaProcResponse">
+        <wsdl:part element="sch:getConsultaProcResponse" name="getConsultaProcResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="SitedsService">
+        <wsdl:operation name="getConsultaProc">
+            <wsdl:input message="sch:getConsultaProcRequest" name="getConsultaProcRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaProcResponse" name="getConsultaProcResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getCondicionMedica">
+            <wsdl:input message="sch:getCondicionMedicaRequest" name="getCondicionMedicaRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getCondicionMedicaResponse" name="getCondicionMedicaResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaAsegCod">
+            <wsdl:input message="sch:getConsultaAsegCodRequest" name="getConsultaAsegCodRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaAsegCodResponse" name="getConsultaAsegCodResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNumAutorizacion">
+            <wsdl:input message="sch:getNumAutorizacionRequest" name="getNumAutorizacionRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getNumAutorizacionResponse" name="getNumAutorizacionResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getFoto">
+            <wsdl:input message="sch:getFotoRequest" name="getFotoRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getFotoResponse" name="getFotoResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaDatosAdi">
+            <wsdl:input message="sch:getConsultaDatosAdiRequest" name="getConsultaDatosAdiRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaDatosAdiResponse" name="getConsultaDatosAdiResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaRegAfiliados">
+            <wsdl:input message="sch:getConsultaRegAfiliadosRequest" name="getConsultaRegAfiliadosRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaRegAfiliadosResponse" name="getConsultaRegAfiliadosResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaEntVinculada">
+            <wsdl:input message="sch:getConsultaEntVinculadaRequest" name="getConsultaEntVinculadaRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaEntVinculadaResponse" name="getConsultaEntVinculadaResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaSCTR">
+            <wsdl:input message="sch:getConsultaSCTRRequest" name="getConsultaSCTRRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaSCTRResponse" name="getConsultaSCTRResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaAsegNom">
+            <wsdl:input message="sch:getConsultaAsegNomRequest" name="getConsultaAsegNomRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaAsegNomResponse" name="getConsultaAsegNomResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaDeriva">
+            <wsdl:input message="sch:getConsultaDerivaRequest" name="getConsultaDerivaRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaDerivaResponse" name="getConsultaDerivaResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaxCartaGarantia">
+            <wsdl:input message="sch:getConsultaxCartaGarantiaRequest" name="getConsultaxCartaGarantiaRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaxCartaGarantiaResponse" name="getConsultaxCartaGarantiaResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaObservacion">
+            <wsdl:input message="sch:getConsultaObservacionRequest" name="getConsultaObservacionRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getConsultaObservacionResponse" name="getConsultaObservacionResponse">
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRegistroDecAccidente">
+            <wsdl:input message="sch:getRegistroDecAccidenteRequest" name="getRegistroDecAccidenteRequest">
+            </wsdl:input>
+            <wsdl:output message="sch:getRegistroDecAccidenteResponse" name="getRegistroDecAccidenteResponse">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SitedsServiceSOAP" type="sch:SitedsService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+        <wsdl:operation name="getConsultaProc">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaProcRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaProcResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getCondicionMedica">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getCondicionMedicaRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getCondicionMedicaResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaAsegCod">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaAsegCodRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaAsegCodResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getNumAutorizacion">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getNumAutorizacionRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getNumAutorizacionResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getFoto">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getFotoRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getFotoResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaDatosAdi">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaDatosAdiRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaDatosAdiResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaRegAfiliados">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaRegAfiliadosRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaRegAfiliadosResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaEntVinculada">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaEntVinculadaRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaEntVinculadaResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaSCTR">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaSCTRRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaSCTRResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaAsegNom">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaAsegNomRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaAsegNomResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaDeriva">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaDerivaRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaDerivaResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaxCartaGarantia">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaxCartaGarantiaRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaxCartaGarantiaResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConsultaObservacion">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getConsultaObservacionRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getConsultaObservacionResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRegistroDecAccidente">
+            <soap:operation soapAction=""></soap:operation>
+            <wsdl:input name="getRegistroDecAccidenteRequest">
+                <soap:body use="literal"></soap:body>
+            </wsdl:input>
+            <wsdl:output name="getRegistroDecAccidenteResponse">
+                <soap:body use="literal"></soap:body>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SitedsService">
+        <wsdl:port binding="sch:SitedsServiceSOAP" name="SitedsServiceSOAP">
+            <soap:address location="http://localhost:9000/api/soap/siteds/SitedsService"></soap:address>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
