@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.service.date
+package com.saludaunclic.semefa.common.service.date
 
 import java.sql.Timestamp
 import java.time.LocalDateTime

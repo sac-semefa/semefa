@@ -1,6 +1,6 @@
-package com.saludaunclic.semefa.regafi.throwing
+package com.saludaunclic.semefa.common.throwing
 
-import com.saludaunclic.semefa.regafi.model.RestMessage
+import com.saludaunclic.semefa.common.model.RestMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice

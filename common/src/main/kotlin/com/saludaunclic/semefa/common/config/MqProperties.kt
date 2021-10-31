@@ -1,8 +1,5 @@
-package com.saludaunclic.semefa.regafi.config
+package com.saludaunclic.semefa.common.config
 
-import org.springframework.boot.context.properties.ConfigurationProperties
-
-@ConfigurationProperties(prefix = "mq")
 class MqProperties {
     lateinit var queueManager: String
     lateinit var queueIn: String

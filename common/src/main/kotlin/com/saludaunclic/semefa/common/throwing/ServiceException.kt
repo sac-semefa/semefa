@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.throwing
+package com.saludaunclic.semefa.common.throwing
 
 import org.springframework.http.HttpStatus
 

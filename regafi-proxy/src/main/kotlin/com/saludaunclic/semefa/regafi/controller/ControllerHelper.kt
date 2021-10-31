@@ -1,6 +1,6 @@
 package com.saludaunclic.semefa.regafi.controller
 
-import com.saludaunclic.semefa.regafi.throwing.ServiceException
+import com.saludaunclic.semefa.common.throwing.ServiceException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import javax.servlet.http.HttpServletRequest

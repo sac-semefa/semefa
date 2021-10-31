@@ -1,6 +1,6 @@
 package com.saludaunclic.semefa
 
-import com.saludaunclic.semefa.regafi.GatewayApplication
+import com.saludaunclic.semefa.regafi.RegafiProxyApp
 import com.saludaunclic.semefa.regafi.dto.AppSetupDto
 import com.saludaunclic.semefa.regafi.repository.UserRepository
 import com.saludaunclic.semefa.regafi.service.sac.RegafiService
@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration
 import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate
 
 @ContextConfiguration
-@SpringBootTest(classes = [ GatewayApplication::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = [ RegafiProxyApp::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DataFrameIntegrationTests(
     @Autowired val restTemplate: TestRestTemplate,
     @Autowired val appSetupService: AppSetupService,

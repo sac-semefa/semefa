@@ -5,7 +5,7 @@ import com.saludaunclic.semefa.regafi.mapper.RegoofyMapper
 import com.saludaunclic.semefa.regafi.model.Role
 import com.saludaunclic.semefa.regafi.model.UserStatus
 import com.saludaunclic.semefa.regafi.service.user.UserService
-import com.saludaunclic.semefa.regafi.throwing.ServiceException
+import com.saludaunclic.semefa.common.throwing.ServiceException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

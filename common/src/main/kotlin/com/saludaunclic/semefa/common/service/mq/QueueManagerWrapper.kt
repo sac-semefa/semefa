@@ -1,10 +1,10 @@
-package com.saludaunclic.semefa.regafi.service.mq
+package com.saludaunclic.semefa.common.service.mq
 
 import com.ibm.mq.MQMessage
 import com.ibm.mq.MQQueue
 import com.ibm.mq.MQQueueManager
 import com.ibm.mq.constants.CMQC
-import com.saludaunclic.semefa.regafi.config.MqProperties
+import com.saludaunclic.semefa.common.config.MqProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.Hashtable

@@ -1,13 +1,13 @@
-package com.saludaunclic.semefa.regafi.service.mq
+package com.saludaunclic.semefa.common.service.mq
 
 import com.ibm.mq.MQException
 import com.ibm.mq.MQGetMessageOptions
 import com.ibm.mq.MQMessage
 import com.ibm.mq.MQQueue
 import com.ibm.mq.constants.CMQC
-import com.saludaunclic.semefa.regafi.config.MqProperties
-import com.saludaunclic.semefa.regafi.throwing.MqMaxAttemptReachedException
-import com.saludaunclic.semefa.regafi.throwing.ServiceException
+import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
+import com.saludaunclic.semefa.common.throwing.ServiceException
+import com.saludaunclic.semefa.common.config.MqProperties
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

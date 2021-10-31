@@ -8,8 +8,8 @@ import org.springframework.cache.annotation.EnableCaching
 @SpringBootApplication
 @ConfigurationPropertiesScan(value = [ "com.saludaunclic.semefa.regafi.config" ])
 @EnableCaching
-class GatewayApplication
+class RegafiProxyApp
 
 fun main(args: Array<String>) {
-    runApplication<GatewayApplication>(*args)
+    runApplication<RegafiProxyApp>(*args)
 }

@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.siteds.config
+package com.saludaunclic.semefa.common.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

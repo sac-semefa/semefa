@@ -2,7 +2,7 @@ package com.saludaunclic.semefa.regafi.service.user
 
 import com.saludaunclic.semefa.regafi.model.User
 import com.saludaunclic.semefa.regafi.repository.UserRepository
-import com.saludaunclic.semefa.regafi.throwing.ServiceException
+import com.saludaunclic.semefa.common.throwing.ServiceException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

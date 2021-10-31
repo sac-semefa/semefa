@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.regafi.service.token
 
 import com.saludaunclic.semefa.regafi.config.TokenProperties
-import com.saludaunclic.semefa.regafi.service.date.DateService
+import com.saludaunclic.semefa.common.service.date.DateService
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Clock
 import io.jsonwebtoken.Jwts
@@ -13,7 +13,7 @@ import java.util.Date
 
 @Service
 class JWTTokenService(
-    private val dates: DateService,
+    private val dateService: DateService,
     private val tokenProperties: TokenProperties
 ): Clock, TokenService {
     private val encodedSecret: String = Base64.getEncoder().encodeToString(tokenProperties.secret.toByteArray())
@@ -23,7 +23,7 @@ class JWTTokenService(
         val compressionCodec: GzipCompressionCodec = GzipCompressionCodec()
     }
 
-    override fun now(): Date = dates.toDate(dates.now())
+    override fun now(): Date = dateService.toDate(dateService.now())
 
     override fun permanent(attributes: Map<String, String>): String = newToken(attributes, 0)
 
@@ -53,13 +53,13 @@ class JWTTokenService(
         }
 
     private fun newToken(attributes: Map<String, String>, expiresInSec: Long): String {
-        val now = dates.now()
+        val now = dateService.now()
         val claims: Claims = Jwts
             .claims()
             .setIssuer(tokenProperties.issuer)
-            .setIssuedAt(dates.toDate(now))
+            .setIssuedAt(dateService.toDate(now))
         if (expiresInSec > 0) {
-            claims.expiration = dates.toDate(now.plusSeconds(expiresInSec))
+            claims.expiration = dateService.toDate(now.plusSeconds(expiresInSec))
         }
         claims.putAll(attributes)
 

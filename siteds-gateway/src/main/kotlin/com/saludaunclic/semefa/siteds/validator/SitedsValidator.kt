@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.siteds.validator
 
 import com.saludaunclic.semefa.siteds.config.SitedsProperties
-import com.saludaunclic.semefa.siteds.throwing.ServiceException
+import com.saludaunclic.semefa.common.throwing.ServiceException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils

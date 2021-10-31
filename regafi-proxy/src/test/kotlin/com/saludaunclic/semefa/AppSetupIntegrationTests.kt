@@ -1,6 +1,6 @@
 package com.saludaunclic.semefa
 
-import com.saludaunclic.semefa.regafi.GatewayApplication
+import com.saludaunclic.semefa.regafi.RegafiProxyApp
 import com.saludaunclic.semefa.regafi.repository.UserRepository
 import com.saludaunclic.semefa.util.TestDataUtils
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.context.ContextConfiguration
 
 @ContextConfiguration
-@SpringBootTest(classes = [ GatewayApplication::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = [ RegafiProxyApp::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppSetupIntegrationTests(
     @Autowired val restTemplate: TestRestTemplate,
     @Autowired val userRepository: UserRepository

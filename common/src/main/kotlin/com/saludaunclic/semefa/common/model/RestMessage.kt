@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.siteds.model
+package com.saludaunclic.semefa.common.model
 
 import java.io.Serializable
 

@@ -1,6 +1,6 @@
 package com.saludaunclic.semefa
 
-import com.saludaunclic.semefa.regafi.GatewayApplication
+import com.saludaunclic.semefa.regafi.RegafiProxyApp
 import com.saludaunclic.semefa.regafi.dto.AppSetupDto
 import com.saludaunclic.semefa.regafi.repository.UserRepository
 import com.saludaunclic.semefa.regafi.service.setup.AppSetupService
@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.context.ContextConfiguration
 
 @ContextConfiguration
-@SpringBootTest(classes = [ GatewayApplication::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = [ RegafiProxyApp::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ApiAuthIntegrationTests(
     @Autowired val restTemplate: TestRestTemplate,
     @Autowired val appSetupService: AppSetupService,
