@@ -2,6 +2,7 @@ package com.saludaunclic.semefa.siteds.endpoint
 
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import com.saludaunclic.semefa.siteds.mapper.SitedsMapper
+import com.saludaunclic.semefa.siteds.service.sac.SitedsHandler
 import org.apache.cxf.feature.Features
 import org.springframework.stereotype.Service
 import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaRequest
@@ -36,7 +37,7 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 
 @Service
 @Features(features = [ "org.apache.cxf.ext.logging.LoggingFeature" ])
-class SitedsEndpoint(private val sitedsService: com.saludaunclic.semefa.siteds.service.sac.SitedsService,
+class SitedsEndpoint(private val sitedsHandler: SitedsHandler,
                      private val sitedsValidator: SitedsValidator,
                      private val sitedsMapper: SitedsMapper) : SitedsService {
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)

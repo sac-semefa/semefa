@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.regafi.controller
 
 import com.saludaunclic.semefa.regafi.dto.SacIn997RegafiUpdate
-import com.saludaunclic.semefa.regafi.service.sac.RegafiService
+import com.saludaunclic.semefa.regafi.service.RegafiService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

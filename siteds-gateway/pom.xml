@@ -46,16 +46,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
         <!-- CXF -->
         <dependency>

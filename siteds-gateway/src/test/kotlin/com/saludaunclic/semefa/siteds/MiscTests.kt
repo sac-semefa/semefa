@@ -9,7 +9,7 @@ class MiscTests {
     fun conEntVinc278_test() {
         val conEntVinc278Service = ConEntVinc278ServiceImpl()
         val inConEntVinc278: InConEntVinc278 = generarInSolEntVinc278()
-        val x12 = conEntVinc278Service.beanToX12N(inConEntVinc278)
+        println(conEntVinc278Service.beanToX12N(inConEntVinc278))
     }
 
     private fun generarInSolEntVinc278(): InConEntVinc278 {

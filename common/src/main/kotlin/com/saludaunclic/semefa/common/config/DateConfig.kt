@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.common.config
 
-import com.saludaunclic.semefa.common.service.date.DateService
-import com.saludaunclic.semefa.common.service.date.DefaultDateService
+import com.saludaunclic.semefa.common.service.DateService
+import com.saludaunclic.semefa.common.service.DefaultDateService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.TimeZone

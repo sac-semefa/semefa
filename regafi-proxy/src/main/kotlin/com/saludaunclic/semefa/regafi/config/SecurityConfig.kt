@@ -1,8 +1,8 @@
 package com.saludaunclic.semefa.regafi.config
 
-import com.saludaunclic.semefa.regafi.security.NoRedirectStrategy
-import com.saludaunclic.semefa.regafi.security.TokenAuthenticationFilter
-import com.saludaunclic.semefa.regafi.security.TokenAuthenticationProvider
+import com.saludaunclic.semefa.common.security.NoRedirectStrategy
+import com.saludaunclic.semefa.common.security.TokenAuthenticationFilter
+import com.saludaunclic.semefa.common.security.TokenAuthenticationProvider
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
