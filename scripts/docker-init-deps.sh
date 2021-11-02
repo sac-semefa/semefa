@@ -40,9 +40,7 @@ fi
 dbExists
 db_result=$?
 if [[ ${db_result} == 1 ]]; then
-  pushd ../mysql
-  mysql_folder=$(pwd)
-  popd
+  mysql_folder=mysql
   init_script=${mysql_folder}/init.sql
   docker cp ${init_script} ${container_id}:${MYSQL_DB}-init.sql
   docker exec -t ${container_id} \
@@ -56,12 +54,12 @@ if [[ ${db_result} == 1 ]]; then
   echo "#########################################################################"
 fi
 
-pushd ../liquibase
-liquibase_context=$(pwd)
-popd
-docker cp ${init_script} ${container_id}:${MYSQL_DB}-init.sql
+liquibase_context=liquibase
+echo ${liquibase_context}
+pwd
+ls -las ${liquibase_context}
 docker run --rm --name liquibase-migration \
-  -v ${liquibase_context}:/liquibase/changelog \
+  -v $(pwd)/${liquibase_context}:/liquibase/changelog \
   liquibase/liquibase \
   --changeLogFile=changelog-master.xml \
   --url="jdbc:mysql://host.docker.internal:3306/${MYSQL_DB}" \

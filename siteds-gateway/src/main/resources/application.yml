@@ -15,6 +15,16 @@ management:
 spring:
   application:
     name: siteds-gateway
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver #com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:semefa}
+    username: ${DB_USER:semefa}
+    password: ${DB_PASSWORD:semefa}
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 8
+siteds:
+  iafa-code: ${SITEDS_IAFA_CODE:30009}
 mq:
   queue-manager: ${MQ_QUEUE_MANAGER:QM.002.999.AF}
   queue-in: ${MQ_QUEUE_IN:QL.CLI.SEMEFA.SUSALUD.AF.REQ}
@@ -22,7 +32,12 @@ mq:
   channel: ${MQ_CHANNEL:CH.CLIENTE.SEMEFA}
   hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
   port: ${MQ_PORT:21437}
+date:
+  time-zone: ${TIME_ZONE:UTC-5}
+jwt:
+  issuer: saludaunclic
+  expiration-sec: ${JWT_EXPIRATION_SEC:86400}
+  clock-skew-sec: ${JWT_CLOCK_SKEW_SEC:300}
+  secret: ${JWT_SECRET:changeme}
 cxf:
   path: /api/soap
-siteds:
-  iafa-code: ${SITEDS_IAFA_CODE:30009}

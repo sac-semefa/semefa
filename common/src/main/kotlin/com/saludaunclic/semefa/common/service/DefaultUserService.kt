@@ -65,5 +65,4 @@ class DefaultUserService(
             logger.info("User saved: $saved")
             saved
         }
-
 }

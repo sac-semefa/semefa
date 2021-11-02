@@ -12,7 +12,7 @@ import java.util.Optional
 class TokenAuthenticationProvider(val userAuthenticationService: UserAuthenticationService):
     AbstractUserDetailsAuthenticationProvider() {
     override fun additionalAuthenticationChecks(
-        userDetails: UserDetails?,
+        userDetails: UserDetails,
         authentication: UsernamePasswordAuthenticationToken?
     ) {}
 
