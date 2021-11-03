@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <cxf.version>3.4.5</cxf.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <jackson-module-kotlin.version>2.13.0</jackson-module-kotlin.version>
         <jakarta.validation-api.version>3.0.0</jakarta.validation-api.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
@@ -80,6 +81,11 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <!-- Dev -->
             <dependency>
