@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 class SitedsHandler {
     companion object {
         private val transactions: List<BasicSitedsTransaction> = listOf(
-            BasicSitedsTransaction("278_CON_ENT_VINC", 278, 13)
+            //BasicSitedsTransaction(REQ_278_CON_ENT_VINC, 278, 13)
         )
         private val codeTransactions = transactions.map { it.transactionCode to it }
     }

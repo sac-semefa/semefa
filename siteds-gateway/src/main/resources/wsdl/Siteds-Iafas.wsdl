@@ -633,7 +633,7 @@
     </wsdl:binding>
     <wsdl:service name="SitedsService">
         <wsdl:port binding="sch:SitedsServiceSOAP" name="SitedsServiceSOAP">
-            <soap:address location="http://localhost:9000/api/soap/siteds/SitedsService"></soap:address>
+            <soap:address location="http://10.0.2.2:9002/siteds_ws/SitedsService"></soap:address>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

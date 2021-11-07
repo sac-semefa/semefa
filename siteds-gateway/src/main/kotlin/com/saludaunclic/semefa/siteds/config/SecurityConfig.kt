@@ -19,29 +19,27 @@ import org.springframework.security.web.util.matcher.RequestMatcher
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig: WebSecurityConfigurerAdapter() {
-    companion object {
-        private const val SOAP_API_PATTERN: String = "/api/soap/**"
-        private const val ACTUATOR_PATTERN: String = "/actuator/**"
-        private val PUBLIC_URLS: RequestMatcher = OrRequestMatcher(
-            AntPathRequestMatcher(SOAP_API_PATTERN),
-            AntPathRequestMatcher(ACTUATOR_PATTERN))
-        private val PROTECTED_URLS: RequestMatcher = NegatedRequestMatcher(PUBLIC_URLS)
-    }
+class SecurityConfig(val cxfProperties: CxfProperties): WebSecurityConfigurerAdapter() {
+    @Bean fun publicUrls(): RequestMatcher = OrRequestMatcher(
+        AntPathRequestMatcher("${cxfProperties.path}/**"),
+        AntPathRequestMatcher("/actuator/**"))
+
+    @Bean fun protectedUrls(): RequestMatcher = NegatedRequestMatcher(publicUrls())
 
     override fun configure(web: WebSecurity) {
-        web.ignoring().requestMatchers(PUBLIC_URLS)
+        web.ignoring().requestMatchers(publicUrls())
     }
 
     override fun configure(http: HttpSecurity) {
+        val protectedUrls = protectedUrls()
         http
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .exceptionHandling()
-            .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
+            .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), protectedUrls)
             .and()
-            .authorizeRequests().requestMatchers(PROTECTED_URLS)
+            .authorizeRequests().requestMatchers(protectedUrls)
             .authenticated()
             .and()
             .csrf().disable()
