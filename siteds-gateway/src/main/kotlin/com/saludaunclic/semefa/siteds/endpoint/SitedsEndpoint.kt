@@ -1,8 +1,8 @@
 package com.saludaunclic.semefa.siteds.endpoint
 
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
-import com.saludaunclic.semefa.siteds.mapper.SitedsMapper
-import com.saludaunclic.semefa.siteds.service.sac.SitedsHandler
+import com.saludaunclic.semefa.siteds.SitedsConstants
+import com.saludaunclic.semefa.siteds.service.GetConsultaEntVinculadaHandler
+import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import org.apache.cxf.feature.Features
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,14 +39,11 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 
 @Service
 @Features(features = [ "org.apache.cxf.ext.logging.LoggingFeature" ])
-class SitedsEndpoint(private val sitedsHandler: SitedsHandler,
-                     private val sitedsValidator: SitedsValidator,
-                     private val sitedsMapper: SitedsMapper) : SitedsService {
+class SitedsEndpoint(private val getConsultaEntVinculadaHandler: GetConsultaEntVinculadaHandler) : SitedsService {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
     : GetConsultaRegAfiliadosResponse {
-        sitedsValidator.validateConsultaRegAfiliadosRequest(getConsultaRegAfiliadosRequest)
         return GetConsultaRegAfiliadosResponse()
     }
 
@@ -87,10 +84,7 @@ class SitedsEndpoint(private val sitedsHandler: SitedsHandler,
     }
 
     override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest)
-    : GetConsultaEntVinculadaResponse {
-        logger.info("hola")
-        return GetConsultaEntVinculadaResponse()
-    }
+    : GetConsultaEntVinculadaResponse = getConsultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
 
     override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse {
         TODO("Not yet implemented")

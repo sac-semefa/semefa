@@ -32,4 +32,17 @@ object SitedsConstants {
         const val REQ_278_SOL_CG: String = "278_SOL_CG"
         const val RES_278_RES_CG: String = "278_RES_CG"
     }
+
+    object ErrorCodes {
+        const val NO_ERROR: String = "0000"
+        const val SYSTEM_ERROR: String = "0020"
+        const val TRANSACTION_UNUSED: String = "0100"
+        const val USER_MISSING: String = "0110"
+        const val EXCEPTION_CODE_MISSING: String = "0200"
+        const val EXCEPTION_CODE_INVALID: String = "0210"
+        const val TRANSACTION_NAME_MISSING: String = "0300"
+        const val TRANSACTION_NAME_INVALID: String = "0310"
+        const val IAFA_CODE_MISSING: String = "0400"
+        const val IAFA_CODE_INVALID: String = "0410"
+    }
 }
