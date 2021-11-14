@@ -24,9 +24,11 @@ spring:
       connection-timeout: 20000
       maximum-pool-size: 8
 siteds:
+  sac-url: ${SAC_URL:http://localhost:9999}
   iafa-code: ${SITEDS_IAFA_CODE:30009}
   susalud-user: ${SUSALUD_USER:test_pasarela_3}
   susalud-password: ${SUSALUD_PASSWORD:}
+  debug: ${DEBUG:false}
 mq:
   queue-manager: ${MQ_QUEUE_MANAGER:QM.999.998.AC}
   queue-in: ${MQ_QUEUE_IN:QL.995.AC.002.2.IN}

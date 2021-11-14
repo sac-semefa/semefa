@@ -6,24 +6,25 @@ import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegNomRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosRequest
 
 @Component
 class SitedsValidator(private val sitedsProperties: SitedsProperties) {
-    fun validateConsultaEntVinculada(consultaEntVinculada: GetConsultaEntVinculadaRequest) {
-        with(consultaEntVinculada) {
-            whenFieldIsBlankThrow(txNombre, "Missing transaction name", ErrorCodes.TRANSACTION_NAME_MISSING)
-            whenFieldIsNotExpected(
-                txNombre,
-                Transactions.REQ_278_CON_ENT_VINC,
-                "Invalid transaction name",
-                ErrorCodes.TRANSACTION_NAME_INVALID)
-            whenFieldIsBlankThrow(coIafa, "Missing IAFA code", ErrorCodes.IAFA_CODE_MISSING)
+    fun validateConsultaEntVinculada(request: GetConsultaEntVinculadaRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_278_CON_ENT_VINC, coIafa)
         }
     }
 
-    fun validateConsultaRegAfiliadosRequest(request: GetConsultaRegAfiliadosRequest) {
+    fun validateConsultaAsegNom(request: GetConsultaAsegNomRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validateConsultaRegAfiliados(request: GetConsultaRegAfiliadosRequest) {
         /*if (!StringUtils.isBlank(request.txNombre)) {
             throw SitedsException("Nombre de transacción (txNombre) no está presente", HttpStatus.BAD_REQUEST)
         }
@@ -32,13 +33,23 @@ class SitedsValidator(private val sitedsProperties: SitedsProperties) {
         }*/
     }
 
-    private fun whenFieldIsBlankThrow(field: String, message: String, errorCode: String) {
+    private fun basicValidation(txName: String?, expectedTxName: String,  iafaCode: String?) {
+        whenFieldIsBlankThrow(txName, "Missing transaction name", ErrorCodes.TRANSACTION_NAME_MISSING)
+        whenFieldIsNotExpected(
+            txName,
+            expectedTxName,
+            "Invalid transaction name $txName, it should be: $expectedTxName",
+            ErrorCodes.TRANSACTION_NAME_INVALID)
+        whenFieldIsBlankThrow(iafaCode, "Missing IAFA code", ErrorCodes.IAFA_CODE_MISSING)
+    }
+
+    private fun whenFieldIsBlankThrow(field: String?, message: String, errorCode: String) {
         if (StringUtils.isBlank(field)) {
             throw SitedsException(message, errorCode)
         }
     }
 
-    private fun whenFieldIsNotExpected(field: String, expected: String, message: String, errorCode: String) {
+    private fun whenFieldIsNotExpected(field: String?, expected: String, message: String, errorCode: String) {
         if (field != expected) {
             throw SitedsException(message, errorCode)
         }

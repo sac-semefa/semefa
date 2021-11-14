@@ -1,8 +1,7 @@
 package com.saludaunclic.semefa.siteds.endpoint
 
-import com.saludaunclic.semefa.siteds.SitedsConstants
-import com.saludaunclic.semefa.siteds.service.GetConsultaEntVinculadaHandler
-import com.saludaunclic.semefa.siteds.throwing.SitedsException
+import com.saludaunclic.semefa.siteds.service.ConsultaAsegNomHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaEntVinculadaHandler
 import org.apache.cxf.feature.Features
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,7 +38,10 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 
 @Service
 @Features(features = [ "org.apache.cxf.ext.logging.LoggingFeature" ])
-class SitedsEndpoint(private val getConsultaEntVinculadaHandler: GetConsultaEntVinculadaHandler) : SitedsService {
+class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVinculadaHandler,
+                     private val consultaAsegNomHandler: ConsultaAsegNomHandler
+)
+    : SitedsService {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
@@ -48,7 +50,7 @@ class SitedsEndpoint(private val getConsultaEntVinculadaHandler: GetConsultaEntV
     }
 
     override fun getConsultaAsegNom(getConsultaAsegNomRequest: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse {
-        TODO("Not yet implemented")
+        return consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
     }
 
     override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest): GetConsultaDatosAdiResponse {
@@ -84,7 +86,7 @@ class SitedsEndpoint(private val getConsultaEntVinculadaHandler: GetConsultaEntV
     }
 
     override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest)
-    : GetConsultaEntVinculadaResponse = getConsultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
+    : GetConsultaEntVinculadaResponse = consultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
 
     override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse {
         TODO("Not yet implemented")

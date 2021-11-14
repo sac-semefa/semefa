@@ -44,5 +44,6 @@ object SitedsConstants {
         const val TRANSACTION_NAME_INVALID: String = "0310"
         const val IAFA_CODE_MISSING: String = "0400"
         const val IAFA_CODE_INVALID: String = "0410"
+        const val ID_REF_INVALID: String = "0401"
     }
 }
