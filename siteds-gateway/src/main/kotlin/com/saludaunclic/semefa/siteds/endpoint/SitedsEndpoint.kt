@@ -1,7 +1,10 @@
 package com.saludaunclic.semefa.siteds.endpoint
 
+import com.saludaunclic.semefa.siteds.service.ConsultaAseSctrHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaAsegCodHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaAsegNomHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaEntVinculadaHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaRegafiHandler
 import org.apache.cxf.feature.Features
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,21 +42,22 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 @Service
 @Features(features = [ "org.apache.cxf.ext.logging.LoggingFeature" ])
 class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVinculadaHandler,
-                     private val consultaAsegNomHandler: ConsultaAsegNomHandler
+                     private val consultaAsegNomHandler: ConsultaAsegNomHandler,
+                     private val consultaAsegCodHandler: ConsultaAsegCodHandler,
+                     private val consultaAsegSctrHandler: ConsultaAseSctrHandler,
+                     private val consultaRegafiHandler: ConsultaRegafiHandler
 )
     : SitedsService {
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
-    : GetConsultaRegAfiliadosResponse {
-        return GetConsultaRegAfiliadosResponse()
-    }
+    : GetConsultaRegAfiliadosResponse = consultaRegafiHandler.handle(getConsultaRegAfiliadosRequest)
 
-    override fun getConsultaAsegNom(getConsultaAsegNomRequest: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse {
-        return consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
-    }
+    override fun getConsultaAsegNom(getConsultaAsegNomRequest: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse =
+        consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
 
-    override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest): GetConsultaDatosAdiResponse {
+    override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest):
+        GetConsultaDatosAdiResponse {
         TODO("Not yet implemented")
     }
 
@@ -65,9 +69,8 @@ class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVincula
         TODO("Not yet implemented")
     }
 
-    override fun getConsultaSCTR(getConsultaSCTRRequest: GetConsultaSCTRRequest): GetConsultaSCTRResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getConsultaSCTR(getConsultaSCTRRequest: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
+        consultaAsegSctrHandler.handle(getConsultaSCTRRequest)
 
     override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse {
         TODO("Not yet implemented")
@@ -77,22 +80,24 @@ class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVincula
         TODO("Not yet implemented")
     }
 
-    override fun getConsultaxCartaGarantia(getConsultaxCartaGarantiaRequest: GetConsultaxCartaGarantiaRequest): GetConsultaxCartaGarantiaResponse {
+    override fun getConsultaxCartaGarantia(getConsultaxCartaGarantiaRequest: GetConsultaxCartaGarantiaRequest):
+        GetConsultaxCartaGarantiaResponse {
         TODO("Not yet implemented")
     }
 
-    override fun getRegistroDecAccidente(getRegistroDecAccidenteRequest: GetRegistroDecAccidenteRequest): GetRegistroDecAccidenteResponse {
+    override fun getRegistroDecAccidente(getRegistroDecAccidenteRequest: GetRegistroDecAccidenteRequest):
+        GetRegistroDecAccidenteResponse {
         TODO("Not yet implemented")
     }
 
     override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest)
     : GetConsultaEntVinculadaResponse = consultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
 
-    override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse =
+        consultaAsegCodHandler.handle(getConsultaAsegCodRequest)
 
-    override fun getConsultaObservacion(getConsultaObservacionRequest: GetConsultaObservacionRequest): GetConsultaObservacionResponse {
+    override fun getConsultaObservacion(getConsultaObservacionRequest: GetConsultaObservacionRequest):
+        GetConsultaObservacionResponse {
         TODO("Not yet implemented")
     }
 

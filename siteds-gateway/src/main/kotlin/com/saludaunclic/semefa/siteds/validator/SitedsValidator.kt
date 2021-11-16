@@ -6,9 +6,11 @@ import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegNomRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRRequest
 
 @Component
 class SitedsValidator(private val sitedsProperties: SitedsProperties) {
@@ -24,13 +26,22 @@ class SitedsValidator(private val sitedsProperties: SitedsProperties) {
         }
     }
 
-    fun validateConsultaRegAfiliados(request: GetConsultaRegAfiliadosRequest) {
-        /*if (!StringUtils.isBlank(request.txNombre)) {
-            throw SitedsException("Nombre de transacción (txNombre) no está presente", HttpStatus.BAD_REQUEST)
+    fun validateConsultaAsegCod(request: GetConsultaAsegCodRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
         }
-        if (!StringUtils.isBlank(request.coIafa)) {
-            throw SitedsException("Código de IAFA (coIafa) no está presente", HttpStatus.BAD_REQUEST)
-        }*/
+    }
+
+    fun validateConsultaAsegSctr(request: GetConsultaSCTRRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validateConsultaRegafi(request: GetConsultaRegAfiliadosRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_REGAFI, coIafa)
+        }
     }
 
     private fun basicValidation(txName: String?, expectedTxName: String,  iafaCode: String?) {

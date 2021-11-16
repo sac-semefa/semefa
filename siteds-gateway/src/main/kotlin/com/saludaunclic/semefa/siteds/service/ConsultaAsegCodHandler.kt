@@ -7,38 +7,37 @@ import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.bean.InConAse270
-import pe.gob.susalud.jr.transaccion.susalud.bean.InConNom271
+import pe.gob.susalud.jr.transaccion.susalud.bean.InConCod271
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
-import pe.gob.susalud.jr.transaccion.susalud.service.ConNom271Service
-import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegNomRequest
-import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegNomResponse
+import pe.gob.susalud.jr.transaccion.susalud.service.ConCod271Service
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodResponse
 
 @Service
-class ConsultaAsegNomHandler(private val sitedsValidator: SitedsValidator,
+class ConsultaAsegCodHandler(private val sitedsValidator: SitedsValidator,
                              private val sitedsProperties: SitedsProperties,
                              private val conAse270Service: ConAse270Service,
-                             private val conNom271Service: ConNom271Service
-): BaseSitedsHandler<GetConsultaAsegNomRequest, GetConsultaAsegNomResponse>() {
+                             private val conCod271Service: ConCod271Service
+): BaseSitedsHandler<GetConsultaAsegCodRequest, GetConsultaAsegCodResponse>() {
     companion object {
-        const val PATH: String = "/conasenom"
+        const val PATH: String = "/conasecod"
     }
 
-    override fun handleRequest(request: GetConsultaAsegNomRequest) {
-        sitedsValidator.validateConsultaAsegNom(request)
+    override fun handleRequest(request: GetConsultaAsegCodRequest) {
+        sitedsValidator.validateConsultaAsegCod(request)
 
         val inConAse270: InConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-
-        val bean: InConNom271 = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, InConNom271::class.java)
-        val x12: String = conNom271Service.beanToX12N(bean)
+        val bean: InConCod271 = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, InConCod271::class.java)
+        val x12 = conCod271Service.beanToX12N(bean)
         logConvertResponse(logger, bean, x12)
     }
 
-    override fun createResponse(errorCode: String): GetConsultaAsegNomResponse =
-        GetConsultaAsegNomResponse().apply {
+    override fun createResponse(errorCode: String): GetConsultaAsegCodResponse =
+        GetConsultaAsegCodResponse().apply {
             coError = errorCode
             coIafa = sitedsProperties.iafaCode
-            txNombre = Transactions.RES_271_CON_NOM
+            txNombre = Transactions.RES_271_CON_COD
         }
 }

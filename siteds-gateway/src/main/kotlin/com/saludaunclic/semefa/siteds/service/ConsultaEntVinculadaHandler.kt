@@ -17,8 +17,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaResponse
 class ConsultaEntVinculadaHandler(private val sitedsValidator: SitedsValidator,
                                   private val sitedsProperties: SitedsProperties,
                                   private val conEntVinc278Service: ConEntVinc278Service,
-                                  private val resEntVinc278Service: ResEntVinc278Service)
-    : BaseSitedsHandler<GetConsultaEntVinculadaRequest, GetConsultaEntVinculadaResponse>() {
+                                  private val resEntVinc278Service: ResEntVinc278Service
+): BaseSitedsHandler<GetConsultaEntVinculadaRequest, GetConsultaEntVinculadaResponse>() {
+    companion object {
+        const val PATH: String = "/entvinc"
+    }
 
     override fun handleRequest(request: GetConsultaEntVinculadaRequest) {
         sitedsValidator.validateConsultaEntVinculada(request)
@@ -27,19 +30,17 @@ class ConsultaEntVinculadaHandler(private val sitedsValidator: SitedsValidator,
         logConvertRequest(logger, request.txPeticion, inConEntVinc278)
 
         val inResEntVinc278: InResEntVinc278 = sendBean(
-            sitedsProperties.sacUrl + "/entvinc",
+            sitedsProperties.sacUrl + PATH,
             inConEntVinc278,
             InResEntVinc278::class.java)
         val x12: String = resEntVinc278Service.beanToX12N(inResEntVinc278)
         logConvertResponse(logger, inResEntVinc278, x12)
     }
 
-    override fun createResponse(errorCode: String, txName: String): GetConsultaEntVinculadaResponse =
+    override fun createResponse(errorCode: String): GetConsultaEntVinculadaResponse =
         GetConsultaEntVinculadaResponse().apply {
             coError = errorCode
             coIafa = sitedsProperties.iafaCode
-            txNombre = txName
+            txNombre = Transactions.RES_278_RES_ENT_VINC
         }
-
-    override fun resolveTxName(request: GetConsultaEntVinculadaRequest): String = Transactions.RES_278_RES_ENT_VINC
 }
