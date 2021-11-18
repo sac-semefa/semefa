@@ -25,7 +25,7 @@ object SitedsConstants {
         const val RES_271_CON_OBS: String = "271_CON_OBS"
 
         const val REQ_271_SOL_AUT: String = "271_SOL_AUT"
-        const val RES_977_RES_AUT: String = "977_RES_AUT"
+        const val RES_997_RES_AUT: String = "997_RES_AUT"
 
         const val REQ_271_LOGACRE_INSERT: String = "271_LOGACRE_INSER"
 
