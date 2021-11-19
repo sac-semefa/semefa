@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient
 abstract class BaseSitedsHandler<in Req: Any, out Res: Any>: SitedsHandler<Req, Res> {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun handle(request: Req): Res =
+    open fun handle(request: Req): Res =
         with(request) {
             try {
                 handleRequest(this)

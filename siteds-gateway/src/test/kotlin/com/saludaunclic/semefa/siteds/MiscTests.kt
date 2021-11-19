@@ -63,8 +63,8 @@ class MiscTests {
                 val setter = klass
                     .memberFunctions
                     .find { f -> f.name == ("set" + it.name.replaceFirstChar { s-> s.uppercase() }) }
-                if (it.returnType.javaType.equals(String::class.java)) {
-                    setter?.call(obj, generateWord())
+                if (it.returnType.javaType == String::class.java) {
+                    setter?.call(obj, StringUtils.EMPTY)
                 }
             }
         return obj

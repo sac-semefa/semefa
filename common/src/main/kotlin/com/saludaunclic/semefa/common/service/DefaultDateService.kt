@@ -1,12 +1,15 @@
 package com.saludaunclic.semefa.common.service
 
+import com.saludaunclic.semefa.common.config.DateProperties
+import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.TimeZone
 
-class DefaultDateService(val timeZone: TimeZone): DateService {
+@Service
+class DefaultDateService(val dateProperties: DateProperties): DateService {
     companion object {
         val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
         val timeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HHmmss")

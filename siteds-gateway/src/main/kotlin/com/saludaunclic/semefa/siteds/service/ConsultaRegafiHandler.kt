@@ -24,7 +24,7 @@ class ConsultaRegafiHandler(private val sitedsValidator: SitedsValidator,
     }
 
     override fun handleRequest(request: GetConsultaRegAfiliadosRequest) {
-        sitedsValidator.validateConsultaRegafi(request)
+        sitedsValidator.validate(request)
 
         val inRegAfi270: InRegAfi270 = regAfi270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inRegAfi270)

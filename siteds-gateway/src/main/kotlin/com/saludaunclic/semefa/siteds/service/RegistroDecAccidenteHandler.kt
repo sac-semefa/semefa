@@ -10,20 +10,21 @@ import pe.gob.susalud.jr.transaccion.susalud.bean.In271ResSctr
 import pe.gob.susalud.jr.transaccion.susalud.bean.InConAse270
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.In271ResSctrService
-import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRResponse
+import pe.gob.susalud.ws.siteds.schemas.GetRegistroDecAccidenteRequest
+import pe.gob.susalud.ws.siteds.schemas.GetRegistroDecAccidenteResponse
 
 @Service
-class ConsultaAseSctrHandler(private val sitedsValidator: SitedsValidator,
-                             private val sitedsProperties: SitedsProperties,
-                             private val conAse270Service: ConAse270Service,
-                             private val in271ResSctrService: In271ResSctrService
-): BaseSitedsHandler<GetConsultaSCTRRequest, GetConsultaSCTRResponse>() {
+class RegistroDecAccidenteHandler(private val sitedsValidator: SitedsValidator,
+                                  private val sitedsProperties: SitedsProperties,
+                                  private val conAse270Service: ConAse270Service,
+                                  private val in271ResSctrService: In271ResSctrService
+): BaseSitedsHandler<GetRegistroDecAccidenteRequest, GetRegistroDecAccidenteResponse>() {
     companion object {
-        const val PATH: String = "/conasesctr"
+        const val PATH: String = "/regaccidente"
     }
 
-    override fun handleRequest(request: GetConsultaSCTRRequest) {
+    override fun handleRequest(request: GetRegistroDecAccidenteRequest) {
         sitedsValidator.validate(request)
 
         val inConAse270: InConAse270 = conAse270Service.x12NToBean(request.txPeticion)
@@ -34,8 +35,8 @@ class ConsultaAseSctrHandler(private val sitedsValidator: SitedsValidator,
         logConvertResponse(logger, bean, x12)
     }
 
-    override fun createResponse(errorCode: String): GetConsultaSCTRResponse =
-        GetConsultaSCTRResponse().apply {
+    override fun createResponse(errorCode: String): GetRegistroDecAccidenteResponse =
+        GetRegistroDecAccidenteResponse().apply {
             coError = errorCode
             coIafa = sitedsProperties.iafaCode
             txNombre = Transactions.RES_271_RES_SCTR

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+'<?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="SitedsService" targetNamespace="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:sch="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <wsdl:types>
         <xs:schema elementFormDefault="qualified" targetNamespace="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:sch="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.susalud.gob.pe/ws/siteds/schemas" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">

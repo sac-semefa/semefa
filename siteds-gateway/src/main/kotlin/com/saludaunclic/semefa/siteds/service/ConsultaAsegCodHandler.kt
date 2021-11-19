@@ -24,7 +24,7 @@ class ConsultaAsegCodHandler(private val sitedsValidator: SitedsValidator,
     }
 
     override fun handleRequest(request: GetConsultaAsegCodRequest) {
-        sitedsValidator.validateConsultaAsegCod(request)
+        sitedsValidator.validate(request)
 
         val inConAse270: InConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)

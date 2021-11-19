@@ -1,13 +1,19 @@
 package com.saludaunclic.semefa.siteds.endpoint
 
+import com.saludaunclic.semefa.siteds.service.CondicionMedicaHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaAseSctrHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaAsegCodHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaAsegNomHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaCartaGarantiaHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaDatosAdiHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaDerivaHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaEntVinculadaHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaObservacionHandler
+import com.saludaunclic.semefa.siteds.service.ConsultaProcHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaRegafiHandler
+import com.saludaunclic.semefa.siteds.service.NumAutorizacionHandler
+import com.saludaunclic.semefa.siteds.service.RegistroDecAccidenteHandler
 import org.apache.cxf.feature.Features
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaResponse
@@ -44,12 +50,18 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVinculadaHandler,
                      private val consultaAsegNomHandler: ConsultaAsegNomHandler,
                      private val consultaAsegCodHandler: ConsultaAsegCodHandler,
+                     private val consultaRegafiHandler: ConsultaRegafiHandler,
                      private val consultaAsegSctrHandler: ConsultaAseSctrHandler,
-                     private val consultaRegafiHandler: ConsultaRegafiHandler
+                     private val registroDecAccidenteHandler: RegistroDecAccidenteHandler,
+                     private val consultaDerivaHandler: ConsultaDerivaHandler,
+                     private val consultaProcHandler: ConsultaProcHandler,
+                     private val consultaDatosAdiHandler: ConsultaDatosAdiHandler,
+                     private val condicionMedicaHandler: CondicionMedicaHandler,
+                     private val consultaObservacionHandler: ConsultaObservacionHandler,
+                     private val numAutorizacionHandler: NumAutorizacionHandler,
+                     private val consultaCartaGarantiaHandler: ConsultaCartaGarantiaHandler
 )
     : SitedsService {
-    private val logger: Logger = LoggerFactory.getLogger(javaClass)
-
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
     : GetConsultaRegAfiliadosResponse = consultaRegafiHandler.handle(getConsultaRegAfiliadosRequest)
 
@@ -57,24 +69,19 @@ class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVincula
         consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
 
     override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest):
-        GetConsultaDatosAdiResponse {
-        TODO("Not yet implemented")
-    }
+        GetConsultaDatosAdiResponse = consultaDatosAdiHandler.handle(getConsultaDatosAdiRequest)
 
-    override fun getNumAutorizacion(getNumAutorizacionRequest: GetNumAutorizacionRequest): GetNumAutorizacionResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getNumAutorizacion(getNumAutorizacionRequest: GetNumAutorizacionRequest): GetNumAutorizacionResponse =
+        numAutorizacionHandler.handle(getNumAutorizacionRequest)
 
-    override fun getConsultaDeriva(getConsultaDerivaRequest: GetConsultaDerivaRequest): GetConsultaDerivaResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getConsultaDeriva(getConsultaDerivaRequest: GetConsultaDerivaRequest): GetConsultaDerivaResponse =
+        consultaDerivaHandler.handle(getConsultaDerivaRequest)
 
     override fun getConsultaSCTR(getConsultaSCTRRequest: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
         consultaAsegSctrHandler.handle(getConsultaSCTRRequest)
 
-    override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse =
+        condicionMedicaHandler.handle(getCondicionMedicaRequest)
 
     override fun getFoto(getFotoRequest: GetFotoRequest): GetFotoResponse {
         TODO("Not yet implemented")

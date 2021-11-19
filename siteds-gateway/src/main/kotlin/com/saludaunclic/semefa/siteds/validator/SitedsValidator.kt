@@ -1,46 +1,102 @@
 package com.saludaunclic.semefa.siteds.validator
 
-import com.saludaunclic.semefa.siteds.config.SitedsProperties
 import com.saludaunclic.semefa.siteds.SitedsConstants.ErrorCodes
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
+import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegNomRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaDatosAdiRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaDerivaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaObservacionRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaProcRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRRequest
+import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaRequest
+import pe.gob.susalud.ws.siteds.schemas.GetFotoRequest
+import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionRequest
+import pe.gob.susalud.ws.siteds.schemas.GetRegistroDecAccidenteRequest
 
 @Component
-class SitedsValidator(private val sitedsProperties: SitedsProperties) {
-    fun validateConsultaEntVinculada(request: GetConsultaEntVinculadaRequest) {
+class SitedsValidator {
+    fun validate(request: GetConsultaEntVinculadaRequest) {
         with(request) {
             basicValidation(txNombre, Transactions.REQ_278_CON_ENT_VINC, coIafa)
         }
     }
 
-    fun validateConsultaAsegNom(request: GetConsultaAsegNomRequest) {
+    fun validate(request: GetConsultaAsegNomRequest) {
         with(request) {
             basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
         }
     }
 
-    fun validateConsultaAsegCod(request: GetConsultaAsegCodRequest) {
+    fun validate(request: GetConsultaAsegCodRequest) {
         with(request) {
             basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
         }
     }
 
-    fun validateConsultaAsegSctr(request: GetConsultaSCTRRequest) {
-        with(request) {
-            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
-        }
-    }
-
-    fun validateConsultaRegafi(request: GetConsultaRegAfiliadosRequest) {
+    fun validate(request: GetConsultaRegAfiliadosRequest) {
         with(request) {
             basicValidation(txNombre, Transactions.REQ_270_REGAFI, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaSCTRRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetRegistroDecAccidenteRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaDerivaRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaProcRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaDatosAdiRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetCondicionMedicaRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaObservacionRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_270_CON_ASE, coIafa)
+        }
+    }
+
+    fun validate(request: GetNumAutorizacionRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_271_SOL_AUT, coIafa)
+        }
+    }
+
+    fun validate(request: GetConsultaxCartaGarantiaRequest) {
+        with(request) {
+            basicValidation(txNombre, Transactions.REQ_278_SOL_CG, coIafa)
         }
     }
 

@@ -24,7 +24,7 @@ class ConsultaEntVinculadaHandler(private val sitedsValidator: SitedsValidator,
     }
 
     override fun handleRequest(request: GetConsultaEntVinculadaRequest) {
-        sitedsValidator.validateConsultaEntVinculada(request)
+        sitedsValidator.validate(request)
 
         val inConEntVinc278: InConEntVinc278 = conEntVinc278Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConEntVinc278)
