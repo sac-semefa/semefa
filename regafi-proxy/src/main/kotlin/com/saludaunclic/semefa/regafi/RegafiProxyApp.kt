@@ -8,10 +8,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
 
 @SpringBootApplication
 @EnableCaching
-@ComponentScan(value = [
-    "com.saludaunclic.semefa.common",
-    "com.saludaunclic.semefa.regafi",
-])
+@ComponentScan(value = [ "com.saludaunclic.semefa.common" ])
 @EnableJdbcRepositories(basePackages = [
     "com.saludaunclic.semefa.common.repository",
     "com.saludaunclic.semefa.regafi.repository"

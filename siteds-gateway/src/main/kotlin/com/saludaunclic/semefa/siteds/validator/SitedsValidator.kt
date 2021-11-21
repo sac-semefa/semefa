@@ -16,7 +16,6 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaProcRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaRequest
-import pe.gob.susalud.ws.siteds.schemas.GetFotoRequest
 import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionRequest
 import pe.gob.susalud.ws.siteds.schemas.GetRegistroDecAccidenteRequest
 

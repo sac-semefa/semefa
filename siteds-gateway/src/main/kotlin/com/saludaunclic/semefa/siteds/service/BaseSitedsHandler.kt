@@ -9,22 +9,22 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
 
-abstract class BaseSitedsHandler<in Req: Any, out Res: Any>: SitedsHandler<Req, Res> {
+abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHandler<Req, Res, Out> {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     open fun handle(request: Req): Res =
         with(request) {
             try {
-                handleRequest(this)
-                createResponse(ErrorCodes.NO_ERROR)
+                val output = handleRequest(this)
+                createResponse(ErrorCodes.NO_ERROR, output)
             } catch (ex: SitedsException) {
                 logger.error("Error when handling request of class ${this::class.java.name}: ${ex.message}", ex)
-                createResponse(ex.errorCode)
+                createErrorResponse(ex.errorCode)
             } catch (ex: Exception) {
                 logger.error(
                     "Unexpected error when handling request of class ${this::class.java.name}: ${ex.message}",
                     ex)
-                createResponse(ErrorCodes.SYSTEM_ERROR)
+                createErrorResponse(ErrorCodes.SYSTEM_ERROR)
             }
         }
 
@@ -46,4 +46,8 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any>: SitedsHandler<Req, 
         LoggingUtils.logReceive(logger, response)
         return response
     }
+
+    protected abstract fun errorOutput(): Out
+
+    protected fun createErrorResponse(errorCode: String): Res = createResponse(errorCode, errorOutput())
 }

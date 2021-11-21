@@ -11,6 +11,7 @@ import com.saludaunclic.semefa.siteds.service.ConsultaEntVinculadaHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaObservacionHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaProcHandler
 import com.saludaunclic.semefa.siteds.service.ConsultaRegafiHandler
+import com.saludaunclic.semefa.siteds.service.FotoHandler
 import com.saludaunclic.semefa.siteds.service.NumAutorizacionHandler
 import com.saludaunclic.semefa.siteds.service.RegistroDecAccidenteHandler
 import org.apache.cxf.feature.Features
@@ -59,7 +60,8 @@ class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVincula
                      private val condicionMedicaHandler: CondicionMedicaHandler,
                      private val consultaObservacionHandler: ConsultaObservacionHandler,
                      private val numAutorizacionHandler: NumAutorizacionHandler,
-                     private val consultaCartaGarantiaHandler: ConsultaCartaGarantiaHandler
+                     private val consultaCartaGarantiaHandler: ConsultaCartaGarantiaHandler,
+                     private val fotoHandler: FotoHandler
 )
     : SitedsService {
     override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
@@ -83,32 +85,23 @@ class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVincula
     override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse =
         condicionMedicaHandler.handle(getCondicionMedicaRequest)
 
-    override fun getFoto(getFotoRequest: GetFotoRequest): GetFotoResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getFoto(getFotoRequest: GetFotoRequest): GetFotoResponse = fotoHandler.handle(getFotoRequest)
 
     override fun getConsultaxCartaGarantia(getConsultaxCartaGarantiaRequest: GetConsultaxCartaGarantiaRequest):
-        GetConsultaxCartaGarantiaResponse {
-        TODO("Not yet implemented")
-    }
+        GetConsultaxCartaGarantiaResponse = consultaCartaGarantiaHandler.handle(getConsultaxCartaGarantiaRequest)
 
     override fun getRegistroDecAccidente(getRegistroDecAccidenteRequest: GetRegistroDecAccidenteRequest):
-        GetRegistroDecAccidenteResponse {
-        TODO("Not yet implemented")
-    }
+        GetRegistroDecAccidenteResponse = registroDecAccidenteHandler.handle(getRegistroDecAccidenteRequest)
 
-    override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest)
-    : GetConsultaEntVinculadaResponse = consultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
+    override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest):
+        GetConsultaEntVinculadaResponse = consultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
 
     override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse =
         consultaAsegCodHandler.handle(getConsultaAsegCodRequest)
 
     override fun getConsultaObservacion(getConsultaObservacionRequest: GetConsultaObservacionRequest):
-        GetConsultaObservacionResponse {
-        TODO("Not yet implemented")
-    }
+        GetConsultaObservacionResponse = consultaObservacionHandler.handle(getConsultaObservacionRequest)
 
-    override fun getConsultaProc(getConsultaProcRequest: GetConsultaProcRequest): GetConsultaProcResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getConsultaProc(getConsultaProcRequest: GetConsultaProcRequest): GetConsultaProcResponse =
+        consultaProcHandler.handle(getConsultaProcRequest)
 }
