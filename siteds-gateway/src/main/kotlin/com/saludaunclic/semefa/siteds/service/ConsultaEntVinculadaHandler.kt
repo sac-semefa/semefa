@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaResponse
 class ConsultaEntVinculadaHandler(private val sitedsValidator: SitedsValidator,
                                   private val sitedsProperties: SitedsProperties,
                                   private val conEntVinc278Service: ConEntVinc278Service,
-                                  private val resEntVinc278Service: ResEntVinc278Service
+                                  private val resEntVinc278Service: ResEntVinc278Service,
+                                  private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaEntVinculadaRequest, GetConsultaEntVinculadaResponse>() {
-    companion object {
-        const val PATH: String = "/entvinc"
-    }
-
     override fun handleRequest(request: GetConsultaEntVinculadaRequest): String {
         sitedsValidator.validate(request)
 
         val inConEntVinc278 = conEntVinc278Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConEntVinc278)
 
-        val inResEntVinc278 = sendBean(sitedsProperties.sacUrl + PATH, inConEntVinc278, InResEntVinc278::class.java)
+        val inResEntVinc278 = sendBean(handlerProvider.resolvePath(this), inConEntVinc278, InResEntVinc278::class.java)
         val x12 = resEntVinc278Service.beanToX12N(inResEntVinc278)
         logConvertResponse(logger, inResEntVinc278, x12)
 

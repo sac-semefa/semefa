@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient
 abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHandler<Req, Res, Out> {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    open fun handle(request: Req): Res =
+    fun handle(request: Req): Res =
         with(request) {
             try {
                 val output = handleRequest(this)
@@ -30,7 +30,7 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHan
 
     fun <Rq: Any, Rs: Any> sendBean(url: String, request: Rq, clazz: Class<Rs>): Rs {
         LoggingUtils.logSend(logger, request)
-        val response: Rs =  WebClient
+        val response: Rs = WebClient
             .builder()
             .baseUrl(url)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -49,5 +49,5 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHan
 
     protected abstract fun errorOutput(): Out
 
-    protected fun createErrorResponse(errorCode: String): Res = createResponse(errorCode, errorOutput())
+    private fun createErrorResponse(errorCode: String): Res = createResponse(errorCode, errorOutput())
 }

@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaResponse
 class CondicionMedicaHandler(private val sitedsValidator: SitedsValidator,
                              private val sitedsProperties: SitedsProperties,
                              private val conAse270Service: ConAse270Service,
-                             private val conMed271Service: ConMed271Service
+                             private val conMed271Service: ConMed271Service,
+                             private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetCondicionMedicaRequest, GetCondicionMedicaResponse>() {
-    companion object {
-        const val PATH: String = "/conmedica"
-    }
-
     override fun handleRequest(request: GetCondicionMedicaRequest): String {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, InConMed271::class.java)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, InConMed271::class.java)
         val x12 = conMed271Service.beanToX12N(bean)
         logConvertResponse(logger, bean, x12)
 

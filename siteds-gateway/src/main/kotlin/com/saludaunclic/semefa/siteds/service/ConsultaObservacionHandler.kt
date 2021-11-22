@@ -18,19 +18,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaObservacionResponse
 class ConsultaObservacionHandler(private val sitedsValidator: SitedsValidator,
                                  private val sitedsProperties: SitedsProperties,
                                  private val conAse270Service: ConAse270Service,
-                                 private val in271ConObsService: In271ConObsService
+                                 private val in271ConObsService: In271ConObsService,
+                                 private val handlerProvider: HandlerProvider
 ): BaseSitedsHandler<GetConsultaObservacionRequest, GetConsultaObservacionResponse, ObservacionOutput>() {
-    companion object {
-        const val PATH: String = "/conobserv"
-    }
-
     override fun handleRequest(request: GetConsultaObservacionRequest): ObservacionOutput {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, In271ConObs::class.java)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, In271ConObs::class.java)
         val x12 = in271ConObsService.beanToX12N(bean)
         logConvertResponse(logger, bean, x12)
 

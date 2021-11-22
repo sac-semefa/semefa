@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaDatosAdiResponse
 class ConsultaDatosAdiHandler(private val sitedsValidator: SitedsValidator,
                               private val sitedsProperties: SitedsProperties,
                               private val conAse270Service: ConAse270Service,
-                              private val in271ConDtadService: In271ConDtadService
+                              private val in271ConDtadService: In271ConDtadService,
+                              private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaDatosAdiRequest, GetConsultaDatosAdiResponse>() {
-    companion object {
-        const val PATH: String = "/condatosadi"
-    }
-
     override fun handleRequest(request: GetConsultaDatosAdiRequest): String {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, In271ConDtad::class.java)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, In271ConDtad::class.java)
         val x12 = in271ConDtadService.beanToX12N(bean)
         logConvertResponse(logger, bean, x12)
 

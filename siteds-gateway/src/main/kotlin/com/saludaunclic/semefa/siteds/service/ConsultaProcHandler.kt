@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaProcResponse
 class ConsultaProcHandler(private val sitedsValidator: SitedsValidator,
                           private val sitedsProperties: SitedsProperties,
                           private val conAse270Service: ConAse270Service,
-                          private val in271ConProcService: In271ConProcService
+                          private val in271ConProcService: In271ConProcService,
+                          private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaProcRequest, GetConsultaProcResponse>() {
-    companion object {
-        const val PATH: String = "/conproc"
-    }
-
     override fun handleRequest(request: GetConsultaProcRequest): String {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, InConProc271::class.java)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, InConProc271::class.java)
         val x12 = in271ConProcService.beanToX12N(bean)
         logConvertResponse(logger, bean, x12)
 

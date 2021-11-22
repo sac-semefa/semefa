@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosResponse
 class ConsultaRegafiHandler(private val sitedsValidator: SitedsValidator,
                             private val sitedsProperties: SitedsProperties,
                             private val regAfi270Service: RegAfi270Service,
-                            private val regAfi271Service: RegAfi271Service
+                            private val regAfi271Service: RegAfi271Service,
+                            private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaRegAfiliadosRequest, GetConsultaRegAfiliadosResponse>() {
-    companion object {
-        const val PATH: String = "/conregafi"
-    }
-
     override fun handleRequest(request: GetConsultaRegAfiliadosRequest): String {
         sitedsValidator.validate(request)
 
         val inRegAfi270 = regAfi270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inRegAfi270)
 
-        val inRegAfi271 = sendBean(sitedsProperties.sacUrl + PATH, inRegAfi270, InRegAfi271::class.java)
+        val inRegAfi271 = sendBean(handlerProvider.resolvePath(this), inRegAfi270, InRegAfi271::class.java)
         val x12 = regAfi271Service.beanToX12N(inRegAfi271)
         logConvertResponse(logger, inRegAfi271, x12)
 

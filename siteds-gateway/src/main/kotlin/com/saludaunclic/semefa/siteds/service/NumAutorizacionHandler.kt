@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionResponse
 class NumAutorizacionHandler(private val sitedsValidator: SitedsValidator,
                              private val sitedsProperties: SitedsProperties,
                              private val solAut271Service: SolAut271Service,
-                             private val in997ResAutService: In997ResAutService
+                             private val in997ResAutService: In997ResAutService,
+                             private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>() {
-    companion object {
-        const val PATH: String = "/numaut"
-    }
-
     override fun handleRequest(request: GetNumAutorizacionRequest): String {
         sitedsValidator.validate(request)
 
         val inSolAut271 = solAut271Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inSolAut271)
 
-        val in997ResAut = sendBean(sitedsProperties.sacUrl + PATH, inSolAut271, In997ResAut::class.java)
+        val in997ResAut = sendBean(handlerProvider.resolvePath(this), inSolAut271, In997ResAut::class.java)
         val x12 = in997ResAutService.beanToX12N(in997ResAut)
         logConvertResponse(logger, in997ResAut, x12)
 

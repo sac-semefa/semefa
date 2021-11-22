@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaResponse
 class ConsultaCartaGarantiaHandler(private val sitedsValidator: SitedsValidator,
                                    private val sitedsProperties: SitedsProperties,
                                    private val in278SolCGService: In278SolCGService,
-                                   private val in278ResCGService: In278ResCGService
+                                   private val in278ResCGService: In278ResCGService,
+                                   private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaxCartaGarantiaRequest, GetConsultaxCartaGarantiaResponse>() {
-    companion object {
-        const val PATH: String = "/concartaga"
-    }
-
     override fun handleRequest(request: GetConsultaxCartaGarantiaRequest): String {
         sitedsValidator.validate(request)
 
         val in278SolCG = in278SolCGService.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, in278SolCG)
 
-        val in278ResCG = sendBean(sitedsProperties.sacUrl + PATH, in278SolCG, In278ResCG::class.java)
+        val in278ResCG = sendBean(handlerProvider.resolvePath(this), in278SolCG, In278ResCG::class.java)
         val x12 = in278ResCGService.beanToX12N(in278ResCG)
         logConvertResponse(logger, in278ResCG, x12)
 

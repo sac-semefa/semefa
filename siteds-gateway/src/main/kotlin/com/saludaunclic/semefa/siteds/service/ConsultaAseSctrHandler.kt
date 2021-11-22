@@ -16,19 +16,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRResponse
 class ConsultaAseSctrHandler(private val sitedsValidator: SitedsValidator,
                              private val sitedsProperties: SitedsProperties,
                              private val conAse270Service: ConAse270Service,
-                             private val in271ResSctrService: In271ResSctrService
+                             private val in271ResSctrService: In271ResSctrService,
+                             private val handlerProvider: HandlerProvider
 ): StringOutputSitedsHandler<GetConsultaSCTRRequest, GetConsultaSCTRResponse>() {
-    companion object {
-        const val PATH: String = "/conasesctr"
-    }
-
     override fun handleRequest(request: GetConsultaSCTRRequest): String {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(sitedsProperties.sacUrl + PATH, inConAse270, In271ResSctr::class.java)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, In271ResSctr::class.java)
         val x12 = in271ResSctrService.In271ResSctr_ToX12N(bean)
         logConvertResponse(logger, bean, x12)
 
