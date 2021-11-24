@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS field_error_rule (
 CREATE TABLE IF NOT EXISTS data_frame (
     id BIGINT NOT NULL AUTO_INCREMENT,
     message_id VARCHAR(64) NOT NULL,
-    correlativeId VARCHAR(64),
+    correlative_id VARCHAR(64),
     ack VARCHAR(64),
     `type` VARCHAR(16) NOT NULL,
     status VARCHAR(16) NOT NULL,

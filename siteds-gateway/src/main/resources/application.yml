@@ -45,3 +45,5 @@ jwt:
   secret: ${JWT_SECRET:changeme}
 cxf:
   path: /siteds_ws
+logging:
+  level: debug

@@ -142,7 +142,7 @@ class RegafiService(
                 this[MqClientService.MESSAGE_ID_KEY] ?: "",
                 regafiUpdate997Service
                     .x12NToBean(x12)
-                    .apply { isFlag = true })
+                    .apply { isFlag = true }).apply { this.mensajeError }
             response.in271RegafiUpdateExcepcion.forEach {
                 it.errorCampo = errorsService.getFieldError(it.coCampoErr.toInt())
                 it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())

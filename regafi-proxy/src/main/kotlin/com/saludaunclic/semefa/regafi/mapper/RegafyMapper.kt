@@ -22,15 +22,17 @@ class RegafyMapper {
             messageId,
             update.in271RegafiUpdateExcepcion.map { toSac997UpdateException(it) })
             .apply {
-                noTransaccion = update.noTransaccion
-                idRemitente = update.idRemitente
-                idReceptor = update.idReceptor
-                feTransaccion = update.feTransaccion
-                hoTransaccion = update.hoTransaccion
-                idCorrelativo = update.idCorrelativo
-                idTransaccion = update.idTransaccion
-                excProceso = update.excProceso
-                nuControl = update.nuControl
-                nuControlST = update.nuControlST
+                if (update.noTransaccion != null) {
+                    noTransaccion = update.noTransaccion
+                    idRemitente = update.idRemitente
+                    idReceptor = update.idReceptor
+                    feTransaccion = update.feTransaccion
+                    hoTransaccion = update.hoTransaccion
+                    idCorrelativo = update.idCorrelativo
+                    idTransaccion = update.idTransaccion
+                    excProceso = update.excProceso
+                    nuControl = update.nuControl
+                    nuControlST = update.nuControlST
+                }
             }
 }
