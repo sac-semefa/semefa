@@ -9,5 +9,5 @@ password=${3}
 [[ -z "${password}" ]] && password='admin'
 
 docker exec -it \
-  semefa-gateway \
+  regafi-proxy \
   curl --location --request POST ${api_url} --header 'Content-Type: application/json' --data-raw "{\"user\": {\"username\":\"${username}\",\"password\": \"${password}\"}}"

@@ -11,7 +11,15 @@
 
     <artifactId>regafi-proxy</artifactId>
 
+    <properties>
+        <start-class>com.saludaunclic.semefa.regafi.RegafiProxyAppKt</start-class>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  siteds-gateway:
+    image: vicozizou/siteds-gateway:latest
+    environment:
+      SEMEFA_APP: siteds-gateway
+      SERVER_PORT: 9002
+      ACTUATOR_PORT: 9003
+      MQ_QUEUE_MANAGER:
+      MQ_QUEUE_IN:
+      MQ_QUEUE_OUT:
+      MQ_CHANNEL:
+      MQ_HOSTNAME:
+      MQ_PORT:
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${ACTUATOR_PORT}:${ACTUATOR_PORT}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
