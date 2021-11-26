@@ -38,16 +38,28 @@ class RegafiService(
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun process271DataFrame(in271RegafiUpdate: In271RegafiUpdate): SacIn997RegafiUpdate =
-        try {
-            val update271 = processResponse(putAndGetMessage(processRequest(normalize(in271RegafiUpdate))))
-            persistDataFrame(
-                createDataFrame(update271.idMensaje, DataFrameStatus.PROCESSED)
-                    .apply { correlativeId = update271.idCorrelativo })
-            update271
+    fun process271DataFrame(request: In271RegafiUpdate): SacIn997RegafiUpdate {
+        val x12 = prepareX12(normalize(request))
+        if (request.coError != null && request.coError.toInt() != 0) {
+            return SacIn997RegafiUpdate(request.coError)
+                .apply {
+                    mensajeError = errorsService.getLibError(request.coError.toInt())
+                }
+        }
+        return try {
+            val mqResult = putAndGetMessage(x12)
+            val update271 = processResponse(mqResult)
+            update271.also {
+                persistDataFrame(
+                    createDataFrame(
+                        update271.idMensaje,
+                        DataFrameStatus.PROCESSED
+                    ).apply { correlativeId = update271.idCorrelativo })
+            }
         } catch (ex: MqMaxAttemptReachedException) {
             fallback997(ex, persistDataFrame(createDataFrame(ex.messageId, DataFrameStatus.PENDING)))
         }
+    }
 
     fun get271DataFrame(messageId: String): SacIn997RegafiUpdate {
         dataFrameRepository
@@ -66,6 +78,26 @@ class RegafiService(
             fallback997(ex, persistDataFrame(createDataFrame(messageId, DataFrameStatus.PENDING)))
         }
     }
+
+    private fun parseRequest(in271RegafiUpdate: In271RegafiUpdate): String =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+            "<sus:Online271RegafiUpdateRequest " +
+            "xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" " +
+            "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+            "xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">" +
+            "<txNombre>$TX_NAME</txNombre>" +
+            "<txPeticion>${regafiUpdate271Service.beanToX12N(in271RegafiUpdate)}</txPeticion>" +
+            "</sus:Online271RegafiUpdateRequest>"
+
+    private fun prepareX12(in271RegafiUpdate: In271RegafiUpdate): String =
+        with(in271RegafiUpdate) {
+            if (logger.isDebugEnabled) {
+                logger.debug("From bean to X12, bean: \n${objectMapper.writeValueAsString(this)}")
+            }
+            parseRequest(this).also {
+                logger.debug("From bean to X12, X12: \n$it")
+            }
+        }
 
     private fun normalize(in271RegafiUpdate: In271RegafiUpdate): In271RegafiUpdate =
         in271RegafiUpdate.apply {
@@ -99,35 +131,13 @@ class RegafiService(
                 intentos = dataFrame.attempts
             }
 
-    private fun parseRequest(in271RegafiUpdate: In271RegafiUpdate): String =
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-        "<sus:Online271RegafiUpdateRequest " +
-            "xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" " +
-            "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-            "xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">" +
-            "<txNombre>$TX_NAME</txNombre>" +
-            "<txPeticion>${regafiUpdate271Service.beanToX12N(in271RegafiUpdate)}</txPeticion>" +
-        "</sus:Online271RegafiUpdateRequest>"
-
-    private fun processRequest(in271RegafiUpdate: In271RegafiUpdate): String =
-        with(in271RegafiUpdate) {
-            if (logger.isDebugEnabled) {
-                logger.debug("From bean to X12, bean: \n${objectMapper.writeValueAsString(this)}")
-            }
-
-            parseRequest(this).also {
-                logger.debug("From bean to X12, X12: \n$it")
-            }
-        }
-
     private fun putAndGetMessage(dataFrame: String): Map<String, String> =
         with(dataFrame) {
             logger.info("=== Start MQ Connection ===")
             logger.debug("Sending X12 message with this data: $this")
 
             try {
-                mqClientService.sendMessageSync(this)
-                    .also { logger.info("=== End MQ Connection ===") }
+                mqClientService.sendMessageSync(this).also { logger.info("=== End MQ Connection ===") }
             } catch (ex: Exception) {
                 throw ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
             }
@@ -138,19 +148,17 @@ class RegafiService(
             val x12: String = extractX12(this[MqClientService.MESSAGE_KEY] ?: "", TAG_997)
             logger.debug("From X12 to bean, X12: \n$x12")
 
-            val response: SacIn997RegafiUpdate = regafiMapper.toSac997Update(
+            regafiMapper.toSac997Update(
                 this[MqClientService.MESSAGE_ID_KEY] ?: "",
-                regafiUpdate997Service
-                    .x12NToBean(x12)
-                    .apply { isFlag = true }).apply { this.mensajeError }
-            response.in271RegafiUpdateExcepcion.forEach {
-                it.errorCampo = errorsService.getFieldError(it.coCampoErr.toInt())
-                it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())
-            }
-
-            response.also {
+                regafiUpdate997Service.x12NToBean(x12).apply { isFlag = true }
+            ).apply {
+                mensajeError
+                in271RegafiUpdateExcepcion.forEach {
+                    it.errorCampo = errorsService.getFieldError(it.coCampoErr.toInt())
+                    it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())
+                }
                 if (logger.isDebugEnabled) {
-                    logger.debug("From X12 to bean, bean: \n${objectMapper.writeValueAsString(it)}")
+                    logger.debug("From X12 to bean, bean: \n${objectMapper.writeValueAsString(this)}")
                 }
             }
         }
