@@ -30,7 +30,7 @@ ls -las ./semefa-env/${project}
 cp ./semefa-env/${project}/.* .
 rm -rf ./semefa-env
 
-script_resources=(${project}/docker/docker-compose.yml ${project}/scripts/setup.sh)
+script_resources=(docker/${project}/docker-compose.yml ${project}/scripts/setup.sh)
 echo "Fetching files to run ${project} app..."
 for res in "${script_resources[@]}"
 do
