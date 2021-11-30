@@ -4,20 +4,28 @@ project=${1}
 profile=${2}
 mode=${3}
 
+function usage {
+  echo "Usage: ${0} <project> <profile> <mode>
+    project: semefa project (e.g. regafi-proxy or siteds-gateway)
+    profile: env profile to use (e.g. dev, test, prod)
+    mode: (optional) how to invoke docker, default value: detached
+"
+}
+
 function exitOnError {
   local code=${1}
-  echo "Usage: ${0} <project> <profile> <mode>
-  project: semefa project (e.g. regafi-proxy or siteds-gateway)
-  profile: env profile to use (e.g. dev, test, prod)
-  mode: (Optional) how to invoke docker, default value: compose
-"
+  usage
   exit ${code}
 }
 
 [[ -z "${SAC_SEMEFA_TOKEN}" ]] && echo "Error: SAC_SEMEFA_TOKEN is missing" && exitOnError 1
 : ${BRANCH:='master'} && export BRANCH
-[[ -z "${profile}" ]] && echo "Error: profile argument is missing" && exitOnError 2
-[[ -z "${mode}" ]] && mode=compose
+[[ -z "${project}" ]] && echo "Error: project is missing" && exitOnError 2
+[[ -z "${profile}" ]] && echo "Error: profile is missing" && exitOnError 3
+[[ -z "${mode}" ]] && mode=detached
+[[ "${mode}" == 'detached' ]] && mode_param='-d'
+
+usage
 
 target_dir=${HOME}/.sac/${project}
 [[ -d ${target_dir} ]] && rm -rf ${target_dir}
@@ -46,8 +54,4 @@ env_file=".env.${profile}"
 [[ ! -f ${env_file} ]] && echo "Error: env file ${env_file} does not exist" && exitOnError 3
 echo "Discovered env file: ${env_file}"
 
-if [[ "${mode}" == 'compose' ]]; then
-  env $(cat ${env_file} | xargs) docker-compose -f docker-compose.yml up
-elif [[ "${mode}" == 'docker' ]]; then
-  echo "Doing nothing since not supported... yet"
-fi
+env $(cat ${env_file} | xargs) docker-compose -f docker-compose.yml up ${mode_param}
