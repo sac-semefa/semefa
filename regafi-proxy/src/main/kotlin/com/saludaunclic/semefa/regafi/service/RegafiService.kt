@@ -41,9 +41,13 @@ class RegafiService(
     fun process271DataFrame(request: In271RegafiUpdate): SacIn997RegafiUpdate {
         val x12 = prepareX12(normalize(request))
         if (request.coError != null && request.coError.toInt() != 0) {
+            val fieldErrorId = request.coError.substring(0, 3).toInt()
+            val ruleErrorId = request.coError.substring(3).toInt()
+            val fieldError = errorsService.getFieldError(fieldErrorId) ?: "Unknown"
+            val ruleError = errorsService.getFieldErrorRule(ruleErrorId) ?: "Unknown"
             return SacIn997RegafiUpdate(request.coError)
                 .apply {
-                    mensajeError = errorsService.getLibError(request.coError.toInt())
+                    mensajeError = "$fieldError: $ruleError"
                 }
         }
         return try {
