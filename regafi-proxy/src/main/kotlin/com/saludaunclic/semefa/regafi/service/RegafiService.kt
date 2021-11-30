@@ -45,9 +45,11 @@ class RegafiService(
             val ruleErrorId = request.coError.substring(3).toInt()
             val fieldError = errorsService.getFieldError(fieldErrorId) ?: "Unknown"
             val ruleError = errorsService.getFieldErrorRule(ruleErrorId) ?: "Unknown"
+            val errorMessage = "$fieldError -> $ruleError"
+            logger.error("Found In271RegafiUpdate validation error: $errorMessage")
             return SacIn997RegafiUpdate(request.coError)
                 .apply {
-                    mensajeError = "$fieldError: $ruleError"
+                    mensajeError = errorMessage
                 }
         }
         return try {
