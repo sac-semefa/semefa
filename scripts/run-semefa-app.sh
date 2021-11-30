@@ -14,18 +14,19 @@ function usage {
 
 function exitOnError {
   local code=${1}
+  local messg=${2}
+  echo "$@
+  ${messg}"
   usage
   exit ${code}
 }
 
-[[ -z "${SAC_SEMEFA_TOKEN}" ]] && echo "Error: SAC_SEMEFA_TOKEN is missing" && exitOnError 1
+[[ -z "${SAC_SEMEFA_TOKEN}" ]] && exitOnError 1 "Error: SAC_SEMEFA_TOKEN is missing"
 : ${BRANCH:='master'} && export BRANCH
-[[ -z "${project}" ]] && echo "Error: project is missing" && exitOnError 2
-[[ -z "${profile}" ]] && echo "Error: profile is missing" && exitOnError 3
+[[ -z "${project}" ]] && exitOnError 2 "Error: project is missing"
+[[ -z "${profile}" ]] && exitOnError 3 "Error: profile is missing"
 [[ -z "${mode}" ]] && mode=detached
 [[ "${mode}" == 'detached' ]] && mode_param='-d'
-
-usage
 
 target_dir=${HOME}/.sac/${project}
 [[ -d ${target_dir} ]] && rm -rf ${target_dir}
@@ -51,7 +52,7 @@ ls -las .
 
 echo "Specified profile: ${profile}"
 env_file=".env.${profile}"
-[[ ! -f ${env_file} ]] && echo "Error: env file ${env_file} does not exist" && exitOnError 3
+[[ ! -f ${env_file} ]]  && exitOnError 4 "Error: env file ${env_file} does not exist"
 echo "Discovered env file: ${env_file}"
 
 env $(cat ${env_file} | xargs) docker-compose -f docker-compose.yml up ${mode_param}

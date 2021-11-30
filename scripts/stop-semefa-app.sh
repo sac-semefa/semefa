@@ -10,16 +10,17 @@ function usage {
 
 function exitOnError {
   local code=${1}
+  local messg=${2}
+  echo "$@
+  ${messg}"
   usage
   exit ${code}
 }
 
-[[ -z "${SAC_SEMEFA_TOKEN}" ]] && echo "Error: SAC_SEMEFA_TOKEN is missing" && exitOnError 1
+[[ -z "${SAC_SEMEFA_TOKEN}" ]]  && exitOnError 1 "Error: SAC_SEMEFA_TOKEN is missing"
 : ${BRANCH:='master'} && export BRANCH
-[[ -z "${project}" ]] && echo "Error: project is missing" && exitOnError 2
+[[ -z "${project}" ]] && exitOnError 2 "Error: project is missing"
 target_dir=${HOME}/.sac/${project}
-
-usage
 
 if [[ ! -d ${target_dir} ]]; then
   mkdir -p ${target_dir}
