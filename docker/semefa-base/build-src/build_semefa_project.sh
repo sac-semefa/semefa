@@ -1,7 +1,7 @@
 #!/bin/bash
 
 project=${SEMEFA_APP}
-version=${1}
+version=${VERSION}
 build_id=${BUILD_ID}
 [[ -z "${project}" ]] && echo "Error: project name was not provided" && exit 1
 [[ -z "${version}" ]] && echo "Error: project version was not provided" && exit 2
