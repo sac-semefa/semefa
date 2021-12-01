@@ -49,11 +49,15 @@ class RegafiService(
             val mqResult = putAndGetMessage(x12)
             val update271 = processResponse(mqResult)
             update271.also {
-                persistDataFrame(
-                    createDataFrame(
-                        update271.idMensaje,
-                        DataFrameStatus.PROCESSED
-                    ).apply { correlativeId = update271.idCorrelativo })
+                if (it.idMensaje != null) {
+                    persistDataFrame(
+                        createDataFrame(
+                            it.idMensaje,
+                            DataFrameStatus.PROCESSED
+                        ).apply { correlativeId = it.idCorrelativo })
+                } else {
+                    logger.warn("Not persisting null messageId for message: ${mqResult[MqClientService.MESSAGE_KEY]}")
+                }
             }
         } catch (ex: MqMaxAttemptReachedException) {
             fallback997(ex, persistDataFrame(createDataFrame(ex.messageId, DataFrameStatus.PENDING)))
@@ -85,8 +89,9 @@ class RegafiService(
         val ruleError = errorsService.getFieldErrorRule(ruleErrorId) ?: "Unknown"
         val errorMessage = "$fieldError -> $ruleError"
         logger.error("Found In271RegafiUpdate validation error: $errorMessage")
-        return SacIn997RegafiUpdate(request.coError)
+        return SacIn997RegafiUpdate()
             .apply {
+                idError = request.coError
                 mensajeError = errorMessage
             }
     }
@@ -158,8 +163,9 @@ class RegafiService(
     private fun handleResponseError(errorCode: String): SacIn997RegafiUpdate {
         val serviceError = errorsService.getServiceError(errorCode.toInt())
         logger.error("Found SacIn997RegafiUpdate service error: $serviceError")
-        return SacIn997RegafiUpdate(errorCode)
+        return SacIn997RegafiUpdate()
             .apply {
+                idError = errorCode
                 mensajeError = serviceError
             }
     }
