@@ -12,21 +12,28 @@ ARG SERVER_PORT=9000
 ARG ACTUATOR_PORT=9001
 ENV SEMEFA_APP=regafi-proxy
 
-WORKDIR /app
+WORKDIR /build
 
-COPY app.name .
-RUN /build/build_semefa_project.sh
+RUN build-semefa-project.sh
+
 
 FROM adoptopenjdk/openjdk11:ubuntu-slim
 
-WORKDIR /app
+ARG VERSION="1.0-SNAPSHOT"
+ENV VERSION=${VERSION}
+ENV SEMEFA_APP=regafi-proxy
 
 RUN apt update \
   && apt upgrade -y \
   && apt install -y bash grep openssl git sed tini ca-certificates \
-  && update-ca-certificates \
+  && update-ca-certificates
 
-COPY --from=build-semefa /app/ /app/
+WORKDIR /app
+
+COPY entrypoint.sh .
+RUN find /app/ -type f -name "*.sh" -exec chmod a+x {} \;
+
+COPY --from=build-semefa /build/${SEMEFA_APP}-${VERSION}.jar ./${SEMEFA_APP}.jar
 RUN ls -las .
 
 EXPOSE ${SERVER_PORT} ${ACTUATOR_PORT}

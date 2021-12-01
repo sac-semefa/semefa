@@ -6,7 +6,7 @@ LABEL com.saludaunclic.description="Semefa Base Image"
 
 ARG SAC_SEMEFA_TOKEN
 
-WORKDIR /app
+WORKDIR /build
 
 RUN apt update \
   && apt upgrade -y \
@@ -15,9 +15,6 @@ RUN apt update \
 
 COPY build-src/ /build/
 RUN chmod 500 /build/* && find /build/ -type f -name "*.sh" -exec chmod a+x {} \;
-
-COPY entrypoint.sh /app/
-RUN find /app/ -type f -name "*.sh" -exec chmod a+x {} \;
 
 RUN mkdir -p /build/src \
   && cd /build/src \

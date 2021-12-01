@@ -26,12 +26,10 @@ function buildByCommit {
   echo "Building [${project}]"
   pushd ${project}
   ../mvnw package spring-boot:repackage -DskipTests
-  cp ./target/${project}-${version}.jar /app/
+  cp ./target/${project}-${version}.jar /build
   cd ..
 
   ./mvnw clean
 }
 
 buildByCommit ${build_id} ${version}
-cd /app
-ln -s ./${project}-${version}.jar ${project}.jar
