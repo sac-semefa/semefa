@@ -18,14 +18,14 @@ RUN /build/build_semefa_project.sh
 
 FROM adoptopenjdk/openjdk11:ubuntu-slim
 
-WORKDIR /app
-
 RUN apt update \
   && apt upgrade -y \
   && apt install -y bash grep openssl git sed tini ca-certificates \
   && update-ca-certificates \
 
 COPY --from=build-semefa /app /
+
+WORKDIR /app
 
 EXPOSE ${SERVER_PORT} ${ACTUATOR_PORT}
 
