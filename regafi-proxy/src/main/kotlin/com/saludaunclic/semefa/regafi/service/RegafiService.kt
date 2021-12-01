@@ -111,8 +111,8 @@ class RegafiService(
                 idCorrelativo = UUID.randomUUID().toString()
             }
             val now = dates.now()
-            in271RegafiUpdate.feTransaccion = dates.formatDate(now)
-            in271RegafiUpdate.hoTransaccion = dates.formatTime(now)
+            feTransaccion = dates.formatDate(now)
+            hoTransaccion = dates.formatTime(now)
         }
 
     private fun createDataFrame(messageId: String, status: DataFrameStatus): DataFrame =

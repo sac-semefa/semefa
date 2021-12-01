@@ -31,7 +31,7 @@ mq:
   hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
   port: ${MQ_PORT:21437}
 date:
-  time-zone: ${TIME_ZONE:UTC-5}
+  time-zone: ${TIME_ZONE:GMT-5}
 jwt:
   issuer: saludaunclic
   expiration-sec: ${JWT_EXPIRATION_SEC:86400}
