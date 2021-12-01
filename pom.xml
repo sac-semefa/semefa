@@ -30,7 +30,7 @@
         <jaxb-impl.version>3.0.2</jaxb-impl.version>
         <jjwt.version>0.9.1</jjwt.version>
         <jr-acreditacion-susalud.version>1.0.0</jr-acreditacion-susalud.version>
-        <jr-afiliacion-susalud.version>1.0.0</jr-afiliacion-susalud.version>
+        <jr-afiliacion-susalud.version>1.9</jr-afiliacion-susalud.version>
         <mq.version>7.5.0.1</mq.version>
         <mq-commonservices.version>p750-001-130308</mq-commonservices.version>
         <mq-pcf.version>7.5.0.5</mq-pcf.version>

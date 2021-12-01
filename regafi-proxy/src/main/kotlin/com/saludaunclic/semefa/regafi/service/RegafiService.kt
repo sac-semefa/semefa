@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271RegafiUpdate
-import pe.gob.susalud.jr.transaccion.susalud.service.RegafiUpdate271Service
-import pe.gob.susalud.jr.transaccion.susalud.service.RegafiUpdate997Service
+import pe.gob.susalud.jr.transaccion.susalud.service2.RegafiUpdate271Service
+import pe.gob.susalud.jr.transaccion.susalud.service2.RegafiUpdate997Service
 import java.util.UUID
 
 @Service

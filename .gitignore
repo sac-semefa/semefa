@@ -48,4 +48,6 @@ libs/com.ibm.mq.pcf/
 libs/com.ibm.mq/
 libs/connector/
 libs/jr-afiliacion-susalud-1.0.0/
+libs/jr-afiliacion-susalud-1.9/
+libs/jr-acreditacion-susalud-1.0.0/
 target/
