@@ -34,9 +34,8 @@ function buildByCommit {
 
   ./mvnw clean
   popd
-
-  ln -s ./${project}-${version}.jar ${project}.jar
-  rm -rf ~/.m2/repository
 }
 
 buildByCommit ${build_id} ${version}
+ln -s ./${project}-${version}.jar ${project}.jar
+rm -rf ~/.m2/repository

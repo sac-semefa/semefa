@@ -24,4 +24,6 @@ RUN mkdir -p /build/src \
   && echo "Pulling semefa parent project" \
   && git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa.git semefa \
   && cd ./semefa \
-  && git gc --aggressive
+  && git gc --aggressive \
+  && ./mvnw clean install -DskipTests
+
