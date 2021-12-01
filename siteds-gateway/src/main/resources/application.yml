@@ -45,3 +45,9 @@ jwt:
   secret: ${JWT_SECRET:changeme}
 cxf:
   path: /siteds_ws
+logging:
+  level:
+    com:
+      saludaunclic:
+        semefa:
+          siteds: ${SITEDS_LOG_LEVEL:INFO}

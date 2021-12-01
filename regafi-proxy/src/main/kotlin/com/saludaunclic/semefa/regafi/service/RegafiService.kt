@@ -151,7 +151,7 @@ class RegafiService(
     private fun putAndGetMessage(dataFrame: String): Map<String, String> =
         with(dataFrame) {
             logger.info("=== Start MQ Connection ===")
-            logger.debug("Sending X12 message with this data: $this")
+            logger.info("Sending X12 message with this data: $this")
 
             try {
                 mqClientService.sendMessageSync(this).also { logger.info("=== End MQ Connection ===") }
