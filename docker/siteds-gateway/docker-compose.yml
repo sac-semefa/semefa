@@ -14,6 +14,7 @@ services:
       MQ_CHANNEL:
       MQ_HOSTNAME:
       MQ_PORT:
+      SITEDS_LOG_LEVEL:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
       - "${ACTUATOR_PORT}:${ACTUATOR_PORT}"

@@ -32,9 +32,11 @@ function buildByCommit {
   cp ./target/${project}-${version}.jar /app/
   popd
 
+  ./mvnw clean
   popd
 
   ln -s ./${project}-${version}.jar ${project}.jar
+  rm -rf ~/.m2/repository
 }
 
 buildByCommit ${build_id} ${version}
