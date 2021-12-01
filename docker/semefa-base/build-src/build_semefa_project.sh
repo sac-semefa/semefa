@@ -21,9 +21,7 @@ function buildByCommit {
     git checkout -b ${branch} --track origin/${branch}
   fi
 
-  /build/install-local-deps.sh
-
-  echo "Building [parent]"
+  echo 'Building [parent]'
   ./mvnw -q clean install -DskipTests
 
   echo "Building [${project}]"
