@@ -1,4 +1,4 @@
-FROM vicozizou/semefa-base:latest as build-semefa-base
+FROM vicozizou/semefa-base:latest as build-semefa
 
 LABEL com.saludaunclic.contact="vico.zizou@gmail.com"
 LABEL com.saludaunclic.vendor="Salud a un Clic"

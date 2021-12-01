@@ -1,4 +1,4 @@
-FROM vicozizou/semefa-base:latest as build-semefa-base
+FROM vicozizou/semefa-base:latest as build-semefa
 
 LABEL com.saludaunclic.contact="vico.zizou@gmail.com"
 LABEL com.saludaunclic.vendor="Salud a un Clic"
@@ -14,6 +14,17 @@ ENV SEMEFA_APP=regafi-proxy
 WORKDIR /app
 
 RUN /build/build_semefa_project.sh ${VERSION}
+
+FROM adoptopenjdk/openjdk11:ubuntu-slim
+
+WORKDIR /app
+
+RUN apt update \
+  && apt upgrade -y \
+  && apt install -y bash grep openssl git sed tini ca-certificates \
+  && update-ca-certificates \
+
+COPY --from=build-semefa /app /
 
 EXPOSE ${SERVER_PORT} ${ACTUATOR_PORT}
 

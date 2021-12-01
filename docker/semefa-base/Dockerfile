@@ -25,7 +25,6 @@ RUN mkdir -p /build/src \
   && git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa.git semefa \
   && cd ./semefa \
   && git gc --aggressive \
-  && echo 'Installing local dependencies' \
   && /build/install-local-deps.sh \
   && echo 'Building [parent]' \
   && ./mvnw -q clean install -DskipTests
