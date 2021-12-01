@@ -15,17 +15,19 @@ ENV SEMEFA_APP=regafi-proxy
 WORKDIR /app
 
 RUN /build/build_semefa_project.sh
+RUN ls -las .
 
 FROM adoptopenjdk/openjdk11:ubuntu-slim
+
+WORKDIR /app
 
 RUN apt update \
   && apt upgrade -y \
   && apt install -y bash grep openssl git sed tini ca-certificates \
   && update-ca-certificates \
 
-COPY --from=build-semefa /app /
-
-WORKDIR /app
+COPY --from=build-semefa /app/ /app/
+RUN ls -las .
 
 EXPOSE ${SERVER_PORT} ${ACTUATOR_PORT}
 
