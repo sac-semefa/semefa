@@ -14,8 +14,8 @@ ENV SEMEFA_APP=regafi-proxy
 
 WORKDIR /app
 
+COPY app.name .
 RUN /build/build_semefa_project.sh
-RUN ls -las .
 
 FROM adoptopenjdk/openjdk11:ubuntu-slim
 

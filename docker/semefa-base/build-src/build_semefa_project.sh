@@ -7,12 +7,11 @@ build_id=${BUILD_ID}
 [[ -z "${version}" ]] && echo "Error: project version was not provided" && exit 2
 [[ -z "${build_id}" ]] && build_id=master
 root_folder=/build/src/semefa
-src_folder=${root_folder}/${project}
 
 function buildByCommit {
   local branch=${1}
   local version=${2}
-  pushd ${root_folder}
+  cd ${root_folder}
   git fetch --all
   git pull
 
@@ -25,14 +24,14 @@ function buildByCommit {
   ./mvnw -q clean install -DskipTests
 
   echo "Building [${project}]"
-  pushd ${src_folder}
+  pushd ${project}
   ../mvnw package spring-boot:repackage -DskipTests
   cp ./target/${project}-${version}.jar /app/
-  popd
+  cd ..
 
   ./mvnw clean
-  popd
 }
 
 buildByCommit ${build_id} ${version}
+cd /app
 ln -s ./${project}-${version}.jar ${project}.jar
