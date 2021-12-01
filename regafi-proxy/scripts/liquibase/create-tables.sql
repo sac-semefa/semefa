@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS data_frame (
 CREATE UNIQUE INDEX message_id_unique_idx ON data_frame (message_id);
 
 -- Lib (Jar) list of errors
-CREATE TABLE IF NOT EXISTS lib_error (
+CREATE TABLE IF NOT EXISTS service_error (
     id INT NOT NULL,
     description VARCHAR(256),
     PRIMARY KEY (id)

@@ -4,8 +4,8 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 
-@Table("lib_error")
-data class LibError(
+@Table("service_error")
+data class ServiceError(
     @Id var id: Int,
     @Column var description: String
 ) {
@@ -13,7 +13,7 @@ data class LibError(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as LibError
+        other as ServiceError
 
         if (id != other.id) return false
 

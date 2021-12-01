@@ -32,7 +32,9 @@ class RegafiService(
     private val objectMapper: ObjectMapper
 ) {
     companion object {
-        const val TAG_997: String = "txRespuesta"
+        const val NO_ERROR: String = "0000"
+        const val TX_RESPONSE_997_ELEMENT: String = "txRespuesta"
+        const val ERROR_CODE_ELEMENT = "coError"
         const val TX_NAME: String = "271_REGAFI_UPDATE"
     }
 
@@ -40,17 +42,8 @@ class RegafiService(
 
     fun process271DataFrame(request: In271RegafiUpdate): SacIn997RegafiUpdate {
         val x12 = prepareX12(normalize(request))
-        if (request.coError != null && request.coError.toInt() != 0) {
-            val fieldErrorId = request.coError.substring(0, 3).toInt()
-            val ruleErrorId = request.coError.substring(3).toInt()
-            val fieldError = errorsService.getFieldError(fieldErrorId) ?: "Unknown"
-            val ruleError = errorsService.getFieldErrorRule(ruleErrorId) ?: "Unknown"
-            val errorMessage = "$fieldError -> $ruleError"
-            logger.error("Found In271RegafiUpdate validation error: $errorMessage")
-            return SacIn997RegafiUpdate(request.coError)
-                .apply {
-                    mensajeError = errorMessage
-                }
+        if (request.coError != null && request.coError != NO_ERROR) {
+            return handleRequestError(request)
         }
         return try {
             val mqResult = putAndGetMessage(x12)
@@ -83,6 +76,19 @@ class RegafiService(
         } catch (ex: MqMaxAttemptReachedException) {
             fallback997(ex, persistDataFrame(createDataFrame(messageId, DataFrameStatus.PENDING)))
         }
+    }
+
+    private fun handleRequestError(request: In271RegafiUpdate): SacIn997RegafiUpdate {
+        val fieldErrorId = request.coError.substring(0, 3).toInt()
+        val ruleErrorId = request.coError.substring(3).toInt()
+        val fieldError = errorsService.getFieldError(fieldErrorId) ?: "Unknown"
+        val ruleError = errorsService.getFieldErrorRule(ruleErrorId) ?: "Unknown"
+        val errorMessage = "$fieldError -> $ruleError"
+        logger.error("Found In271RegafiUpdate validation error: $errorMessage")
+        return SacIn997RegafiUpdate(request.coError)
+            .apply {
+                mensajeError = errorMessage
+            }
     }
 
     private fun parseRequest(in271RegafiUpdate: In271RegafiUpdate): String =
@@ -149,13 +155,27 @@ class RegafiService(
             }
         }
 
+    private fun handleResponseError(errorCode: String): SacIn997RegafiUpdate {
+        val serviceError = errorsService.getServiceError(errorCode.toInt())
+        logger.error("Found SacIn997RegafiUpdate service error: $serviceError")
+        return SacIn997RegafiUpdate(errorCode)
+            .apply {
+                mensajeError = serviceError
+            }
+    }
+
     private fun processResponse(messageMap: Map<String, String>): SacIn997RegafiUpdate =
         with(messageMap) {
-            val x12: String = extractX12(this[MqClientService.MESSAGE_KEY] ?: "", TAG_997)
-            logger.debug("From X12 to bean, X12: \n$x12")
+            val message = this[MqClientService.MESSAGE_KEY] ?: ""
+            val x12 = extractElement(message, TX_RESPONSE_997_ELEMENT)
+            val errorCode = extractElement(message, ERROR_CODE_ELEMENT)
+            if (errorCode != NO_ERROR) {
+                return handleResponseError(errorCode)
+            }
 
+            logger.debug("From X12 to bean, X12:${System.lineSeparator()}$x12")
             regafiMapper.toSac997Update(
-                this[MqClientService.MESSAGE_ID_KEY] ?: "",
+                message,
                 regafiUpdate997Service.x12NToBean(x12).apply { isFlag = true }
             ).apply {
                 mensajeError
@@ -169,9 +189,9 @@ class RegafiService(
             }
         }
 
-    private fun extractX12(xmlText: String, tag: String): String {
-        logger.debug("Extracting X12 from $xmlText with tag $tag")
-        val split = xmlText.split(tag)
+    private fun extractElement(xmlText: String, element: String): String {
+        logger.debug("Extracting X12 from $xmlText with tag $element")
+        val split = xmlText.split(element)
         val second = split[if (split.size > 1) 1 else 0]
         return second
             .substring(1, second.length - 2)
