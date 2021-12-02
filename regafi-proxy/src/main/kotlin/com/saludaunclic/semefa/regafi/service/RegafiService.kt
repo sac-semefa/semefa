@@ -11,6 +11,7 @@ import com.saludaunclic.semefa.regafi.model.DataFrame
 import com.saludaunclic.semefa.regafi.model.DataFrameStatus
 import com.saludaunclic.semefa.regafi.model.DataFrameType
 import com.saludaunclic.semefa.regafi.repository.DataFrameRepository
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271RegafiUpdate
 import pe.gob.susalud.jr.transaccion.susalud.service2.RegafiUpdate271Service
 import pe.gob.susalud.jr.transaccion.susalud.service2.RegafiUpdate997Service
+import java.lang.System.lineSeparator
 import java.util.UUID
 
 @Service
@@ -172,16 +174,17 @@ class RegafiService(
 
     private fun processResponse(messageMap: Map<String, String>): SacIn997RegafiUpdate =
         with(messageMap) {
-            val message = this[MqClientService.MESSAGE_KEY] ?: ""
+            val messageId = this[MqClientService.MESSAGE_ID_KEY] ?: StringUtils.EMPTY
+            val message = this[MqClientService.MESSAGE_KEY] ?:  StringUtils.EMPTY
             val x12 = extractElement(message, TX_RESPONSE_997_ELEMENT)
             val errorCode = extractElement(message, ERROR_CODE_ELEMENT)
             if (errorCode != NO_ERROR) {
                 return handleResponseError(errorCode)
             }
 
-            logger.debug("From X12 to bean, X12:${System.lineSeparator()}$x12")
-            regafiMapper.toSac997Update(
-                message,
+            logger.debug("From X12 to bean, X12:${lineSeparator()}$x12")
+            return regafiMapper.toSac997Update(
+                messageId,
                 regafiUpdate997Service.x12NToBean(x12).apply { isFlag = true }
             ).apply {
                 mensajeError
@@ -190,7 +193,7 @@ class RegafiService(
                     it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())
                 }
                 if (logger.isDebugEnabled) {
-                    logger.debug("From X12 to bean, bean: \n${objectMapper.writeValueAsString(this)}")
+                    logger.debug("From X12 to bean, bean:${lineSeparator()}${objectMapper.writeValueAsString(this)}")
                 }
             }
         }
