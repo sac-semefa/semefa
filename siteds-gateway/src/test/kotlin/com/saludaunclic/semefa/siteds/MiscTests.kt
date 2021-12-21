@@ -104,7 +104,7 @@ class MiscTests {
         logLegs(
             "getConsultaEntVinculada",
             Leg(true, Transactions.REQ_278_CON_ENT_VINC, req),
-            Leg(false, Transactions.REQ_278_CON_ENT_VINC, res)
+            Leg(false, Transactions.RES_278_RES_ENT_VINC, res)
         )
     }
 
