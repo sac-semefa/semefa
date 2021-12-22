@@ -10,7 +10,7 @@ WORKDIR /build
 
 RUN apt update \
   && apt upgrade -y \
-  && apt install -y bash grep openssl git sed tini ca-certificates \
+  && apt install -y bash grep openssl git tini ca-certificates \
   && update-ca-certificates
 
 COPY build-src/ /build/

@@ -189,8 +189,12 @@ class RegafiService(
             ).apply {
                 mensajeError
                 in271RegafiUpdateExcepcion.forEach {
-                    it.errorCampo = errorsService.getFieldError(it.coCampoErr.toInt())
-                    it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())
+                    if (it.coCampoErr.isNotBlank()) {
+                        it.errorCampo = errorsService.getFieldError(it.coCampoErr.toInt())
+                    }
+                    if (it.inCoErrorEncontrado.isNotBlank()) {
+                        it.errorCampoRegla = errorsService.getFieldErrorRule(it.inCoErrorEncontrado.toInt())
+                    }
                 }
                 if (logger.isDebugEnabled) {
                     logger.debug("From X12 to bean, bean:${lineSeparator()}${objectMapper.writeValueAsString(this)}")

@@ -1,12 +1,11 @@
 #!/bin/bash
 
-project=${0}
-profile=${1}
-semefa_dir=${HOME}/.sac/${project}
+project=${1}
+profile=${2}
+semefa_home=${HOME}/.sac
+semefa_dir=${semefa_home}/${project}
 semefa_user_dir=${HOME}/semefa
 docker_org=vicozizou
-
-echo "Running command: $@"
 
 function usage {
   echo "Usage: ${0} <project> [<profile>]
@@ -36,24 +35,22 @@ function prepareInstall {
 
 function installApp {
   prepareInstall
-  cd ${semefa_dir}
+  cd ${semefa_home}
 
   echo "Fetching env data..."
   git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
   cp ./semefa-env/${project}/.env.* .
   rm -rf ./semefa-env
 
-  local script_resources=(
+  local global_resources=(
     scripts/semefa-lib.sh
     scripts/stop-semefa-app.sh
     scripts/run-semefa-app.sh
     scripts/remove-semefa-app.sh
     scripts/update-semefa-app.sh
     scripts/log-semefa-app.sh
-    docker/${project}/docker-compose.yml
-    ${project}/scripts/setup.sh
   )
-  echo "Fetching files to run ${project} app..."
+  echo "Fetching GLOBAL files to run ${project} app..."
   for res in "${script_resources[@]}"
   do
     echo "Fetching ${res}"
@@ -62,9 +59,30 @@ function installApp {
     local based=$(basename ${res})
     [[ "${based}" == *.sh ]] \
       && chmod 755 ${based} \
-      && ln -s ${semefa_dir}/${based} ${semefa_user_dir}/${based}
+      && ln -s ${semefa_home}/${based} ${semefa_user_dir}/${based}
   done
+  ls -las ${semefa_home} && ls -las ${semefa_user_dir}
 
+  cd ${semefa_dir}
+  local script_resources=(
+      docker/${project}/docker-compose.yml
+      ${project}/scripts/setup.sh
+    )
+  echo "Fetching files to run ${project} app..."
+  for res in "${script_resources[@]}"
+  do
+    echo "Fetching ${res}"
+    curl -fsSL https://${SAC_SEMEFA_TOKEN}@raw.githubusercontent.com/sac-semefa/semefa/${BRANCH}/${res} -O
+
+    if [[ -f ./${res} ]]; then
+      local based=$(basename ${res})
+      [[ "${based}" == *.sh ]] \
+        && chmod 755 ${based} \
+        && ln -s ${semefa_dir}/${based} ${semefa_user_dir}/${based}
+    else
+      echo "File ${res} not found"
+    fi
+  done
   ls -las ${semefa_dir} && ls -las ${semefa_user_dir}
 }
 
