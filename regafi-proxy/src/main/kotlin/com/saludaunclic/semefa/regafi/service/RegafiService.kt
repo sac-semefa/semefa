@@ -1,6 +1,7 @@
 package com.saludaunclic.semefa.regafi.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ibm.mq.MQException
 import com.saludaunclic.semefa.common.service.DateService
 import com.saludaunclic.semefa.common.service.MqClientService
 import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
@@ -47,6 +48,7 @@ class RegafiService(
         if (request.coError != null && request.coError != NO_ERROR) {
             return handleRequestError(request)
         }
+
         return try {
             val mqResult = putAndGetMessage(x12)
             val update271 = processResponse(mqResult)
@@ -157,6 +159,8 @@ class RegafiService(
 
             try {
                 mqClientService.sendMessageSync(this).also { logger.info("=== End MQ Connection ===") }
+            } catch (ex: MQException) {
+                throw ex
             } catch (ex: Exception) {
                 throw ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
             }

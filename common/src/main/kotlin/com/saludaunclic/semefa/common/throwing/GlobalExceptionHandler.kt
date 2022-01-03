@@ -1,6 +1,8 @@
 package com.saludaunclic.semefa.common.throwing
 
-import com.saludaunclic.semefa.common.model.RestMessage
+import com.ibm.mq.MQException
+import com.saludaunclic.semefa.common.model.MqMessage
+import com.saludaunclic.semefa.common.model.RegafiMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -14,18 +16,31 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(ServiceException::class)
-    fun handleServiceException(exception: ServiceException): ResponseEntity<RestMessage> =
+    fun handleServiceException(exception: ServiceException): ResponseEntity<RegafiMessage> =
         with(exception) {
             logger.error("Found exception", this)
-            return ResponseEntity<RestMessage>(toMessage(exception), status)
+            return ResponseEntity<RegafiMessage>(toMessage(exception), status)
+        }
+
+    @ExceptionHandler(MQException::class)
+    fun handleServiceException(exception: MQException): ResponseEntity<MqMessage> =
+        with(exception) {
+            logger.error("Found exception", this)
+            return ResponseEntity<MqMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     @ExceptionHandler(Exception::class)
-    fun handleException(exception: java.lang.Exception): ResponseEntity<RestMessage> =
+    fun handleException(exception: java.lang.Exception): ResponseEntity<RegafiMessage> =
         with(exception) {
             logger.error("Found an exception $message", this)
-            ResponseEntity<RestMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
+            ResponseEntity<RegafiMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
-    private fun toMessage(exception: Exception): RestMessage = RestMessage(exception.message ?: UNKNOWN_ERROR_MESSAGE)
+    private fun toMessage(exception: Exception): RegafiMessage =
+        RegafiMessage(exception.message ?: UNKNOWN_ERROR_MESSAGE)
+
+    private fun toMessage(exception: MQException): MqMessage =
+        with(exception) {
+            MqMessage(message ?: UNKNOWN_ERROR_MESSAGE, completionCode, reasonCode)
+        }
 }

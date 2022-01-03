@@ -5,12 +5,10 @@ import com.ibm.mq.MQGetMessageOptions
 import com.ibm.mq.MQMessage
 import com.ibm.mq.MQQueue
 import com.ibm.mq.constants.CMQC
-import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
-import com.saludaunclic.semefa.common.throwing.ServiceException
 import com.saludaunclic.semefa.common.config.MqProperties
+import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.codec.Hex
 import org.springframework.stereotype.Service
 import java.util.Hashtable
@@ -24,7 +22,7 @@ class MqClientService(private val mqProperties: MqProperties) {
         const val NUMBER_OF_GET_TRIES = 1
         const val CHARACTER_SET = 819
         const val ENCODING = 273
-        const val WAIT_INTERVAL = 3000
+        const val WAIT_INTERVAL = 1000
     }
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
@@ -60,9 +58,9 @@ class MqClientService(private val mqProperties: MqProperties) {
             val putMessage: MQMessage = createPutMessage(message)
             wrapper.queueIn.put(putMessage)
             return getMessageResponse(wrapper.queueOut, createGetMessage(putMessage.messageId))
-        } catch (ex: MQException) {
+        }/* catch (ex: MQException) {
             throw ServiceException("Error conectándose a MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
-        } finally {
+        }*/ finally {
             wrapper.closeResources()
         }
     }
@@ -74,12 +72,12 @@ class MqClientService(private val mqProperties: MqProperties) {
         try {
             wrapper.wrap(connectionProps)
             return getMessageResponse(wrapper.queueOut, createGetMessage(messageId))
-        } catch (ex: MQException) {
+        }/* catch (ex: MQException) {
             throw ServiceException(
                 "Error obteniendo mensaje con id $messageId: ${ex.message}",
                 ex,
                 HttpStatus.SERVICE_UNAVAILABLE)
-        } finally {
+        }*/ finally {
             wrapper.closeResources()
         }
     }
