@@ -75,7 +75,7 @@ function installApp {
     curl -fsSL https://${SAC_SEMEFA_TOKEN}@raw.githubusercontent.com/sac-semefa/semefa/${BRANCH}/${res} -O
     ls -las .
 
-    if [[ -f ./${res} ]]; then
+    if [[ -f ${res} ]]; then
       local based=$(basename ${res})
       [[ "${based}" == *.sh ]] \
         && chmod 755 ${based} \
