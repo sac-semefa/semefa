@@ -3,8 +3,8 @@
 project=${1}
 profile=${2}
 
-semefa_dir=${HOME}/.sac/${project}
-source ${semefa_dir}/semefa-lib.sh
+semefa_home=${HOME}/.sac
+source ${semefa_home}/semefa-lib.sh
 
 function usage {
   echo "Usage: ${0} <project> <profile>
@@ -13,7 +13,7 @@ function usage {
 "
 }
 
-cd ${semefa_dir}
+cd ${semefa_home}
 showInfo
 export SILENT=true
 . ./stop-semefa-app.sh ${project} ${profile}

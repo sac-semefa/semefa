@@ -3,8 +3,8 @@
 project=${1}
 profile=${2}
 
-semefa_dir=${HOME}/.sac/${project}
-source ${semefa_dir}/semefa-lib.sh
+semefa_home=${HOME}/.sac
+source ${semefa_home}/semefa-lib.sh
 
 function usage {
   echo "Usage: ${0} <project> <profile>
@@ -15,7 +15,7 @@ function usage {
 "
 }
 
-cd ${semefa_dir}
+cd ${semefa_home}
 processProfile
 showInfo
 
@@ -24,4 +24,4 @@ export SILENT=true
 export SILENT=
 
 echo "Starting ${project} container" \
-  && env $(cat ${env_file} | xargs) docker-compose -f docker-compose.yml up -d
+  && env $(cat ${env_file} | xargs) docker-compose -f ./${project}/docker-compose.yml up -d

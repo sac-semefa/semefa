@@ -73,16 +73,11 @@ function installApp {
   do
     echo "Fetching ${res}"
     curl -fsSL https://${SAC_SEMEFA_TOKEN}@raw.githubusercontent.com/sac-semefa/semefa/${BRANCH}/${res} -O
-    ls -las .
 
-    if [[ -f ${res} ]]; then
-      local based=$(basename ${res})
-      [[ "${based}" == *.sh ]] \
-        && chmod 755 ${based} \
-        && ln -s ${semefa_dir}/${based} ${semefa_user_dir}/${based}
-    else
-      echo "File ${res} not found"
-    fi
+    local based=$(basename ${res})
+    [[ "${based}" == *.sh ]] \
+      && chmod 755 ${based} \
+      && ln -s ${semefa_dir}/${based} ${semefa_user_dir}/${based}
   done
   ls -las ${semefa_dir} && ls -las ${semefa_user_dir}
 }
