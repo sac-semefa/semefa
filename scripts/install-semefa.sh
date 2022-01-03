@@ -51,7 +51,7 @@ function installApp {
     scripts/log-semefa-app.sh
   )
   echo "Fetching GLOBAL files to run ${project} app..."
-  for res in "${script_resources[@]}"
+  for res in "${global_resources[@]}"
   do
     echo "Fetching ${res}"
     curl -fsSL https://${SAC_SEMEFA_TOKEN}@raw.githubusercontent.com/sac-semefa/semefa/${BRANCH}/${res} -O
