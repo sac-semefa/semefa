@@ -19,10 +19,8 @@ class MqClientService(private val mqProperties: MqProperties) {
     companion object {
         const val MESSAGE_ID_KEY = "MsgId"
         const val MESSAGE_KEY = "Msg"
-        const val NUMBER_OF_GET_TRIES = 1
         const val CHARACTER_SET = 819
         const val ENCODING = 273
-        const val WAIT_INTERVAL = 1000
     }
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
@@ -33,7 +31,7 @@ class MqClientService(private val mqProperties: MqProperties) {
                 put(CMQC.CHANNEL_PROPERTY, channel)
                 put(CMQC.PORT_PROPERTY, port)
                 put(CMQC.HOST_NAME_PROPERTY, hostname)
-                put(CMQC.APPNAME_PROPERTY, "Aplicacion Afiliacion Online JAVA, SEMEFA-SUSALUD V1.0")
+                put(CMQC.APPNAME_PROPERTY, "Aplicación Afiliación Online JAVA, SEMEFA-SUSALUD V1.0")
                 put(CMQC.TRANSPORT_PROPERTY, CMQC.TRANSPORT_MQSERIES_CLIENT)
                 logger.info("""
 
@@ -43,8 +41,12 @@ class MqClientService(private val mqProperties: MqProperties) {
                     queueNameIn: $queueIn
                     queueNameOut: $queueOut
                     hostname: $hostname 
-                    port: $port
                     channel: $channel
+                    port: $port
+                    numberOfTries: $numberOfTries
+                    waitAfterTry: $waitAfterTry
+                    waitInterval: $waitInterval
+
                 """.trimIndent())
             }
         }
@@ -58,9 +60,7 @@ class MqClientService(private val mqProperties: MqProperties) {
             val putMessage: MQMessage = createPutMessage(message)
             wrapper.queueIn.put(putMessage)
             return getMessageResponse(wrapper.queueOut, createGetMessage(putMessage.messageId))
-        }/* catch (ex: MQException) {
-            throw ServiceException("Error conectándose a MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
-        }*/ finally {
+        } finally {
             wrapper.closeResources()
         }
     }
@@ -72,12 +72,7 @@ class MqClientService(private val mqProperties: MqProperties) {
         try {
             wrapper.wrap(connectionProps)
             return getMessageResponse(wrapper.queueOut, createGetMessage(messageId))
-        }/* catch (ex: MQException) {
-            throw ServiceException(
-                "Error obteniendo mensaje con id $messageId: ${ex.message}",
-                ex,
-                HttpStatus.SERVICE_UNAVAILABLE)
-        }*/ finally {
+        } finally {
             wrapper.closeResources()
         }
     }
@@ -86,7 +81,7 @@ class MqClientService(private val mqProperties: MqProperties) {
         .apply {
             matchOptions = CMQC.MQMO_MATCH_MSG_ID
             options = CMQC.MQGMO_WAIT
-            waitInterval = WAIT_INTERVAL
+            waitInterval = mqProperties.waitInterval
         }
 
     private fun getMessageResponse(queueOut: MQQueue, message: MQMessage): MutableMap<String, String> {
@@ -95,17 +90,17 @@ class MqClientService(private val mqProperties: MqProperties) {
     }
 
     private fun fetchResponse(queueOut: MQQueue, message: MQMessage) {
-        for(i in 1..NUMBER_OF_GET_TRIES) {
+        for(i in 1..mqProperties.numberOfTries) {
+            logger.info("Attempt #$i to fetch response message")
             try {
                 queueOut.get(message, createMessageOptions())
                 return
-            } catch (ex: MQException) {
-                throw ex
             } catch (ex: Exception) {
-                logger.info("Attempt #$i to fetch response message has failed", ex)
-                if (i < NUMBER_OF_GET_TRIES) {
-                    logger.info("Giving another try")
-                    TimeUnit.SECONDS.sleep(1)
+                if (i < mqProperties.numberOfTries) {
+                    logger.info("Attempt #$i to fetch response message has failed due to ${ex.message}")
+                    TimeUnit.SECONDS.sleep(mqProperties.waitAfterTry)
+                } else if (ex is MQException) {
+                    throw ex
                 }
             }
         }
