@@ -1,8 +1,9 @@
 #!/bin/bash
 
-[[ -z "${SEMEFA_APP}" ]] \
-  && echo 'SEMEFA_APP environment variable is missing' \
-  && exit 1
+if [[ -z "${SEMEFA_APP}" ]]; then
+  echo 'SEMEFA_APP environment variable is missing' \
+  exit 1
+fi
 
 echo "Found SEMEFA_APP variable: ${SEMEFA_APP}"
 
