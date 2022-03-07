@@ -16,7 +16,7 @@ spring:
   application:
     name: siteds-gateway
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver #com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:semefa}
     username: ${DB_USER:semefa}
     password: ${DB_PASSWORD:semefa}
