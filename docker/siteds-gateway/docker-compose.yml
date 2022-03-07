@@ -6,8 +6,8 @@ services:
     image: vicozizou/siteds-gateway:latest
     environment:
       SEMEFA_APP: siteds-gateway
-      SERVER_PORT: 9002
-      ACTUATOR_PORT: 9003
+      SERVER_PORT:
+      ACTUATOR_PORT:
       MQ_QUEUE_MANAGER:
       MQ_QUEUE_IN:
       MQ_QUEUE_OUT:
