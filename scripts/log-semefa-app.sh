@@ -3,8 +3,8 @@
 project=${1}
 lines=${2}
 
-semefa_home=${HOME}/.sac
-source ${semefa_home}/semefa-lib.sh
+sac_home=${HOME}/.sac
+source ${sac_home}/semefa-lib.sh
 
 function usage {
   echo "Usage: ${0} <project> <profile>
@@ -12,7 +12,7 @@ function usage {
 "
 }
 
-cd ${semefa_home}
+cd ${sac_home}
 showInfo
 [[ -n "${lines}" ]] && lines_param="-n ${lines}"
 

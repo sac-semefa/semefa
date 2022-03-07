@@ -2,8 +2,8 @@
 
 project=${1}
 profile=${2}
-semefa_home=${HOME}/.sac
-semefa_dir=${semefa_home}/${project}
+sac_home=${HOME}/.sac
+semefa_dir=${sac_home}/${project}
 semefa_user_dir=${HOME}/semefa
 docker_org=vicozizou
 
@@ -35,7 +35,7 @@ function prepareInstall {
 
 function installApp {
   prepareInstall
-  cd ${semefa_home}
+  cd ${sac_home}
 
   echo "Fetching env data..."
   git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
@@ -59,9 +59,9 @@ function installApp {
     local based=$(basename ${res})
     [[ "${based}" == *.sh ]] \
       && chmod 755 ${based} \
-      && ln -s ${semefa_home}/${based} ${semefa_user_dir}/${based}
+      && ln -s ${sac_home}/${based} ${semefa_user_dir}/${based}
   done
-  ls -las ${semefa_home} && ls -las ${semefa_user_dir}
+  ls -las ${sac_home} && ls -las ${semefa_user_dir}
 
   cd ${semefa_dir}
   local script_resources=(
