@@ -1,6 +1,6 @@
-package com.saludaunclic.semefa.common.service
+package com.saludaunclic.semefa.regafi.service
 
-import com.saludaunclic.semefa.common.model.User
+import com.saludaunclic.semefa.regafi.model.User
 import org.springframework.stereotype.Service
 import java.util.Optional
 

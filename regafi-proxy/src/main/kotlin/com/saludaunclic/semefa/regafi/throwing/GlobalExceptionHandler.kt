@@ -1,8 +1,9 @@
-package com.saludaunclic.semefa.common.throwing
+package com.saludaunclic.semefa.regafi.throwing
 
 import com.ibm.mq.MQException
 import com.saludaunclic.semefa.common.model.MqMessage
-import com.saludaunclic.semefa.common.model.RegafiMessage
+import com.saludaunclic.semefa.common.throwing.ServiceException
+import com.saludaunclic.semefa.regafi.model.RegafiMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice

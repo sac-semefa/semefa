@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.regafi.controller
 
-import com.saludaunclic.semefa.common.dto.AppSetupDto
-import com.saludaunclic.semefa.common.service.AppSetupService
+import com.saludaunclic.semefa.regafi.dto.AppSetupDto
+import com.saludaunclic.semefa.regafi.service.AppSetupService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

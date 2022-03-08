@@ -1,9 +1,9 @@
-package com.saludaunclic.semefa.common.mapper
+package com.saludaunclic.semefa.regafi.mapper
 
-import com.saludaunclic.semefa.common.dto.RoleDto
-import com.saludaunclic.semefa.common.dto.UserDto
-import com.saludaunclic.semefa.common.model.Role
-import com.saludaunclic.semefa.common.model.User
+import com.saludaunclic.semefa.regafi.dto.RoleDto
+import com.saludaunclic.semefa.regafi.dto.UserDto
+import com.saludaunclic.semefa.regafi.model.Role
+import com.saludaunclic.semefa.regafi.model.User
 import org.springframework.stereotype.Component
 
 @Component

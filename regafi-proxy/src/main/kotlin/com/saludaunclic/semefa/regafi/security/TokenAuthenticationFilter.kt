@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.common.security
+package com.saludaunclic.semefa.regafi.security
 
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.BadCredentialsException

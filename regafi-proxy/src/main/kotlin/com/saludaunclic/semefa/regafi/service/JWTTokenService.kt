@@ -1,6 +1,7 @@
-package com.saludaunclic.semefa.common.service
+package com.saludaunclic.semefa.regafi.service
 
-import com.saludaunclic.semefa.common.config.TokenProperties
+import com.saludaunclic.semefa.common.service.DateService
+import com.saludaunclic.semefa.regafi.config.TokenProperties
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Clock
 import io.jsonwebtoken.Jwts

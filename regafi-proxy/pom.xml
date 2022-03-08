@@ -58,6 +58,10 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
         <!-- Semefa -->
         <dependency>
             <groupId>com.saludaunclic.semefa</groupId>

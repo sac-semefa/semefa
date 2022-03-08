@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.common.model
+package com.saludaunclic.semefa.regafi.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
