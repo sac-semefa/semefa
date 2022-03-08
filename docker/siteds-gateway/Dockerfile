@@ -14,7 +14,7 @@ ENV SEMEFA_APP=siteds-gateway
 
 WORKDIR /build
 
-RUN ./build-semefa-project.sh
+RUN ./build-semefa-app.sh
 
 
 FROM adoptopenjdk/openjdk11:ubuntu-slim
