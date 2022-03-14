@@ -26,6 +26,8 @@ mq:
   channel: ${MQ_CHANNEL:CH.SUSALUD.IAFAS_LA}
   hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
   port: ${MQ_PORT:1430}
+date:
+  time-zone: ${TIME_ZONE:UTC-5}
 cxf:
   path: /siteds_ws
 logging:
