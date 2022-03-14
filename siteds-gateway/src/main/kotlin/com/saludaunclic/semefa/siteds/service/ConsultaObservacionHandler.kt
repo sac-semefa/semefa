@@ -16,11 +16,13 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaObservacionResponse
 
 @Service
 class ConsultaObservacionHandler(private val sitedsValidator: SitedsValidator,
-                                 private val sitedsProperties: SitedsProperties,
                                  private val conAse270Service: ConAse270Service,
                                  private val in271ConObsService: In271ConObsService,
-                                 private val handlerProvider: HandlerProvider
-): BaseSitedsHandler<GetConsultaObservacionRequest, GetConsultaObservacionResponse, ObservacionOutput>() {
+                                 private val handlerProvider: HandlerProvider,
+                                 sitedsProperties: SitedsProperties
+): BaseSitedsHandler<GetConsultaObservacionRequest,
+                     GetConsultaObservacionResponse,
+                     ObservacionOutput>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaObservacionRequest): ObservacionOutput {
         sitedsValidator.validate(request)
 

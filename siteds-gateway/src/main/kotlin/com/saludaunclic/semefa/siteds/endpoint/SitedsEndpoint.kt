@@ -48,60 +48,60 @@ import pe.gob.susalud.ws.siteds.schemas.SitedsService
 
 @Service
 @Features(features = [ "org.apache.cxf.ext.logging.LoggingFeature" ])
-class SitedsEndpoint(private val consultaEntVinculadaHandler: ConsultaEntVinculadaHandler,
-                     private val consultaAsegNomHandler: ConsultaAsegNomHandler,
-                     private val consultaAsegCodHandler: ConsultaAsegCodHandler,
-                     private val consultaRegafiHandler: ConsultaRegafiHandler,
-                     private val consultaAsegSctrHandler: ConsultaAseSctrHandler,
-                     private val registroDecAccidenteHandler: RegistroDecAccidenteHandler,
-                     private val consultaDerivaHandler: ConsultaDerivaHandler,
-                     private val consultaProcHandler: ConsultaProcHandler,
-                     private val consultaDatosAdiHandler: ConsultaDatosAdiHandler,
-                     private val condicionMedicaHandler: CondicionMedicaHandler,
-                     private val consultaObservacionHandler: ConsultaObservacionHandler,
-                     private val numAutorizacionHandler: NumAutorizacionHandler,
-                     private val consultaCartaGarantiaHandler: ConsultaCartaGarantiaHandler,
-                     private val fotoHandler: FotoHandler
-)
-    : SitedsService {
-    override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
-    : GetConsultaRegAfiliadosResponse = consultaRegafiHandler.handle(getConsultaRegAfiliadosRequest)
-
-    override fun getConsultaAsegNom(getConsultaAsegNomRequest: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse =
-        consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
-
-    override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest):
-        GetConsultaDatosAdiResponse = consultaDatosAdiHandler.handle(getConsultaDatosAdiRequest)
-
-    override fun getNumAutorizacion(getNumAutorizacionRequest: GetNumAutorizacionRequest): GetNumAutorizacionResponse =
-        numAutorizacionHandler.handle(getNumAutorizacionRequest)
-
-    override fun getConsultaDeriva(getConsultaDerivaRequest: GetConsultaDerivaRequest): GetConsultaDerivaResponse =
-        consultaDerivaHandler.handle(getConsultaDerivaRequest)
-
-    override fun getConsultaSCTR(getConsultaSCTRRequest: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
-        consultaAsegSctrHandler.handle(getConsultaSCTRRequest)
-
-    override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse =
-        condicionMedicaHandler.handle(getCondicionMedicaRequest)
-
-    override fun getFoto(getFotoRequest: GetFotoRequest): GetFotoResponse = fotoHandler.handle(getFotoRequest)
-
-    override fun getConsultaxCartaGarantia(getConsultaxCartaGarantiaRequest: GetConsultaxCartaGarantiaRequest):
-        GetConsultaxCartaGarantiaResponse = consultaCartaGarantiaHandler.handle(getConsultaxCartaGarantiaRequest)
-
-    override fun getRegistroDecAccidente(getRegistroDecAccidenteRequest: GetRegistroDecAccidenteRequest):
-        GetRegistroDecAccidenteResponse = registroDecAccidenteHandler.handle(getRegistroDecAccidenteRequest)
-
+class SitedsEndpoint(
+    private val consultaEntVinculadaHandler: ConsultaEntVinculadaHandler,
+    private val consultaAsegNomHandler: ConsultaAsegNomHandler,
+    private val consultaAsegCodHandler: ConsultaAsegCodHandler,
+    private val consultaRegafiHandler: ConsultaRegafiHandler,
+    private val consultaAsegSctrHandler: ConsultaAseSctrHandler,
+    private val registroDecAccidenteHandler: RegistroDecAccidenteHandler,
+    private val consultaDerivaHandler: ConsultaDerivaHandler,
+    private val consultaProcHandler: ConsultaProcHandler,
+    private val consultaDatosAdiHandler: ConsultaDatosAdiHandler,
+    private val condicionMedicaHandler: CondicionMedicaHandler,
+    private val consultaObservacionHandler: ConsultaObservacionHandler,
+    private val numAutorizacionHandler: NumAutorizacionHandler,
+    private val consultaCartaGarantiaHandler: ConsultaCartaGarantiaHandler,
+    private val fotoHandler: FotoHandler
+) : SitedsService {
     override fun getConsultaEntVinculada(getConsultaEntVinculadaRequest: GetConsultaEntVinculadaRequest):
         GetConsultaEntVinculadaResponse = consultaEntVinculadaHandler.handle(getConsultaEntVinculadaRequest)
 
     override fun getConsultaAsegCod(getConsultaAsegCodRequest: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse =
         consultaAsegCodHandler.handle(getConsultaAsegCodRequest)
 
-    override fun getConsultaObservacion(getConsultaObservacionRequest: GetConsultaObservacionRequest):
-        GetConsultaObservacionResponse = consultaObservacionHandler.handle(getConsultaObservacionRequest)
+    override fun getRegistroDecAccidente(getRegistroDecAccidenteRequest: GetRegistroDecAccidenteRequest):
+        GetRegistroDecAccidenteResponse = registroDecAccidenteHandler.handle(getRegistroDecAccidenteRequest)
+
+    override fun getConsultaRegAfiliados(getConsultaRegAfiliadosRequest: GetConsultaRegAfiliadosRequest)
+        : GetConsultaRegAfiliadosResponse = consultaRegafiHandler.handle(getConsultaRegAfiliadosRequest)
+
+    override fun getCondicionMedica(getCondicionMedicaRequest: GetCondicionMedicaRequest): GetCondicionMedicaResponse =
+        condicionMedicaHandler.handle(getCondicionMedicaRequest)
+
+    override fun getNumAutorizacion(getNumAutorizacionRequest: GetNumAutorizacionRequest): GetNumAutorizacionResponse =
+        numAutorizacionHandler.handle(getNumAutorizacionRequest)
+
+    override fun getConsultaSCTR(getConsultaSCTRRequest: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
+        consultaAsegSctrHandler.handle(getConsultaSCTRRequest)
+
+    override fun getConsultaxCartaGarantia(getConsultaxCartaGarantiaRequest: GetConsultaxCartaGarantiaRequest):
+        GetConsultaxCartaGarantiaResponse = consultaCartaGarantiaHandler.handle(getConsultaxCartaGarantiaRequest)
+
+    override fun getConsultaAsegNom(getConsultaAsegNomRequest: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse =
+        consultaAsegNomHandler.handle(getConsultaAsegNomRequest)
+
+    override fun getConsultaDeriva(getConsultaDerivaRequest: GetConsultaDerivaRequest): GetConsultaDerivaResponse =
+        consultaDerivaHandler.handle(getConsultaDerivaRequest)
 
     override fun getConsultaProc(getConsultaProcRequest: GetConsultaProcRequest): GetConsultaProcResponse =
         consultaProcHandler.handle(getConsultaProcRequest)
+
+    override fun getConsultaObservacion(getConsultaObservacionRequest: GetConsultaObservacionRequest):
+        GetConsultaObservacionResponse = consultaObservacionHandler.handle(getConsultaObservacionRequest)
+
+    override fun getConsultaDatosAdi(getConsultaDatosAdiRequest: GetConsultaDatosAdiRequest):
+        GetConsultaDatosAdiResponse = consultaDatosAdiHandler.handle(getConsultaDatosAdiRequest)
+
+    override fun getFoto(getFotoRequest: GetFotoRequest): GetFotoResponse = fotoHandler.handle(getFotoRequest)
 }

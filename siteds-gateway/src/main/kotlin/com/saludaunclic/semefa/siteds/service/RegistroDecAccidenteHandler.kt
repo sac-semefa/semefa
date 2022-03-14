@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetRegistroDecAccidenteResponse
 
 @Service
 class RegistroDecAccidenteHandler(private val sitedsValidator: SitedsValidator,
-                                  private val sitedsProperties: SitedsProperties,
                                   private val conAse270Service: ConAse270Service,
                                   private val in271ResSctrService: In271ResSctrService,
-                                  private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetRegistroDecAccidenteRequest, GetRegistroDecAccidenteResponse>() {
+                                  private val handlerProvider: HandlerProvider,
+                                  sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetRegistroDecAccidenteRequest, GetRegistroDecAccidenteResponse>(sitedsProperties) {
     override fun handleRequest(request: GetRegistroDecAccidenteRequest): String {
         sitedsValidator.validate(request)
 

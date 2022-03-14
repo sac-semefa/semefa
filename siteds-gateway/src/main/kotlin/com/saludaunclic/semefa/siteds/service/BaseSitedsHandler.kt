@@ -1,6 +1,7 @@
 package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.ErrorCodes
+import com.saludaunclic.semefa.siteds.config.SitedsProperties
 import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import com.saludaunclic.semefa.siteds.util.LoggingUtils
 import org.slf4j.Logger
@@ -9,8 +10,11 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
 
-abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHandler<Req, Res, Out> {
+abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>(
+    protected val sitedsProperties: SitedsProperties
+): SitedsHandler<Req, Res, Out> {
     val logger: Logger = LoggerFactory.getLogger(javaClass)
+    val webClient: WebClient = WebClient.create()
 
     fun handle(request: Req): Res =
         with(request) {
@@ -30,12 +34,11 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHan
 
     fun <Rq: Any, Rs: Any> sendBean(url: String, request: Rq, clazz: Class<Rs>): Rs {
         LoggingUtils.logSend(logger, request)
-        val response: Rs = WebClient
-            .builder()
-            .baseUrl(url)
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .build()
+        val response: Rs = webClient
             .post()
+            .uri(url)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, sitedsProperties.apiKey)
             .bodyValue(request)
             .retrieve()
             .toEntity(clazz)

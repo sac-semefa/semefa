@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaResponse
 
 @Service
 class ConsultaEntVinculadaHandler(private val sitedsValidator: SitedsValidator,
-                                  private val sitedsProperties: SitedsProperties,
                                   private val conEntVinc278Service: ConEntVinc278Service,
                                   private val resEntVinc278Service: ResEntVinc278Service,
-                                  private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaEntVinculadaRequest, GetConsultaEntVinculadaResponse>() {
+                                  private val handlerProvider: HandlerProvider,
+                                  sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetConsultaEntVinculadaRequest, GetConsultaEntVinculadaResponse>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaEntVinculadaRequest): String {
         sitedsValidator.validate(request)
 

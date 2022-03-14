@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaProcResponse
 
 @Service
 class ConsultaProcHandler(private val sitedsValidator: SitedsValidator,
-                          private val sitedsProperties: SitedsProperties,
                           private val conAse270Service: ConAse270Service,
                           private val in271ConProcService: In271ConProcService,
-                          private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaProcRequest, GetConsultaProcResponse>() {
+                          private val handlerProvider: HandlerProvider,
+                          sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetConsultaProcRequest, GetConsultaProcResponse>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaProcRequest): String {
         sitedsValidator.validate(request)
 

@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaResponse
 
 @Service
 class ConsultaCartaGarantiaHandler(private val sitedsValidator: SitedsValidator,
-                                   private val sitedsProperties: SitedsProperties,
                                    private val in278SolCGService: In278SolCGService,
                                    private val in278ResCGService: In278ResCGService,
-                                   private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaxCartaGarantiaRequest, GetConsultaxCartaGarantiaResponse>() {
+                                   private val handlerProvider: HandlerProvider,
+                                   sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetConsultaxCartaGarantiaRequest, GetConsultaxCartaGarantiaResponse>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaxCartaGarantiaRequest): String {
         sitedsValidator.validate(request)
 

@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaRegAfiliadosResponse
 
 @Service
 class ConsultaRegafiHandler(private val sitedsValidator: SitedsValidator,
-                            private val sitedsProperties: SitedsProperties,
                             private val regAfi270Service: RegAfi270Service,
                             private val regAfi271Service: RegAfi271Service,
-                            private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaRegAfiliadosRequest, GetConsultaRegAfiliadosResponse>() {
+                            private val handlerProvider: HandlerProvider,
+                            sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetConsultaRegAfiliadosRequest, GetConsultaRegAfiliadosResponse>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaRegAfiliadosRequest): String {
         sitedsValidator.validate(request)
 

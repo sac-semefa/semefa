@@ -11,8 +11,8 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaDerivaResponse
 
 @Service
 class ConsultaDerivaHandler(private val sitedsValidator: SitedsValidator,
-                            private val sitedsProperties: SitedsProperties)
-    : StringOutputSitedsHandler<GetConsultaDerivaRequest, GetConsultaDerivaResponse>() {
+                            sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetConsultaDerivaRequest, GetConsultaDerivaResponse>(sitedsProperties) {
     override fun handleRequest(request: GetConsultaDerivaRequest): String {
         sitedsValidator.validate(request)
         return StringUtils.EMPTY

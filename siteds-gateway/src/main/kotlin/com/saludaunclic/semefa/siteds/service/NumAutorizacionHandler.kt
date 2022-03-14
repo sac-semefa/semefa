@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionResponse
 
 @Service
 class NumAutorizacionHandler(private val sitedsValidator: SitedsValidator,
-                             private val sitedsProperties: SitedsProperties,
                              private val solAut271Service: SolAut271Service,
                              private val in997ResAutService: In997ResAutService,
-                             private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>() {
+                             private val handlerProvider: HandlerProvider,
+                             sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>(sitedsProperties) {
     override fun handleRequest(request: GetNumAutorizacionRequest): String {
         sitedsValidator.validate(request)
 

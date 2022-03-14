@@ -14,11 +14,11 @@ import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaResponse
 
 @Service
 class CondicionMedicaHandler(private val sitedsValidator: SitedsValidator,
-                             private val sitedsProperties: SitedsProperties,
                              private val conAse270Service: ConAse270Service,
                              private val conMed271Service: ConMed271Service,
-                             private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetCondicionMedicaRequest, GetCondicionMedicaResponse>() {
+                             private val handlerProvider: HandlerProvider,
+                             sitedsProperties: SitedsProperties
+): StringOutputSitedsHandler<GetCondicionMedicaRequest, GetCondicionMedicaResponse>(sitedsProperties) {
     override fun handleRequest(request: GetCondicionMedicaRequest): String {
         sitedsValidator.validate(request)
 
