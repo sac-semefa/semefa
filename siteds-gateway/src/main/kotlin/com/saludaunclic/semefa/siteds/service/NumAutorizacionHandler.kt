@@ -1,12 +1,11 @@
 package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
-import com.saludaunclic.semefa.siteds.config.SitedsProperties
+import com.saludaunclic.semefa.siteds.model.ResponseIn997ResAut
 import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
 import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
-import pe.gob.susalud.jr.transaccion.susalud.bean.In997ResAut
 import pe.gob.susalud.jr.transaccion.susalud.service.In997ResAutService
 import pe.gob.susalud.jr.transaccion.susalud.service.SolAut271Service
 import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionRequest
@@ -16,18 +15,17 @@ import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionResponse
 class NumAutorizacionHandler(private val sitedsValidator: SitedsValidator,
                              private val solAut271Service: SolAut271Service,
                              private val in997ResAutService: In997ResAutService,
-                             private val handlerProvider: HandlerProvider,
-                             sitedsProperties: SitedsProperties
-): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>(sitedsProperties) {
+                             private val handlerProvider: HandlerProvider
+): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>() {
     override fun handleRequest(request: GetNumAutorizacionRequest): String {
         sitedsValidator.validate(request)
 
         val inSolAut271 = solAut271Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inSolAut271)
 
-        val in997ResAut = sendBean(handlerProvider.resolvePath(this), inSolAut271, In997ResAut::class.java)
-        val x12 = in997ResAutService.beanToX12N(in997ResAut)
-        logConvertResponse(logger, in997ResAut, x12)
+        val bean = sendBean(handlerProvider.resolvePath(this), inSolAut271, ResponseIn997ResAut::class.java)
+        val x12 = in997ResAutService.beanToX12N(bean.data)
+        logConvertResponse(logger, bean, x12)
 
         return x12
     }

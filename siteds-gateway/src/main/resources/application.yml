@@ -15,6 +15,8 @@ management:
 spring:
   application:
     name: siteds-gateway
+  jackson:
+    default-property-inclusion: non_null
 siteds:
   sac-url: ${SAC_URL:http://localhost:9999}
   api-key: ${API_KEY}

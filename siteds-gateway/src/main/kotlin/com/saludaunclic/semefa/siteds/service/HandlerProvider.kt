@@ -11,7 +11,7 @@ class HandlerProvider(private val sitedsProperties: SitedsProperties) {
 
     @PostConstruct
     fun init() {
-        handlerPath[ConsultaEntVinculadaHandler::class.java.simpleName] = "/getConsultaEntidadVinculada"
+        handlerPath[ConsultaEntVinculadaHandler::class.java.simpleName] = "/getConsultaEntVinculada"
         handlerPath[ConsultaAsegCodHandler::class.java.simpleName] = "/getConsultaAsegCod"
         handlerPath[RegistroDecAccidenteHandler::class.java.simpleName] = "/getRegistroDecAccidente"
         handlerPath[ConsultaRegafiHandler::class.java.simpleName] = "/getConsultaRegAfiliados"

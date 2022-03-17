@@ -1,12 +1,11 @@
 package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
-import com.saludaunclic.semefa.siteds.config.SitedsProperties
+import com.saludaunclic.semefa.siteds.model.ResponseInConMed271
 import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
 import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
-import pe.gob.susalud.jr.transaccion.susalud.bean.InConMed271
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.ConMed271Service
 import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaRequest
@@ -16,17 +15,16 @@ import pe.gob.susalud.ws.siteds.schemas.GetCondicionMedicaResponse
 class CondicionMedicaHandler(private val sitedsValidator: SitedsValidator,
                              private val conAse270Service: ConAse270Service,
                              private val conMed271Service: ConMed271Service,
-                             private val handlerProvider: HandlerProvider,
-                             sitedsProperties: SitedsProperties
-): StringOutputSitedsHandler<GetCondicionMedicaRequest, GetCondicionMedicaResponse>(sitedsProperties) {
+                             private val handlerProvider: HandlerProvider
+): StringOutputSitedsHandler<GetCondicionMedicaRequest, GetCondicionMedicaResponse>() {
     override fun handleRequest(request: GetCondicionMedicaRequest): String {
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
         logConvertRequest(logger, request.txPeticion, inConAse270)
 
-        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, InConMed271::class.java)
-        val x12 = conMed271Service.beanToX12N(bean)
+        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, ResponseInConMed271::class.java)
+        val x12 = conMed271Service.beanToX12N(bean.data)
         logConvertResponse(logger, bean, x12)
 
         return x12
