@@ -2,8 +2,6 @@ package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.model.ResponseIn278ResCG
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.service.In278ResCGService
@@ -21,13 +19,9 @@ class ConsultaCartaGarantiaHandler(private val sitedsValidator: SitedsValidator,
         sitedsValidator.validate(request)
 
         val in278SolCG = in278SolCGService.x12NToBean(request.txPeticion)
-        logConvertRequest(logger, request.txPeticion, in278SolCG)
-
         val bean = sendBean(handlerProvider.resolvePath(this), in278SolCG, ResponseIn278ResCG::class.java)
-        val x12 = in278ResCGService.beanToX12N(bean.data)
-        logConvertResponse(logger, bean, x12)
 
-        return x12
+        return in278ResCGService.beanToX12N(bean.data)
     }
 
     override fun createResponse(errorCode: String, output: String): GetConsultaxCartaGarantiaResponse =

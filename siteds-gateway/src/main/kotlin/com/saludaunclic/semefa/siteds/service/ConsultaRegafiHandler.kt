@@ -2,8 +2,6 @@ package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.model.ResponseInRegAfi271
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.service.RegAfi270Service
@@ -21,13 +19,9 @@ class ConsultaRegafiHandler(private val sitedsValidator: SitedsValidator,
         sitedsValidator.validate(request)
 
         val inRegAfi270 = regAfi270Service.x12NToBean(request.txPeticion)
-        logConvertRequest(logger, request.txPeticion, inRegAfi270)
-
         val bean = sendBean(handlerProvider.resolvePath(this), inRegAfi270, ResponseInRegAfi271::class.java)
-        val x12 = regAfi271Service.beanToX12N(bean.data)
-        logConvertResponse(logger, bean, x12)
 
-        return x12
+        return regAfi271Service.beanToX12N(bean.data)
     }
 
     override fun createResponse(errorCode: String, output: String): GetConsultaRegAfiliadosResponse =

@@ -2,8 +2,6 @@ package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.model.ResponseIn997ResAut
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.service.In997ResAutService
@@ -21,13 +19,9 @@ class NumAutorizacionHandler(private val sitedsValidator: SitedsValidator,
         sitedsValidator.validate(request)
 
         val inSolAut271 = solAut271Service.x12NToBean(request.txPeticion)
-        logConvertRequest(logger, request.txPeticion, inSolAut271)
-
         val bean = sendBean(handlerProvider.resolvePath(this), inSolAut271, ResponseIn997ResAut::class.java)
-        val x12 = in997ResAutService.beanToX12N(bean.data)
-        logConvertResponse(logger, bean, x12)
 
-        return x12
+        return in997ResAutService.beanToX12N(bean.data)
     }
 
     override fun createResponse(errorCode: String, output: String): GetNumAutorizacionResponse =

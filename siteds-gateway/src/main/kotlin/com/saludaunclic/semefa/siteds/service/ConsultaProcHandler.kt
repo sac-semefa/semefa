@@ -2,8 +2,6 @@ package com.saludaunclic.semefa.siteds.service
 
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
 import com.saludaunclic.semefa.siteds.model.ResponseInConProc271
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertRequest
-import com.saludaunclic.semefa.siteds.util.LoggingUtils.logConvertResponse
 import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.springframework.stereotype.Service
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
@@ -21,13 +19,9 @@ class ConsultaProcHandler(private val sitedsValidator: SitedsValidator,
         sitedsValidator.validate(request)
 
         val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
-        logConvertRequest(logger, request.txPeticion, inConAse270)
-
         val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, ResponseInConProc271::class.java)
-        val x12 = in271ConProcService.beanToX12N(bean.data)
-        logConvertResponse(logger, bean, x12)
 
-        return x12
+        return in271ConProcService.beanToX12N(bean.data)
     }
 
     override fun createResponse(errorCode: String, output: String): GetConsultaProcResponse =
