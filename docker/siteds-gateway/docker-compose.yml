@@ -8,6 +8,8 @@ services:
       SEMEFA_APP: siteds-gateway
       SERVER_PORT:
       ACTUATOR_PORT:
+      SAC_URL:
+      API_KEY:
       MQ_QUEUE_MANAGER:
       MQ_QUEUE_IN:
       MQ_QUEUE_OUT:

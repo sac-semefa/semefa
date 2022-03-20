@@ -20,7 +20,10 @@ services:
       MQ_HOSTNAME:
       MQ_PORT:
       JWT_SECRET:
-      SITEDS_LOG_LEVEL:
+      MQ_NUMBER_OF_TRIES:
+      MQ_WAIT_AFTER_TRY:
+      MQ_WAIT_INTERVAL:
+      REGAFI_LOG_LEVEL:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
       - "${ACTUATOR_PORT}:${ACTUATOR_PORT}"
