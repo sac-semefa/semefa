@@ -19,9 +19,6 @@ cd ${sac_home}
 processProfile
 showInfo
 
-export SILENT=true
-. ./stop-semefa-app.sh ${project} ${profile}
-export SILENT=
-
-echo "Starting ${project} container" \
+echo "Starting ${project} container with this configuration:" \
+  && cat ${env_file} \
   && env $(cat ${env_file} | xargs) docker-compose -f ./${project}/docker-compose.yml up -d

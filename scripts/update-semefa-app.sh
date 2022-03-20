@@ -14,6 +14,7 @@ function usage {
 }
 
 cd ${sac_home}
+processProfile
 showInfo
 export SILENT=true
 . ./stop-semefa-app.sh ${project} ${profile}

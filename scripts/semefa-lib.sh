@@ -27,10 +27,12 @@ env_file: ${env_file}
 }
 
 function processProfile {
+  [[ "${SILENT}" == 'true' ]] && return
+
   local error=${1}
   [[ -z "${error}" ]] && error=1
 
-  export env_file=".env.${profile}"
+  export env_file="${sac_home}/${project}/.env.${profile}"
   [[ ! -f ${env_file} ]] && exitOnError 1 "Error: env file ${env_file} does not exist"
 
   [[ "${SILENT}" != 'true' ]] && echo "Discovered env file: ${env_file}"

@@ -31,6 +31,7 @@ function prepareInstall {
   echo "Cleaning semefa folders"
   rm -rf ${semefa_dir} && mkdir -p ${semefa_dir}
   rm -rf ${semefa_user_dir} && mkdir -p ${semefa_user_dir}
+  rm ${sac_home}/.env.*
 }
 
 function installApp {
@@ -39,7 +40,7 @@ function installApp {
 
   echo "Fetching env data..."
   git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
-  cp ./semefa-env/${project}/.env.* .
+  cp ./semefa-env/${project}/.env.* ${semefa_dir}
   rm -rf ./semefa-env
 
   local global_resources=(
