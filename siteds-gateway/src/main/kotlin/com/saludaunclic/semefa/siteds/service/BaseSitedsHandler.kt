@@ -5,57 +5,60 @@ import com.saludaunclic.semefa.siteds.config.SitedsProperties
 import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.throwing.SitedsException
 import com.saludaunclic.semefa.siteds.util.LoggingUtils
+import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestTemplate
 import java.util.Collections
 
-abstract class BaseSitedsHandler<in Req: Any, out Res: Any, Out: Any>: SitedsHandler<Req, Res, Out> {
+abstract class BaseSitedsHandler<in Req: Any, out Res: Any, In: Any, Out: Any>: SitedsHandler<Req, Res, In, Out> {
     @Autowired private lateinit var restTemplate: RestTemplate
-    @Autowired protected lateinit var sitedsProperties: SitedsProperties
-    protected val logger: Logger = LoggerFactory.getLogger(javaClass)
+    @Autowired private lateinit var sitedsProperties: SitedsProperties
+    @Autowired private lateinit var handlerProvider: HandlerProvider
+    @Autowired protected lateinit var sitedsValidator: SitedsValidator
 
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun handle(request: Req): Res =
-        with(request) {
-            try {
-                val output = handleRequest(this)
-                createResponse(ErrorCodes.NO_ERROR, output)
-            } catch (ex: SitedsException) {
-                logger.error("Error when handling request of class ${this::class.java.name}: ${ex.message}", ex)
-                createErrorResponse(ex.errorCode)
-            } catch (ex: Exception) {
-                logger.error(
-                    "Unexpected error when handling request of class ${this::class.java.name}: ${ex.message}",
-                    ex)
-                createErrorResponse(ErrorCodes.SYSTEM_ERROR)
-            }
+    protected abstract fun validate(request: Req)
+    protected abstract fun extractInput(request: Req): In
+    protected abstract fun <R : Response<Out>> resolveResponseClass(): Class<R>
+
+    override fun handle(request: Req): Res =
+        try {
+            validate(request)
+            val input = extractInput(request)
+            val output = sendBean(handlerProvider.resolvePath(this), input, resolveResponseClass())
+            createResponse(output)
+        } catch (ex: SitedsException) {
+            logger.error("Error when handling request of class ${this::class.java.name}: ${ex.message}", ex)
+            createErrorResponse(ex.errorCode, request)
+        } catch (ex: Exception) {
+            logger.error(
+                "Unexpected error when handling request of class ${this::class.java.name}: ${ex.message}",
+                ex)
+            createErrorResponse(ErrorCodes.SYSTEM_ERROR, request)
         }
 
-    fun <Rq: Any, T: Any, Rs: Response<T>> sendBean(url: String, request: Rq, clazz: Class<Rs>): Rs {
-        LoggingUtils.logSend(logger, request)
+    fun <R: Response<Out>> sendBean(url: String, input: In, clazz: Class<R>): Out =
+        with(input) {
+            LoggingUtils.logSend(logger, input)
 
-        val entity: HttpEntity<Rq> = HttpEntity(request, headers())
-        val responseEntity: ResponseEntity<Rs> = restTemplate.exchange(url, HttpMethod.POST, entity, clazz)
-        val response = responseEntity.body ?: throw SitedsException(
-                "Error posting bean of class ${request::class.java.name}",
-                ErrorCodes.SYSTEM_ERROR)
+            val entity: HttpEntity<In> = HttpEntity(input, headers())
+            val responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, clazz)
+            val response = responseEntity.body
+                ?: throw SitedsException(
+                    "Error posting bean of class ${input::class.java.name}",
+                    ErrorCodes.SYSTEM_ERROR)
 
-        LoggingUtils.logReceive(logger, response)
+            LoggingUtils.logReceive(logger, response)
 
-        return response
-    }
-
-    protected abstract fun errorOutput(): Out
-
-    private fun createErrorResponse(errorCode: String): Res = createResponse(errorCode, errorOutput())
+            response.data ?: throw SitedsException("Error getting data from ${clazz.name}")
+        }
 
     private fun headers(): HttpHeaders = HttpHeaders()
         .apply {

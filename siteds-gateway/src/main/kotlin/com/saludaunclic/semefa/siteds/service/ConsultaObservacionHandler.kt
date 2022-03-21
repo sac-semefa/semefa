@@ -1,43 +1,46 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
+import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.model.ResponseIn271ConObs
-import com.saludaunclic.semefa.siteds.service.ConsultaObservacionHandler.ObservacionOutput
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.In271ConObs
+import pe.gob.susalud.jr.transaccion.susalud.bean.InConAse270
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.In271ConObsService
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaObservacionRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaObservacionResponse
 
 @Service
-class ConsultaObservacionHandler(private val sitedsValidator: SitedsValidator,
-                                 private val conAse270Service: ConAse270Service,
-                                 private val in271ConObsService: In271ConObsService,
-                                 private val handlerProvider: HandlerProvider
-): BaseSitedsHandler<GetConsultaObservacionRequest, GetConsultaObservacionResponse, ObservacionOutput>() {
-    override fun handleRequest(request: GetConsultaObservacionRequest): ObservacionOutput {
-        sitedsValidator.validate(request)
+class ConsultaObservacionHandler(private val conAse270Service: ConAse270Service,
+                                 private val in271ConObsService: In271ConObsService
+): BaseSitedsHandler<GetConsultaObservacionRequest, GetConsultaObservacionResponse, InConAse270, In271ConObs>() {
+    override fun validate(request: GetConsultaObservacionRequest) = sitedsValidator.validate(request)
 
-        val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
+    override fun extractInput(request: GetConsultaObservacionRequest): InConAse270 =
+        conAse270Service.x12NToBean(request.txPeticion)
 
-        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, ResponseIn271ConObs::class.java)
-        val x12 = in271ConObsService.beanToX12N(bean.data)
+    override fun <R : Response<In271ConObs>> resolveResponseClass(): Class<R> =
+        ResponseIn271ConObs::class.java as Class<R>
 
-        return ObservacionOutput(x12, StringUtils.EMPTY)
-    }
-
-    override fun createResponse(errorCode: String, output: ObservacionOutput): GetConsultaObservacionResponse =
+    override fun createResponse(output: In271ConObs): GetConsultaObservacionResponse =
         GetConsultaObservacionResponse().apply {
-            coError = errorCode
-            coIafa = sitedsProperties.iafaCode
+            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coIafa = output.idReceptor
             txNombre = Transactions.RES_271_CON_OBS
-            txRespuesta = output.response
-            rptObs = output.rptObs
+            txRespuesta = in271ConObsService.beanToX12N(output)
+            rptObs = StringUtils.EMPTY
         }
 
-    override fun errorOutput(): ObservacionOutput = ObservacionOutput(StringUtils.EMPTY, StringUtils.EMPTY)
-
-    data class ObservacionOutput(val response: String, val rptObs: String)
+    override fun createErrorResponse(errorCode: String,
+                                     request: GetConsultaObservacionRequest): GetConsultaObservacionResponse =
+        GetConsultaObservacionResponse().apply {
+            coError = errorCode
+            coIafa = request.coIafa
+            txNombre = Transactions.RES_271_CON_OBS
+            txRespuesta = StringUtils.EMPTY
+            rptObs = StringUtils.EMPTY
+        }
 }

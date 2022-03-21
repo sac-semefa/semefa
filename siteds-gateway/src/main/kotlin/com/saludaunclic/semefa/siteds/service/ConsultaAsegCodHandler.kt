@@ -1,34 +1,44 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
+import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.model.ResponseInConCod271
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.InConAse270
+import pe.gob.susalud.jr.transaccion.susalud.bean.InConCod271
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.ConCod271Service
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaAsegCodResponse
 
 @Service
-class ConsultaAsegCodHandler(private val sitedsValidator: SitedsValidator,
-                             private val conAse270Service: ConAse270Service,
-                             private val conCod271Service: ConCod271Service,
-                             private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaAsegCodRequest, GetConsultaAsegCodResponse>() {
-    override fun handleRequest(request: GetConsultaAsegCodRequest): String {
-        sitedsValidator.validate(request)
+class ConsultaAsegCodHandler(private val conAse270Service: ConAse270Service,
+                             private val conCod271Service: ConCod271Service
+): BaseSitedsHandler<GetConsultaAsegCodRequest, GetConsultaAsegCodResponse, InConAse270, InConCod271>() {
+    override fun validate(request: GetConsultaAsegCodRequest) = sitedsValidator.validate(request)
 
-        val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
-        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, ResponseInConCod271::class.java)
+    override fun extractInput(request: GetConsultaAsegCodRequest): InConAse270 =
+        conAse270Service.x12NToBean(request.txPeticion)
 
-        return conCod271Service.beanToX12N(bean.data)
-    }
+    override fun <R : Response<InConCod271>> resolveResponseClass(): Class<R> =
+        ResponseInConCod271::class.java as Class<R>
 
-    override fun createResponse(errorCode: String, output: String): GetConsultaAsegCodResponse =
+    override fun createResponse(output: InConCod271): GetConsultaAsegCodResponse =
+        GetConsultaAsegCodResponse().apply {
+            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coIafa = output.idReceptor
+            txNombre = Transactions.RES_271_CON_COD
+            txRespuesta = conCod271Service.beanToX12N(output)
+        }
+
+    override fun createErrorResponse(errorCode: String,
+                                     request: GetConsultaAsegCodRequest): GetConsultaAsegCodResponse =
         GetConsultaAsegCodResponse().apply {
             coError = errorCode
-            coIafa = sitedsProperties.iafaCode
+            coIafa = request.coIafa
             txNombre = Transactions.RES_271_CON_COD
-            txRespuesta = output
+            txRespuesta = StringUtils.EMPTY
         }
 }

@@ -1,34 +1,45 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
+import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.model.ResponseIn278ResCG
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.In278ResCG
+import pe.gob.susalud.jr.transaccion.susalud.bean.In278SolCG
 import pe.gob.susalud.jr.transaccion.susalud.service.In278ResCGService
 import pe.gob.susalud.jr.transaccion.susalud.service.In278SolCGService
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaxCartaGarantiaResponse
 
 @Service
-class ConsultaCartaGarantiaHandler(private val sitedsValidator: SitedsValidator,
-                                   private val in278SolCGService: In278SolCGService,
-                                   private val in278ResCGService: In278ResCGService,
-                                   private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaxCartaGarantiaRequest, GetConsultaxCartaGarantiaResponse>() {
-    override fun handleRequest(request: GetConsultaxCartaGarantiaRequest): String {
-        sitedsValidator.validate(request)
+class ConsultaCartaGarantiaHandler(private val in278SolCGService: In278SolCGService,
+                                   private val in278ResCGService: In278ResCGService
+): BaseSitedsHandler<GetConsultaxCartaGarantiaRequest, GetConsultaxCartaGarantiaResponse, In278SolCG, In278ResCG>() {
+    override fun validate(request: GetConsultaxCartaGarantiaRequest) = sitedsValidator.validate(request)
 
-        val in278SolCG = in278SolCGService.x12NToBean(request.txPeticion)
-        val bean = sendBean(handlerProvider.resolvePath(this), in278SolCG, ResponseIn278ResCG::class.java)
+    override fun extractInput(request: GetConsultaxCartaGarantiaRequest) =
+        in278SolCGService.x12NToBean(request.txPeticion)
 
-        return in278ResCGService.beanToX12N(bean.data)
-    }
+    override fun <R : Response<In278ResCG>> resolveResponseClass(): Class<R> =
+        ResponseIn278ResCG::class.java as Class<R>
 
-    override fun createResponse(errorCode: String, output: String): GetConsultaxCartaGarantiaResponse =
+    override fun createResponse(output: In278ResCG): GetConsultaxCartaGarantiaResponse =
+        GetConsultaxCartaGarantiaResponse().apply {
+            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coIafa = output.idReceptor
+            txNombre = Transactions.RES_278_RES_CG
+            txRespuesta = in278ResCGService.beanToX12N(output)
+        }
+
+    override fun createErrorResponse(errorCode: String,
+                                     request: GetConsultaxCartaGarantiaRequest): GetConsultaxCartaGarantiaResponse =
         GetConsultaxCartaGarantiaResponse().apply {
             coError = errorCode
-            coIafa = sitedsProperties.iafaCode
+            coIafa = request.coIafa
             txNombre = Transactions.RES_278_RES_CG
-            txRespuesta = output
+            txRespuesta = StringUtils.EMPTY
+
         }
 }

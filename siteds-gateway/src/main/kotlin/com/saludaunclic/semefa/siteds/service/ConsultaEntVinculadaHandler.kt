@@ -16,7 +16,7 @@ import pe.gob.susalud.ws.siteds.schemas.GetConsultaEntVinculadaResponse
 @Service
 class ConsultaEntVinculadaHandler(private val conEntVinc278Service: ConEntVinc278Service,
                                   private val resEntVinc278Service: ResEntVinc278Service
-): BaseSitedsHandler2<GetConsultaEntVinculadaRequest,
+): BaseSitedsHandler<GetConsultaEntVinculadaRequest,
                      GetConsultaEntVinculadaResponse,
                      InConEntVinc278,
                      InResEntVinc278>() {
@@ -36,7 +36,8 @@ class ConsultaEntVinculadaHandler(private val conEntVinc278Service: ConEntVinc27
             txRespuesta = resEntVinc278Service.beanToX12N(output)
         }
 
-    override fun createErrorResponse(errorCode: String, request: GetConsultaEntVinculadaRequest): GetConsultaEntVinculadaResponse =
+    override fun createErrorResponse(errorCode: String,
+                                     request: GetConsultaEntVinculadaRequest): GetConsultaEntVinculadaResponse =
         GetConsultaEntVinculadaResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

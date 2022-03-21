@@ -1,34 +1,44 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
+import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.model.ResponseIn997ResAut
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.In997ResAut
+import pe.gob.susalud.jr.transaccion.susalud.bean.InSolAut271
 import pe.gob.susalud.jr.transaccion.susalud.service.In997ResAutService
 import pe.gob.susalud.jr.transaccion.susalud.service.SolAut271Service
 import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionRequest
 import pe.gob.susalud.ws.siteds.schemas.GetNumAutorizacionResponse
 
 @Service
-class NumAutorizacionHandler(private val sitedsValidator: SitedsValidator,
-                             private val solAut271Service: SolAut271Service,
-                             private val in997ResAutService: In997ResAutService,
-                             private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse>() {
-    override fun handleRequest(request: GetNumAutorizacionRequest): String {
-        sitedsValidator.validate(request)
+class NumAutorizacionHandler(private val solAut271Service: SolAut271Service,
+                             private val in997ResAutService: In997ResAutService
+): BaseSitedsHandler<GetNumAutorizacionRequest, GetNumAutorizacionResponse, InSolAut271, In997ResAut>() {
+    override fun validate(request: GetNumAutorizacionRequest) = sitedsValidator.validate(request)
 
-        val inSolAut271 = solAut271Service.x12NToBean(request.txPeticion)
-        val bean = sendBean(handlerProvider.resolvePath(this), inSolAut271, ResponseIn997ResAut::class.java)
+    override fun extractInput(request: GetNumAutorizacionRequest): InSolAut271 =
+        solAut271Service.x12NToBean(request.txPeticion)
 
-        return in997ResAutService.beanToX12N(bean.data)
-    }
+    override fun <R : Response<In997ResAut>> resolveResponseClass(): Class<R> =
+        ResponseIn997ResAut::class.java as Class<R>
 
-    override fun createResponse(errorCode: String, output: String): GetNumAutorizacionResponse =
+    override fun createResponse(output: In997ResAut): GetNumAutorizacionResponse =
+        GetNumAutorizacionResponse().apply {
+            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coIafa = output.idReceptor
+            txNombre = Transactions.RES_997_RES_AUT
+            txRespuesta = in997ResAutService.beanToX12N(output)
+        }
+
+    override fun createErrorResponse(errorCode: String,
+                                     request: GetNumAutorizacionRequest): GetNumAutorizacionResponse =
         GetNumAutorizacionResponse().apply {
             coError = errorCode
-            coIafa = sitedsProperties.iafaCode
+            coIafa = request.coIafa
             txNombre = Transactions.RES_997_RES_AUT
-            txRespuesta = output
+            txRespuesta = StringUtils.EMPTY
         }
 }

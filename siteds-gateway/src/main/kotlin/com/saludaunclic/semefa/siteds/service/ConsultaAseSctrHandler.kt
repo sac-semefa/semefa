@@ -1,34 +1,43 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.SitedsConstants.Transactions
+import com.saludaunclic.semefa.siteds.model.Response
 import com.saludaunclic.semefa.siteds.model.ResponseIn271ResSctr
-import com.saludaunclic.semefa.siteds.validator.SitedsValidator
+import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.In271ResSctr
+import pe.gob.susalud.jr.transaccion.susalud.bean.InConAse270
 import pe.gob.susalud.jr.transaccion.susalud.service.ConAse270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.In271ResSctrService
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRRequest
 import pe.gob.susalud.ws.siteds.schemas.GetConsultaSCTRResponse
 
 @Service
-class ConsultaAseSctrHandler(private val sitedsValidator: SitedsValidator,
-                             private val conAse270Service: ConAse270Service,
-                             private val in271ResSctrService: In271ResSctrService,
-                             private val handlerProvider: HandlerProvider
-): StringOutputSitedsHandler<GetConsultaSCTRRequest, GetConsultaSCTRResponse>() {
-    override fun handleRequest(request: GetConsultaSCTRRequest): String {
-        sitedsValidator.validate(request)
+class ConsultaAseSctrHandler(private val conAse270Service: ConAse270Service,
+                             private val in271ResSctrService: In271ResSctrService
+): BaseSitedsHandler<GetConsultaSCTRRequest, GetConsultaSCTRResponse, InConAse270, In271ResSctr>() {
+    override fun validate(request: GetConsultaSCTRRequest) = sitedsValidator.validate(request)
 
-        val inConAse270 = conAse270Service.x12NToBean(request.txPeticion)
-        val bean = sendBean(handlerProvider.resolvePath(this), inConAse270, ResponseIn271ResSctr::class.java)
+    override fun extractInput(request: GetConsultaSCTRRequest): InConAse270 =
+        conAse270Service.x12NToBean(request.txPeticion)
 
-        return  in271ResSctrService.In271ResSctr_ToX12N(bean.data)
-    }
+    override fun <R : Response<In271ResSctr>> resolveResponseClass(): Class<R> =
+        ResponseIn271ResSctr::class.java as Class<R>
 
-    override fun createResponse(errorCode: String, output: String): GetConsultaSCTRResponse =
+    override fun createResponse(output: In271ResSctr): GetConsultaSCTRResponse =
+        GetConsultaSCTRResponse().apply {
+            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coIafa = output.idReceptor
+            txNombre = Transactions.RES_271_RES_SCTR
+            txRespuesta = in271ResSctrService.In271ResSctr_ToX12N(output)
+        }
+
+    override fun createErrorResponse(errorCode: String, request: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
         GetConsultaSCTRResponse().apply {
             coError = errorCode
-            coIafa = sitedsProperties.iafaCode
+            coIafa = request.coIafa
             txNombre = Transactions.RES_271_RES_SCTR
-            txRespuesta = output
+            txRespuesta = StringUtils.EMPTY
         }
 }

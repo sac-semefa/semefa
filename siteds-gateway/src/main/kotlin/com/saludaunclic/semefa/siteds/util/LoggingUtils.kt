@@ -18,8 +18,8 @@ object LoggingUtils {
         val message = "$prefix ${bean!!::class.java.name} bean"
         if (logger.isDebugEnabled) {
             logger.debug("""$message :
-                ${writePrettyJson(bean)}
-                """.trimMargin())
+${writePrettyJson(bean)}
+""")
         } else {
             logger.info(message)
         }
