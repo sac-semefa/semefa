@@ -35,8 +35,7 @@ class ConsultaObservacionHandler(private val conAse270Service: ConAse270Service,
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaObservacionRequest,
-                                     output: In271ConObs): GetConsultaObservacionResponse =
+                                     request: GetConsultaObservacionRequest): GetConsultaObservacionResponse =
         GetConsultaObservacionResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

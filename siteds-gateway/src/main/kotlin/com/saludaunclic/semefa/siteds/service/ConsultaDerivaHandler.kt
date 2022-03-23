@@ -25,9 +25,7 @@ class ConsultaDerivaHandler: NoopHandler<GetConsultaDerivaRequest,
             txRespuesta = StringUtils.EMPTY
         }
 
-    override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaDerivaRequest,
-                                     output: In271ResDeriva): GetConsultaDerivaResponse =
+    override fun createErrorResponse(errorCode: String, request: GetConsultaDerivaRequest): GetConsultaDerivaResponse =
         GetConsultaDerivaResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

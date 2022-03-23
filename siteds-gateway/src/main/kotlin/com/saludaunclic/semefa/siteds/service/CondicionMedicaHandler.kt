@@ -34,8 +34,7 @@ class CondicionMedicaHandler(private val conAse270Service: ConAse270Service,
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetCondicionMedicaRequest,
-                                     output: InConMed271): GetCondicionMedicaResponse =
+                                     request: GetCondicionMedicaRequest): GetCondicionMedicaResponse =
         GetCondicionMedicaResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

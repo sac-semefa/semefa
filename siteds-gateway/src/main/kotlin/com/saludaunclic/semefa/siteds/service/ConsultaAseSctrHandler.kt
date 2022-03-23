@@ -33,9 +33,7 @@ class ConsultaAseSctrHandler(private val conAse270Service: ConAse270Service,
             txRespuesta = in271ResSctrService.In271ResSctr_ToX12N(output)
         }
 
-    override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaSCTRRequest,
-                                     output: In271ResSctr): GetConsultaSCTRResponse =
+    override fun createErrorResponse(errorCode: String, request: GetConsultaSCTRRequest): GetConsultaSCTRResponse =
         GetConsultaSCTRResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

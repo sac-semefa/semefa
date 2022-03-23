@@ -34,8 +34,7 @@ class ConsultaDatosAdiHandler(private val conAse270Service: ConAse270Service,
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaDatosAdiRequest,
-                                     output: In271ConDtad): GetConsultaDatosAdiResponse =
+                                     request: GetConsultaDatosAdiRequest): GetConsultaDatosAdiResponse =
         GetConsultaDatosAdiResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

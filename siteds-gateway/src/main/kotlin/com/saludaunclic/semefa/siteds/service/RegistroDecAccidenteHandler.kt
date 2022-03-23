@@ -34,8 +34,7 @@ class RegistroDecAccidenteHandler(private val conAse270Service: ConAse270Service
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetRegistroDecAccidenteRequest,
-                                     output: In271ResSctr): GetRegistroDecAccidenteResponse =
+                                     request: GetRegistroDecAccidenteRequest): GetRegistroDecAccidenteResponse =
         GetRegistroDecAccidenteResponse().apply {
             coError = SitedsConstants.ErrorCodes.NO_ERROR
             coIafa = request.coIafa

@@ -37,8 +37,7 @@ class ConsultaEntVinculadaHandler(private val conEntVinc278Service: ConEntVinc27
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaEntVinculadaRequest,
-                                     output: InResEntVinc278): GetConsultaEntVinculadaResponse =
+                                     request: GetConsultaEntVinculadaRequest): GetConsultaEntVinculadaResponse =
         GetConsultaEntVinculadaResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

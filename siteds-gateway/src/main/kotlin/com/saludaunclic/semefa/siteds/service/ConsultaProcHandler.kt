@@ -33,9 +33,7 @@ class ConsultaProcHandler(private val conAse270Service: ConAse270Service,
             txRespuesta = in271ConProcService.beanToX12N(output)
         }
 
-    override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaProcRequest,
-                                     output: InConProc271): GetConsultaProcResponse =
+    override fun createErrorResponse(errorCode: String, request: GetConsultaProcRequest): GetConsultaProcResponse =
         GetConsultaProcResponse().apply {
             coError = errorCode
             coIafa = request.coIafa
