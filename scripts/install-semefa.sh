@@ -31,7 +31,6 @@ function prepareInstall {
   echo "Cleaning semefa folders"
   rm -rf ${semefa_dir} && mkdir -p ${semefa_dir}
   rm -rf ${semefa_user_dir} && mkdir -p ${semefa_user_dir}
-  rm ${sac_home}/.env.*
 }
 
 function installApp {
