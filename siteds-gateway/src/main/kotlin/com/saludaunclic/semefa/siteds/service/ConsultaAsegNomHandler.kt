@@ -34,7 +34,8 @@ class ConsultaAsegNomHandler(private val conAse270Service: ConAse270Service,
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaAsegNomRequest): GetConsultaAsegNomResponse =
+                                     request: GetConsultaAsegNomRequest,
+                                     output: InConNom271): GetConsultaAsegNomResponse =
         GetConsultaAsegNomResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

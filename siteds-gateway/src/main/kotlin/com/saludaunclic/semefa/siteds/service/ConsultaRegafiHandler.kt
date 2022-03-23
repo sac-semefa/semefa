@@ -34,7 +34,8 @@ class ConsultaRegafiHandler(private val regAfi270Service: RegAfi270Service,
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaRegAfiliadosRequest): GetConsultaRegAfiliadosResponse =
+                                     request: GetConsultaRegAfiliadosRequest,
+                                     output: InRegAfi271): GetConsultaRegAfiliadosResponse =
         GetConsultaRegAfiliadosResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

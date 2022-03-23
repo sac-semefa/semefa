@@ -34,7 +34,8 @@ class ConsultaCartaGarantiaHandler(private val in278SolCGService: In278SolCGServ
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetConsultaxCartaGarantiaRequest): GetConsultaxCartaGarantiaResponse =
+                                     request: GetConsultaxCartaGarantiaRequest,
+                                     output: In278ResCG): GetConsultaxCartaGarantiaResponse =
         GetConsultaxCartaGarantiaResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

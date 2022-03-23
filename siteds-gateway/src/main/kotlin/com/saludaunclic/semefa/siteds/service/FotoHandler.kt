@@ -22,7 +22,7 @@ class FotoHandler(private val dateService: DateService)
             imFoto = ByteArray(0)
         }
 
-    override fun createErrorResponse(errorCode: String, request: GetFotoRequest): GetFotoResponse =
+    override fun createErrorResponse(errorCode: String, request: GetFotoRequest, output: FotoOutput): GetFotoResponse =
         GetFotoResponse().apply {
             coError = errorCode
             coIafa = request.coIafa

@@ -27,18 +27,23 @@ class NumAutorizacionHandler(private val solAut271Service: SolAut271Service,
 
     override fun createResponse(output: In997ResAut): GetNumAutorizacionResponse =
         GetNumAutorizacionResponse().apply {
-            coError = SitedsConstants.ErrorCodes.NO_ERROR
+            coError = parseError(output)
             coIafa = output.idReceptor
             txNombre = Transactions.RES_997_RES_AUT
             txRespuesta = in997ResAutService.beanToX12N(output)
         }
 
     override fun createErrorResponse(errorCode: String,
-                                     request: GetNumAutorizacionRequest): GetNumAutorizacionResponse =
+                                     request: GetNumAutorizacionRequest,
+                                     output: In997ResAut): GetNumAutorizacionResponse =
         GetNumAutorizacionResponse().apply {
             coError = errorCode
             coIafa = request.coIafa
             txNombre = Transactions.RES_997_RES_AUT
             txRespuesta = StringUtils.EMPTY
         }
+
+    fun parseError(output: In997ResAut): String =
+        if (output.coError.isBlank()) SitedsConstants.ErrorCodes.NO_ERROR
+        else "${output.coError}${output.inCoErrorEncontrado}"
 }
