@@ -23,6 +23,11 @@ spring:
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 8
+web:
+  security:
+    public-urls:
+      - /api/public/**
+      - /actuator/**
 mq:
   queue-manager: ${MQ_QUEUE_MANAGER:QM.002.999.AF}
   queue-in: ${MQ_QUEUE_IN:QL.CLI.SEMEFA.SUSALUD.AF.REQ}

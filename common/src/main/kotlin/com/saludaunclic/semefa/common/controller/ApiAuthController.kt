@@ -1,8 +1,8 @@
-package com.saludaunclic.semefa.regafi.controller
+package com.saludaunclic.semefa.common.controller
 
 import com.saludaunclic.semefa.common.throwing.ServiceException
-import com.saludaunclic.semefa.regafi.dto.TokenDto
-import com.saludaunclic.semefa.regafi.service.UserAuthenticationService
+import com.saludaunclic.semefa.common.dto.TokenDto
+import com.saludaunclic.semefa.common.service.UserAuthenticationService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity

@@ -1,10 +1,10 @@
-package com.saludaunclic.semefa.regafi.service
+package com.saludaunclic.semefa.common.service
 
 import com.saludaunclic.semefa.common.throwing.ServiceException
-import com.saludaunclic.semefa.regafi.dto.AppSetupDto
-import com.saludaunclic.semefa.regafi.mapper.UserMapper
-import com.saludaunclic.semefa.regafi.model.Role
-import com.saludaunclic.semefa.regafi.model.UserStatus
+import com.saludaunclic.semefa.common.dto.AppSetupDto
+import com.saludaunclic.semefa.common.mapper.UserMapper
+import com.saludaunclic.semefa.common.model.Role
+import com.saludaunclic.semefa.common.model.UserStatus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

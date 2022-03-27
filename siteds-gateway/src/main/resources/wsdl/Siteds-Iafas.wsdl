@@ -16,7 +16,7 @@
             <xs:element name="getConsultaAsegNomResponse" tns:maxOccurs="1" tns:minOccurs="1">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="coError" type="xs:string"></xs:element>
+                        <xs:element name="coError" gtype="xs:string"></xs:element>
                         <xs:element name="txNombre" type="xs:string"></xs:element>
                         <xs:element name="coIafa" type="xs:string"></xs:element>
                         <xs:element name="txRespuesta" type="xs:string"></xs:element>
@@ -625,7 +625,7 @@
             <soap:operation soapAction=""></soap:operation>
             <wsdl:input name="getRegistroDecAccidenteRequest">
                 <soap:body use="literal"></soap:body>
-            </wsdl:input>
+            </wsdl:input>s
             <wsdl:output name="getRegistroDecAccidenteResponse">
                 <soap:body use="literal"></soap:body>
             </wsdl:output>

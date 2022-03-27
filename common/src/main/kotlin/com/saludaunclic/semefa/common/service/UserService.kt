@@ -1,6 +1,6 @@
-package com.saludaunclic.semefa.regafi.service
+package com.saludaunclic.semefa.common.service
 
-import com.saludaunclic.semefa.regafi.model.User
+import com.saludaunclic.semefa.common.model.User
 import java.util.Optional
 
 interface UserService {

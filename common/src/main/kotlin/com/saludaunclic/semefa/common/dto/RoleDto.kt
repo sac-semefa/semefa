@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.dto
+package com.saludaunclic.semefa.common.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude

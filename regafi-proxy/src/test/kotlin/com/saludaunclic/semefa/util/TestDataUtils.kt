@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa.util
 
-import com.saludaunclic.semefa.regafi.dto.AppSetupDto
-import com.saludaunclic.semefa.regafi.dto.UserDto
+import com.saludaunclic.semefa.common.dto.AppSetupDto
+import com.saludaunclic.semefa.common.dto.UserDto
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.ResponseEntity
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271RegafiUpdate

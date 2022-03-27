@@ -1,5 +1,6 @@
 package com.saludaunclic.semefa.siteds.config
 
+import com.saludaunclic.semefa.common.config.SecurityProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
+import org.springframework.security.web.util.matcher.AndRequestMatcher
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher
 import org.springframework.security.web.util.matcher.OrRequestMatcher
@@ -19,12 +21,19 @@ import org.springframework.security.web.util.matcher.RequestMatcher
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig(val cxfProperties: CxfProperties): WebSecurityConfigurerAdapter() {
-    @Bean fun publicUrls(): RequestMatcher = OrRequestMatcher(
-        AntPathRequestMatcher("${cxfProperties.path}/**"),
-        AntPathRequestMatcher("/actuator/**"))
+class SecurityConfig(val securityProperties: SecurityProperties): WebSecurityConfigurerAdapter() {
+    @Bean fun publicUrls(): RequestMatcher =
+        OrRequestMatcher(securityProperties.publicUrls.map { AntPathRequestMatcher(it) })
 
-    @Bean fun protectedUrls(): RequestMatcher = NegatedRequestMatcher(publicUrls())
+    @Bean fun protectedUrls(): RequestMatcher = with(securityProperties) {
+        if (protectedUrls.isNotEmpty())
+            AndRequestMatcher(
+                OrRequestMatcher(securityProperties.protectedUrls.map { AntPathRequestMatcher(it) }),
+                NegatedRequestMatcher(publicUrls())
+            )
+        else
+            NegatedRequestMatcher(publicUrls())
+    }
 
     override fun configure(web: WebSecurity) {
         web.ignoring().requestMatchers(publicUrls())
@@ -50,4 +59,3 @@ class SecurityConfig(val cxfProperties: CxfProperties): WebSecurityConfigurerAda
 
     @Bean fun forbiddenEntryPoint(): AuthenticationEntryPoint = HttpStatusEntryPoint(HttpStatus.FORBIDDEN)
 }
-

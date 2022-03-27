@@ -1,9 +1,9 @@
 package com.saludaunclic.semefa
 
 import com.saludaunclic.semefa.regafi.RegafiProxyApp
-import com.saludaunclic.semefa.regafi.dto.AppSetupDto
-import com.saludaunclic.semefa.regafi.repository.UserRepository
-import com.saludaunclic.semefa.regafi.service.AppSetupService
+import com.saludaunclic.semefa.common.dto.AppSetupDto
+import com.saludaunclic.semefa.common.repository.UserRepository
+import com.saludaunclic.semefa.common.service.AppSetupService
 import com.saludaunclic.semefa.regafi.service.RegafiService
 import com.saludaunclic.semefa.util.TestDataUtils
 import org.junit.jupiter.api.AfterAll

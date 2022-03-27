@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.security
+package com.saludaunclic.semefa.common.security
 
 import org.springframework.security.web.RedirectStrategy
 import javax.servlet.http.HttpServletRequest
