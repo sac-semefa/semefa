@@ -1,8 +1,8 @@
 package com.saludaunclic.semefa.regafi.config
 
-import com.saludaunclic.semefa.regafi.security.NoRedirectStrategy
-import com.saludaunclic.semefa.regafi.security.TokenAuthenticationFilter
-import com.saludaunclic.semefa.regafi.security.TokenAuthenticationProvider
+import com.saludaunclic.semefa.common.security.NoRedirectStrategy
+import com.saludaunclic.semefa.common.security.TokenAuthenticationFilter
+import com.saludaunclic.semefa.common.security.TokenAuthenticationProvider
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,11 +29,10 @@ import javax.servlet.Filter
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 class SecurityConfig(val provider: TokenAuthenticationProvider): WebSecurityConfigurerAdapter() {
     companion object {
-        private const val PUBLIC_API_PATTERN: String = "/api/public/**"
-        private const val ACTUATOR_PATTERN: String = "/actuator/**"
         private val PUBLIC_URLS: RequestMatcher = OrRequestMatcher(
-            AntPathRequestMatcher(PUBLIC_API_PATTERN),
-            AntPathRequestMatcher(ACTUATOR_PATTERN))
+            AntPathRequestMatcher("/api/public/**"),
+            AntPathRequestMatcher("/actuator/**"),
+            AntPathRequestMatcher("/error/**"))
         private val PROTECTED_URLS: RequestMatcher = NegatedRequestMatcher(PUBLIC_URLS)
     }
 

@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.model
+package com.saludaunclic.semefa.common.model
 
 enum class UserStatus {
     ENABLED,

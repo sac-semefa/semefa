@@ -1,9 +1,9 @@
-package com.saludaunclic.semefa.regafi.dto
+package com.saludaunclic.semefa.common.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.saludaunclic.semefa.regafi.model.UserStatus
+import com.saludaunclic.semefa.common.model.UserStatus
 import jakarta.validation.constraints.Size
 import java.io.Serializable
 

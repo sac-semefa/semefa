@@ -15,10 +15,25 @@ management:
 spring:
   application:
     name: siteds-gateway
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:semefa}
+    username: ${DB_USER:semefa}
+    password: ${DB_PASSWORD:semefa}
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 8
 siteds:
   sac-url: ${SAC_URL:http://localhost:9999}
   api-key: ${API_KEY}
   iafa-code: ${SITEDS_IAFA_CODE:30009}
+web:
+  security:
+    public-urls:
+      - /ws-siteds/**
+      - /actuator/**
+      - /api/public/**
+      - /error**
 mq:
   queue-manager: ${MQ_QUEUE_MANAGER:QM.999.998.AC}
   queue-in: ${MQ_QUEUE_IN:QL.995.AC.002.2.IN}

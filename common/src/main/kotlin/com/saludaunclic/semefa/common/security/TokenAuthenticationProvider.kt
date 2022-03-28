@@ -1,6 +1,6 @@
-package com.saludaunclic.semefa.regafi.security
+package com.saludaunclic.semefa.common.security
 
-import com.saludaunclic.semefa.regafi.service.UserAuthenticationService
+import com.saludaunclic.semefa.common.service.UserAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetails

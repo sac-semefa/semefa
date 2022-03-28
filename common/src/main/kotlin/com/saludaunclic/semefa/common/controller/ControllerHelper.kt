@@ -1,4 +1,4 @@
-package com.saludaunclic.semefa.regafi.controller
+package com.saludaunclic.semefa.common.controller
 
 import com.saludaunclic.semefa.common.throwing.ServiceException
 import org.springframework.http.HttpStatus

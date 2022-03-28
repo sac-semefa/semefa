@@ -1,7 +1,7 @@
 package com.saludaunclic.semefa
 
+import com.saludaunclic.semefa.common.repository.UserRepository
 import com.saludaunclic.semefa.regafi.RegafiProxyApp
-import com.saludaunclic.semefa.regafi.repository.UserRepository
 import com.saludaunclic.semefa.util.TestDataUtils
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterAll
