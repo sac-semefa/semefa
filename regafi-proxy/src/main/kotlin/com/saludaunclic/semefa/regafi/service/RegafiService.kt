@@ -44,7 +44,7 @@ class RegafiService(
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
     fun process271DataFrame(request: In271RegafiUpdate): SacIn997RegafiUpdate {
-        val x12 = prepareX12(normalize(request))
+        val x12 = prepareX12(request)
         if (request.coError != null && request.coError != NO_ERROR) {
             return handleRequestError(request)
         }
@@ -111,7 +111,7 @@ class RegafiService(
             "</sus:Online271RegafiUpdateRequest>"
 
     private fun prepareX12(in271RegafiUpdate: In271RegafiUpdate): String =
-        with(in271RegafiUpdate) {
+        with(normalize(in271RegafiUpdate)) {
             if (logger.isDebugEnabled) {
                 logger.debug("From bean to X12, bean: \n${objectMapper.writeValueAsString(this)}")
             }
@@ -158,7 +158,7 @@ class RegafiService(
             logger.info("Sending X12 message with this data: $this")
 
             try {
-                mqClientService.sendMessageSync(this).also { logger.info("=== End MQ Connection ===") }
+                mqClientService.sendMessageSync(this)
             } catch (ex: MQException) {
                 throw ex
             } catch (ex: Exception) {

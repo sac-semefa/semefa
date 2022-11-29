@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This should invoked like this:
+# curl -fsSL https://${SAC_SEMEFA_TOKEN}@raw.githubusercontent.com/sac-semefa/semefa/${BRANCH}/scripts/seed-install.sh | bash
+
 [[ -z "${SEMEFA_APP}" ]] \
   && echo 'SEMEFA_APP environment variable is missing' \
   && exit 1

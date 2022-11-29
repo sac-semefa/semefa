@@ -1,9 +1,8 @@
-package com.saludaunclic.semefa.regafi.throwing
+package com.saludaunclic.semefa.common.throwing
 
 import com.ibm.mq.MQException
 import com.saludaunclic.semefa.common.model.MqMessage
-import com.saludaunclic.semefa.common.throwing.ServiceException
-import com.saludaunclic.semefa.regafi.model.RegafiMessage
+import com.saludaunclic.semefa.common.model.SemefaMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -17,10 +16,10 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(ServiceException::class)
-    fun handleServiceException(exception: ServiceException): ResponseEntity<RegafiMessage> =
+    fun handleServiceException(exception: ServiceException): ResponseEntity<SemefaMessage> =
         with(exception) {
             logger.error("Found exception", this)
-            return ResponseEntity<RegafiMessage>(toMessage(exception), status)
+            return ResponseEntity<SemefaMessage>(toMessage(exception), status)
         }
 
     @ExceptionHandler(MQException::class)
@@ -31,14 +30,14 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler() {
         }
 
     @ExceptionHandler(Exception::class)
-    fun handleException(exception: java.lang.Exception): ResponseEntity<RegafiMessage> =
+    fun handleException(exception: java.lang.Exception): ResponseEntity<SemefaMessage> =
         with(exception) {
             logger.error("Found an exception $message", this)
-            ResponseEntity<RegafiMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
+            ResponseEntity<SemefaMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
-    private fun toMessage(exception: Exception): RegafiMessage =
-        RegafiMessage(exception.message ?: UNKNOWN_ERROR_MESSAGE)
+    private fun toMessage(exception: Exception): SemefaMessage =
+        SemefaMessage(exception.message ?: UNKNOWN_ERROR_MESSAGE)
 
     private fun toMessage(exception: MQException): MqMessage =
         with(exception) {

@@ -1,0 +1,82 @@
+package com.saludaunclic.semefa.siteds.service
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.ibm.mq.MQException
+import com.saludaunclic.semefa.common.service.DateService
+import com.saludaunclic.semefa.common.service.MqClientService
+import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
+import com.saludaunclic.semefa.common.throwing.ServiceException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Service
+import pe.gob.susalud.jr.transaccion.susalud.bean.InLogAcreInsert271
+import pe.gob.susalud.jr.transaccion.susalud.service.LogAcreInsert271Service
+import java.util.UUID
+
+@Service
+class AccreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271Service,
+                           private val mqClientService: MqClientService,
+                           private val dates: DateService,
+                           private val objectMapper: ObjectMapper) {
+    companion object {
+        const val NO_ERROR: String = "0000"
+        const val TX_NAME: String = "271_LOGACRE_INSERT"
+    }
+
+    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+
+    fun processAccreditation(inLogAcreInsert271: InLogAcreInsert271) {
+        val x12 = prepareX12(inLogAcreInsert271)
+        try {
+            putAndGetMessage(x12)
+        } catch (ex: MqMaxAttemptReachedException) {
+            logger.error("Error enciando acreditación a MQ", ex)
+        }
+    }
+
+    private fun putAndGetMessage(dataFrame: String): Map<String, String> =
+        with(dataFrame) {
+            logger.info("=== Start MQ Connection ===")
+            logger.info("Sending X12 message with this data: $this")
+
+            try {
+                mqClientService.sendMessageSync(this)
+            } catch (ex: MQException) {
+                throw ex
+            } catch (ex: Exception) {
+                throw ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
+            }
+        }
+
+    private fun normalize(inLogAcreInsert271: InLogAcreInsert271): InLogAcreInsert271 =
+        inLogAcreInsert271.apply {
+            if (idCorrelativo == null) {
+                idCorrelativo = UUID.randomUUID().toString()
+            }
+            val now = dates.now()
+            feTransaccion = dates.formatDate(now)
+            hoTransaccion = dates.formatTime(now)
+        }
+
+    private fun prepareX12(inLogAcreInsert271: InLogAcreInsert271): String =
+        with(normalize(inLogAcreInsert271)) {
+            if (logger.isDebugEnabled) {
+                logger.debug("From bean to X12, bean: \n${objectMapper.writeValueAsString(this)}")
+            }
+            parseRequest(this).also {
+                logger.debug("From bean to X12, X12: \n$it")
+            }
+        }
+
+    private fun parseRequest(inLogAcreInsert271: InLogAcreInsert271): String =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+            "<RegistroAutRequest" +
+            " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+            " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"" +
+            " xmlns=\"http://www.susalud.gob.pe/acreditacion/RegistroAutRequest.xsd\">" +
+            "<txNombre>$TX_NAME</txNombre>" +
+            "<codRemitente>${inLogAcreInsert271.idRemitente}</codRemitente>" +
+            "<txPeticion>${logAcreInsert271Service.beanToX12N(inLogAcreInsert271)}</txPeticion>" +
+            "</RegistroAutRequest>"
+}

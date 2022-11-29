@@ -62,6 +62,7 @@ class MqClientService(private val mqProperties: MqProperties) {
             return getMessageResponse(wrapper.queueOut, createGetMessage(putMessage.messageId))
         } finally {
             wrapper.closeResources()
+            logger.info("=== End MQ Connection ===")
         }
     }
 

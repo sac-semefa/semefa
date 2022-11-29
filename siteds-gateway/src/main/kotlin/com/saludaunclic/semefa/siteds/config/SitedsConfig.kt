@@ -14,6 +14,7 @@ import pe.gob.susalud.jr.transaccion.susalud.service.In271ResSctrService
 import pe.gob.susalud.jr.transaccion.susalud.service.In278ResCGService
 import pe.gob.susalud.jr.transaccion.susalud.service.In278SolCGService
 import pe.gob.susalud.jr.transaccion.susalud.service.In997ResAutService
+import pe.gob.susalud.jr.transaccion.susalud.service.LogAcreInsert271Service
 import pe.gob.susalud.jr.transaccion.susalud.service.RegAfi270Service
 import pe.gob.susalud.jr.transaccion.susalud.service.RegAfi271Service
 import pe.gob.susalud.jr.transaccion.susalud.service.ResEntVinc278Service
@@ -30,6 +31,7 @@ import pe.gob.susalud.jr.transaccion.susalud.service.imp.In271ResSctrServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.In278ResCGServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.In278SolCGServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.In997ResAutServiceImpl
+import pe.gob.susalud.jr.transaccion.susalud.service.imp.LogAcreInsert271ServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.RegAfi270ServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.RegAfi271ServiceImpl
 import pe.gob.susalud.jr.transaccion.susalud.service.imp.ResEntVinc278ServiceImpl
@@ -78,4 +80,6 @@ class SitedsConfig {
     @Bean fun in278SolCGService(): In278SolCGService = In278SolCGServiceImpl()
 
     @Bean fun in278ResCGService(): In278ResCGService = In278ResCGServiceImpl()
+
+    @Bean fun logAcreInsert271Service(): LogAcreInsert271Service = LogAcreInsert271ServiceImpl()
 }
