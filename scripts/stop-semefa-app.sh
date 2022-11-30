@@ -18,4 +18,4 @@ echo "Checking for ${project} container running" \
   && container_id=$(docker ps -q -f name=${project})
 [[ -n "${container_id}" ]] \
   && echo "Found ${project} container: ${container_id}, stopping it" \
-  && env $(cat ${env_file} | xargs) docker-compose -f ./${project}/docker-compose.yml down
+  && docker-compose -f ./${project}/docker-compose.yml down
