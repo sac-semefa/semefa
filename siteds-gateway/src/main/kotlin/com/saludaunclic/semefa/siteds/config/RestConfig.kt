@@ -10,9 +10,6 @@ import java.util.Collections
 
 @Configuration
 class RestConfig {
-
-    //@Bean fun restTemplate(): RestTemplate = RestTemplate()
-
     @Bean
     fun restTemplate(): RestTemplate = RestTemplate().apply {
         val messageConverters: MutableList<HttpMessageConverter<*>> = ArrayList()
@@ -21,5 +18,4 @@ class RestConfig {
         messageConverters.add(converter)
         this.messageConverters = messageConverters
     }
-
 }
