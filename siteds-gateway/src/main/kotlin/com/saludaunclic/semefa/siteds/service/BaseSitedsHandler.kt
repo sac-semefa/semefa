@@ -1,5 +1,6 @@
 package com.saludaunclic.semefa.siteds.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.saludaunclic.semefa.siteds.SitedsConstants.ErrorCodes
 import com.saludaunclic.semefa.siteds.config.SitedsProperties
 import com.saludaunclic.semefa.siteds.model.Response
@@ -18,6 +19,7 @@ import java.util.Collections
 
 abstract class BaseSitedsHandler<in Req: Any, out Res: Any, In: Any, Out: Any>: SitedsHandler<Req, Res, In, Out> {
     @Autowired private lateinit var restTemplate: RestTemplate
+    @Autowired private lateinit var objectMapper: ObjectMapper
     @Autowired private lateinit var sitedsProperties: SitedsProperties
     @Autowired private lateinit var handlerProvider: HandlerProvider
     @Autowired protected lateinit var sitedsValidator: SitedsValidator
@@ -32,7 +34,10 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any, In: Any, Out: Any>: 
         try {
             validate(request)
             val input = extractInput(request)
-            val output = sendBean(handlerProvider.resolvePath(this), input, resolveResponseClass())
+            val url = handlerProvider.resolvePath(this)
+            logger.info("Sending request to $url the payload:\n${objectMapper.writeValueAsString(request)}")
+            val output = sendBean(url, input, resolveResponseClass())
+            logger.info("Receiving response from $url the data:\n${objectMapper.writeValueAsString(output)}")
             createResponse(output)
         } catch (ex: SitedsException) {
             logger.error("Error when handling request of class ${this::class.java.name}: ${ex.message}", ex)
