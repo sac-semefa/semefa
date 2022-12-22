@@ -33,14 +33,18 @@ function prepareInstall {
   rm -rf ${semefa_user_dir} && mkdir -p ${semefa_user_dir}
 }
 
-function installApp {
-  prepareInstall
-  cd ${sac_home}
-
+function updateEnv {
   echo "Fetching env data..."
   git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
   cp ./semefa-env/${project}/.env.* ${semefa_dir}
   rm -rf ./semefa-env
+}
+
+function installApp {
+  prepareInstall
+
+  cd ${sac_home}
+  updateEnv
 
   local global_resources=(
     scripts/semefa-lib.sh

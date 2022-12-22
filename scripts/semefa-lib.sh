@@ -37,3 +37,10 @@ function processProfile {
 
   [[ "${SILENT}" != 'true' ]] && echo "Discovered env file: ${env_file}"
 }
+
+function updateEnv {
+  echo "Fetching env data..."
+  git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
+  cp ./semefa-env/${project}/.env.* ${semefa_dir}
+  rm -rf ./semefa-env
+}
