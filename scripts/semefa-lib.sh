@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export semefa_dir=${sac_home}/${project}
 export semefa_user_dir=${HOME}/semefa
 export docker_org=vicozizou
 
@@ -42,5 +43,7 @@ function updateEnv {
   echo "Fetching env data..."
   git clone https://${SAC_SEMEFA_TOKEN}@github.com/sac-semefa/semefa-env.git
   cp ./semefa-env/${project}/.env.* ${semefa_dir}
+  ls -las ${semefa_dir}/.env.*
+  cat ${semefa_dir}/.env.${profile}
   rm -rf ./semefa-env
 }
