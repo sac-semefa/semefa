@@ -7,4 +7,6 @@ import org.springframework.stereotype.Component
 @ConfigurationProperties(prefix = "siteds")
 class SitedsProperties(var sacUrl: String = "",
                        var apiKey: String = "",
-                       var devMode: Boolean = false)
+                       var devMode: String = "false") {
+    fun isDevMode() = "true" == devMode
+}

@@ -46,7 +46,7 @@ class LoggingHelper(private val sitedsProperties: SitedsProperties) {
         .writeValueAsString(bean)
 
     private fun <T> jsonContent(bean: T): String =
-        if (sitedsProperties.devMode) writePrettyJson(bean)
+        if (sitedsProperties.isDevMode()) writePrettyJson(bean)
         else objectMapper.writeValueAsString(bean)
 
     private fun resolveMarshaller(bean: Any): Marshaller? = with(bean) {
