@@ -1,5 +1,6 @@
 package com.saludaunclic.semefa.siteds.controller
 
+import com.saludaunclic.semefa.siteds.model.MqAckResponse
 import com.saludaunclic.semefa.siteds.service.AccreditacionHandler
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -13,6 +14,6 @@ import pe.gob.susalud.jr.transaccion.susalud.bean.InLogAcreInsert271
 @RequestMapping("/api/logacre")
 class AccreditationController(val accreditacionHandler: AccreditacionHandler) {
     @PostMapping(consumes = [ MediaType.APPLICATION_JSON_VALUE ], produces = [ MediaType.APPLICATION_JSON_VALUE ])
-    fun logAccreditation(@RequestBody inLogAcreInsert271: InLogAcreInsert271) =
+    fun logAccreditation(@RequestBody inLogAcreInsert271: InLogAcreInsert271): ResponseEntity<MqAckResponse> =
         ResponseEntity.ok(accreditacionHandler.processAccreditation(inLogAcreInsert271))
 }

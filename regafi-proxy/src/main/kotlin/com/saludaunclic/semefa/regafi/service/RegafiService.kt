@@ -6,6 +6,7 @@ import com.saludaunclic.semefa.common.service.DateService
 import com.saludaunclic.semefa.common.service.MqClientService
 import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
 import com.saludaunclic.semefa.common.throwing.ServiceException
+import com.saludaunclic.semefa.common.util.SemefaUtils
 import com.saludaunclic.semefa.regafi.dto.SacIn997RegafiUpdate
 import com.saludaunclic.semefa.regafi.mapper.RegafyMapper
 import com.saludaunclic.semefa.regafi.model.DataFrame
@@ -35,9 +36,6 @@ class RegafiService(
     private val objectMapper: ObjectMapper
 ) {
     companion object {
-        const val NO_ERROR: String = "0000"
-        const val TX_RESPONSE_997_ELEMENT: String = "txRespuesta"
-        const val ERROR_CODE_ELEMENT = "coError"
         const val TX_NAME: String = "271_REGAFI_UPDATE"
     }
 
@@ -45,7 +43,7 @@ class RegafiService(
 
     fun process271DataFrame(request: In271RegafiUpdate): SacIn997RegafiUpdate {
         val x12 = prepareX12(request)
-        if (request.coError != null && request.coError != NO_ERROR) {
+        if (request.coError != null && request.coError != SemefaUtils.NO_ERROR) {
             return handleRequestError(request)
         }
 
@@ -180,9 +178,9 @@ class RegafiService(
         with(messageMap) {
             val messageId = this[MqClientService.MESSAGE_ID_KEY] ?: StringUtils.EMPTY
             val message = this[MqClientService.MESSAGE_KEY] ?:  StringUtils.EMPTY
-            val x12 = extractElement(message, TX_RESPONSE_997_ELEMENT)
-            val errorCode = extractElement(message, ERROR_CODE_ELEMENT)
-            if (errorCode != NO_ERROR) {
+            val x12 = SemefaUtils.extractElement(logger, message, SemefaUtils.TX_RESPONSE_ELEMENT)
+            val errorCode = SemefaUtils.extractElement(logger, message, SemefaUtils.ERROR_CODE_ELEMENT)
+            if (errorCode != SemefaUtils.NO_ERROR) {
                 return handleResponseError(errorCode)
             }
 
@@ -205,13 +203,4 @@ class RegafiService(
                 }
             }
         }
-
-    private fun extractElement(xmlText: String, element: String): String {
-        logger.debug("Extracting X12 from $xmlText with tag $element")
-        val split = xmlText.split(element)
-        val second = split[if (split.size > 1) 1 else 0]
-        return second
-            .substring(1, second.length - 2)
-            .also { logger.debug("X12 extracted: $this") }
-    }
 }

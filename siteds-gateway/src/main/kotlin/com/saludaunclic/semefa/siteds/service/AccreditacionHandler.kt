@@ -6,6 +6,9 @@ import com.saludaunclic.semefa.common.service.DateService
 import com.saludaunclic.semefa.common.service.MqClientService
 import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
 import com.saludaunclic.semefa.common.throwing.ServiceException
+import com.saludaunclic.semefa.common.util.SemefaUtils
+import com.saludaunclic.semefa.siteds.model.MqAckResponse
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -20,18 +23,19 @@ class AccreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271
                            private val dates: DateService,
                            private val objectMapper: ObjectMapper) {
     companion object {
-        const val NO_ERROR: String = "0000"
         const val TX_NAME: String = "271_LOGACRE_INSERT"
     }
 
     private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    fun processAccreditation(inLogAcreInsert271: InLogAcreInsert271) {
+    fun processAccreditation(inLogAcreInsert271: InLogAcreInsert271): MqAckResponse {
         val x12 = prepareX12(inLogAcreInsert271)
-        try {
-            putAndGetMessage(x12)
+        return try {
+            val message = putAndGetMessage(x12)
+            mqResponse(message)
         } catch (ex: MqMaxAttemptReachedException) {
-            logger.error("Error enciando acreditación a MQ", ex)
+            logger.error("Error enviando acreditación a MQ: se llegó al límite intentos", ex)
+            errorMqResponse(ex.message ?: StringUtils.EMPTY)
         }
     }
 
@@ -79,4 +83,20 @@ class AccreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271
             "<codRemitente>${inLogAcreInsert271.idRemitente}</codRemitente>" +
             "<txPeticion>${logAcreInsert271Service.beanToX12N(inLogAcreInsert271)}</txPeticion>" +
             "</RegistroAutRequest>"
+
+    private fun mqResponse(messageMap: Map<String, String>): MqAckResponse  =
+        with(messageMap) {
+            val messageId = this[MqClientService.MESSAGE_ID_KEY] ?: StringUtils.EMPTY
+            val message = this[MqClientService.MESSAGE_KEY] ?: StringUtils.EMPTY
+            val x12 = SemefaUtils.extractElement(logger, message, SemefaUtils.TX_RESPONSE_ELEMENT)
+            val errorCode = SemefaUtils.extractElement(logger, message, SemefaUtils.NO_ERROR)
+            logger.debug("From X12 to bean, X12:${System.lineSeparator()}$x12")
+            MqAckResponse(messageId, message, errorCode, x12)
+        }
+
+    private fun errorMqResponse(message: String) = MqAckResponse(
+        StringUtils.EMPTY,
+        message,
+        StringUtils.EMPTY,
+        StringUtils.EMPTY)
 }

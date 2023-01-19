@@ -1,17 +1,18 @@
 package com.saludaunclic.semefa.common.util
 
-import org.apache.commons.lang3.StringUtils
+import org.slf4j.Logger
 
 object SemefaUtils {
-    const val SPACES_FILL_LENGTH: Int = 10
+    const val NO_ERROR: String = "0000"
+    const val ERROR_CODE_ELEMENT = "coError"
+    const val TX_RESPONSE_ELEMENT: String = "txRespuesta"
 
-    fun fillWithSpaces(initial: String = "", length: Int = SPACES_FILL_LENGTH, append: Boolean = true): String {
-        val diff = length - initial.length
-        if (diff < 0) {
-            return initial
-        }
-
-        val spaces = StringUtils.repeat(StringUtils.SPACE, diff)
-        return if (append) initial + spaces else spaces + initial
+    fun extractElement(logger: Logger, xmlText: String, element: String): String {
+        logger.debug("Extracting X12 from $xmlText with tag $element")
+        val split = xmlText.split(element)
+        val second = split[if (split.size > 1) 1 else 0]
+        return second
+            .substring(1, second.length - 2)
+            .also { logger.debug("X12 extracted: $this") }
     }
 }
