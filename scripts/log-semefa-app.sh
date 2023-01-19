@@ -3,6 +3,8 @@
 project=${1}
 lines=${2}
 
+[[ -z "${lines}" ]] && lines=10
+
 sac_home=${HOME}/.sac
 source ${sac_home}/semefa-lib.sh
 
