@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:ubuntu-slim
+FROM adoptopenjdk/openjdk11-openj9:ubuntu-slim
 
 LABEL com.saludaunclic.contact="vico.zizou@gmail.com"
 LABEL com.saludaunclic.vendor="Salud a un Clic"
