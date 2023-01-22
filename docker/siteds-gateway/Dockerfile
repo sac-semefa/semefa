@@ -17,7 +17,7 @@ WORKDIR /build
 RUN ./build-semefa-app.sh
 
 
-FROM adoptopenjdk/openjdk11:ubuntu-slim
+FROM adoptopenjdk/openjdk11-openj9:ubuntu-slim
 
 ARG VERSION="1.0-SNAPSHOT"
 ENV VERSION=${VERSION}
