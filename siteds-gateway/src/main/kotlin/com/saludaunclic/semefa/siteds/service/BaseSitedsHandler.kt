@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.web.client.RestTemplate
 import java.util.Collections
@@ -38,56 +37,40 @@ abstract class BaseSitedsHandler<in Req: Any, out Res: Any, In: Any, Out: Any>: 
             val input = extractInput(request)
             val url = handlerProvider.resolvePath(this)
             val output = sendBean(url, input, resolveResponseClass())
-            val response = createAndLogResponse(output)
+            val response = createResponse(output)
 
             loggingHelper.logSendXml(logger, response)
             response
         } catch (ex: SitedsException) {
             logger.error("Error when handling request of class ${this::class.java.name}: ${ex.message}", ex)
-            createErrorAndLog(ex.errorCode, request)
+            createErrorResponse(ex.errorCode, request)
         } catch (ex: Exception) {
             logger.error(
                 "Unexpected error when handling request of class ${this::class.java.name}: ${ex.message}",
                 ex)
-            createErrorAndLog(ErrorCodes.SYSTEM_ERROR, request)
+            createErrorResponse(ErrorCodes.SYSTEM_ERROR, request)
         }
 
-    fun <R: Response<Out>> sendBean(url: String, input: In, clazz: Class<R>): Out =
+    private fun <R: Response<Out>> sendBean(url: String, input: In, clazz: Class<R>): Out =
         with(input) {
-            loggingHelper.logSendJson(logger, input)
+            loggingHelper.logSendJson(logger, input, url)
 
-            val entity: HttpEntity<In> = HttpEntity(input, headers())
-            val responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, clazz)
-            val response = responseEntity.body
+            val request: HttpEntity<In> = HttpEntity(input, headers())
+            val entity = restTemplate.postForEntity(url, request, clazz)
+            val response = entity.body
                 ?: throw SitedsException(
                     "Error posting bean of class ${input::class.java.name}",
                     ErrorCodes.SYSTEM_ERROR)
 
-            loggingHelper.logReceiveJson(logger, response)
+            loggingHelper.logReceiveJson(logger, response, url)
 
             response.data ?: throw SitedsException("Error getting data from ${clazz.name}")
         }
 
     private fun headers(): HttpHeaders = HttpHeaders()
         .apply {
-            this.accept = Collections.singletonList(MediaType.ALL);
+            this.accept = Collections.singletonList(MediaType.APPLICATION_JSON);
             this.contentType = MediaType.APPLICATION_JSON
             this.set(HttpHeaders.AUTHORIZATION, sitedsProperties.apiKey)
         }
-
-    private fun createAndLogResponse(output: Out): Res = with(output) {
-        val response = createResponse(output)
-        logger.debug("""Returning response to IAFAS:
-            |$response
-        """.trimMargin())
-        response
-    }
-
-    private fun createErrorAndLog(errorCode: String, request: Req) = with(request) {
-        val response = createErrorResponse(errorCode, request)
-        logger.debug("""Returning ERROR response to IAFAS:
-            |$response
-        """.trimMargin())
-        response
-    }
 }

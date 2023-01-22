@@ -1,9 +1,8 @@
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.saludaunclic.semefa.regafi.GatewayApplication
-import com.saludaunclic.semefa.regafi.dto.AppSetupDto
-import com.saludaunclic.semefa.regafi.repository.UserRepository
-import com.saludaunclic.semefa.regafi.service.dataframe.DataFrameService
-import com.saludaunclic.semefa.regafi.service.setup.AppSetupService
+import com.saludaunclic.semefa.common.dto.AppSetupDto
+import com.saludaunclic.semefa.common.repository.UserRepository
+import com.saludaunclic.semefa.common.service.AppSetupService
+import com.saludaunclic.semefa.regafi.RegafiProxyApp
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
@@ -22,11 +21,10 @@ import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate
 import util.TestDataUtils
 
 @ContextConfiguration
-@SpringBootTest(classes = [ GatewayApplication::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = [ RegafiProxyApp::class ], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DataFrameIntegrationTests(
     @Autowired val restTemplate: TestRestTemplate,
     @Autowired val appSetupService: AppSetupService,
-    @Autowired val dataFrameService: DataFrameService,
     @Autowired val userRepository: UserRepository,
     @Autowired val objectMapper: ObjectMapper
 ) {
@@ -40,7 +38,7 @@ class DataFrameIntegrationTests(
         userRepository.deleteAll()
         with(appSetup.user) {
             appSetupService.setupApp(appSetup)
-            token = TestDataUtils.loginWithCredentials(restTemplate, username, password).body?.token ?: ""
+            token = TestDataUtils.loginWithCredentials(restTemplate, username, password).getBody()?.token ?: ""
         }
     }
 
