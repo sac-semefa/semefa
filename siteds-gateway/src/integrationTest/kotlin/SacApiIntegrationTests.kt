@@ -1,6 +1,6 @@
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.saludaunclic.semefa.siteds.SitedsGatewayApp
-import com.saludaunclic.semefa.siteds.model.ResponseInConProc271
+import com.saludaunclic.semefa.siteds.model.ResponseInConNom271
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,11 +38,11 @@ class SacApiIntegrationTests(
   "caReceptor" : "2",
   "caPaciente" : "1",
   "apPaternoPaciente" : "",
-  "noPaciente" : "",
+  "noPaciente" : "Josue",
   "coAfPaciente" : "",
   "apMaternoPaciente" : "",
   "tiDocumento" : "1",
-  "nuDocumento" : "74443874",
+  "nuDocumento" : "",
   "coProducto" : "",
   "deProducto" : "",
   "coInProducto" : "Revisión del Instalador 5.5",
@@ -73,10 +73,7 @@ class SacApiIntegrationTests(
         val entity = restTemplate.postForEntity(
             "http://200.48.13.34/apiSemefa/getConsultaAsegNom",
             request,
-            ResponseInConProc271::class.java)
-        println("""Response:
-            |${objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(entity.body?.data)}
-        """.trimMargin())
+            ResponseInConNom271::class.java)
         assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
     }
 

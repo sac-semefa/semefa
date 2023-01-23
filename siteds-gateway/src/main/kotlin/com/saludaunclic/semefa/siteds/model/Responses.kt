@@ -1,6 +1,6 @@
 package com.saludaunclic.semefa.siteds.model
 
-import com.fasterxml.jackson.annotation.JsonAlias
+import com.fasterxml.jackson.annotation.JsonIgnore
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271ConDtad
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271ConObs
 import pe.gob.susalud.jr.transaccion.susalud.bean.In271ResSctr
@@ -29,7 +29,7 @@ open class Response<T> {
 class ResponseInResEntVinc278: Response<InResEntVinc278>()
 
 class InConCod271_Deduped: InConCod271() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<InConCod271Detalle> {
         return super.getDetalles()
     }
@@ -37,7 +37,7 @@ class InConCod271_Deduped: InConCod271() {
 class ResponseInConCod271: Response<InConCod271_Deduped>()
 
 class In271ResSctr_Deduped: In271ResSctr() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<In271ResSctrDetalle> {
         return super.getDetalles()
     }
@@ -45,7 +45,7 @@ class In271ResSctr_Deduped: In271ResSctr() {
 class ResponseIn271ResSctr: Response<In271ResSctr_Deduped>()
 
 class InRegAfi271_Deduped: InRegAfi271() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<InRegAfi271Detalle> {
         return super.getDetalles()
     }
@@ -53,7 +53,7 @@ class InRegAfi271_Deduped: InRegAfi271() {
 class ResponseInRegAfi271: Response<InRegAfi271_Deduped>()
 
 class InConMed271_Deduped: InConMed271() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<InConMed271Detalle> {
         return super.getDetalles()
     }
@@ -63,7 +63,7 @@ class ResponseInConMed271: Response<InConMed271_Deduped>()
 class ResponseIn997ResAut: Response<In997ResAut>()
 
 class In278ResCG_Deduped: In278ResCG() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<In278ResCGDetalle> {
         return super.getDetalles()
     }
@@ -71,7 +71,7 @@ class In278ResCG_Deduped: In278ResCG() {
 class ResponseIn278ResCG: Response<In278ResCG_Deduped>()
 
 class InConNom271_Deduped: InConNom271() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<InConNom271Detalle> {
         return super.getDetalles()
     }
@@ -79,7 +79,7 @@ class InConNom271_Deduped: InConNom271() {
 class ResponseInConNom271: Response<InConNom271_Deduped>()
 
 class InConProc271_Deduped: InConProc271() {
-    @JsonAlias("detalles")
+    @JsonIgnore
     override fun getDetalles(): MutableList<InConProc271Detalle> {
         return super.getDetalles()
     }
