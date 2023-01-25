@@ -18,10 +18,10 @@ import pe.gob.susalud.jr.transaccion.susalud.service.LogAcreInsert271Service
 import java.util.UUID
 
 @Service
-class AccreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271Service,
-                           private val mqClientService: MqClientService,
-                           private val dates: DateService,
-                           private val objectMapper: ObjectMapper) {
+class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271Service,
+                          private val mqClientService: MqClientService,
+                          private val dates: DateService,
+                          private val objectMapper: ObjectMapper) {
     companion object {
         const val TX_NAME: String = "271_LOGACRE_INSERT"
     }
