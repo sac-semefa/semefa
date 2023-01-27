@@ -27,11 +27,15 @@ class ConsultaObservacionHandler(private val conAse270Service: ConAse270Service,
 
     override fun createResponse(output: In271ConObs): GetConsultaObservacionResponse =
         GetConsultaObservacionResponse().apply {
+            val obs = StringUtils.defaultString(output.teMsgLibre1).trim()
+            output.teMsgLibre1 = "${resolveFlag(obs)}"
+            val obsAdi = StringUtils.defaultString(output.teMsgLibre2).trim()
+            output.teMsgLibre2 = "${resolveFlag(obsAdi)}"
             coError = SitedsConstants.ErrorCodes.NO_ERROR
             coIafa = output.idReceptor
             txNombre = Transactions.RES_271_CON_OBS
             txRespuesta = in271ConObsService.beanToX12N(output)
-            rptObs = StringUtils.EMPTY
+            rptObs = "$obs[$$$]$obsAdi"
         }
 
     override fun createErrorResponse(errorCode: String,
@@ -43,4 +47,6 @@ class ConsultaObservacionHandler(private val conAse270Service: ConAse270Service,
             txRespuesta = StringUtils.EMPTY
             rptObs = StringUtils.EMPTY
         }
+
+    private fun resolveFlag(str: String): Int = if (StringUtils.isNotBlank(str)) 1 else 0
 }
