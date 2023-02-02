@@ -36,13 +36,16 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
         } catch (ex: MqMaxAttemptReachedException) {
             logger.error("Error enviando acreditación a MQ: se llegó al límite intentos", ex)
             errorMqResponse(ex.message ?: StringUtils.EMPTY)
+        } catch (ex: Exception) {
+            logger.error("Error enviando acreditación a MQ: ${ex.message}", ex)
+            errorMqResponse(ex.message ?: StringUtils.EMPTY)
         }
     }
 
     private fun putAndGetMessage(dataFrame: String): Map<String, String> =
         with(dataFrame) {
             logger.info("=== Start MQ Connection ===")
-            logger.info("Sending X12 message with this data: $this")
+            logger.debug("Sending X12 message with this data: $this")
 
             try {
                 mqClientService.sendMessageSync(this)
