@@ -34,7 +34,9 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
             val message = putAndGetMessage(x12)
             mqResponse(message)
         } catch (ex: MqMaxAttemptReachedException) {
-            logger.error("Error enviando acreditación a MQ: se llegó al límite intentos", ex)
+            logger.error(
+                "Error enviando acreditación a MQ (con messageId [${StringUtils.defaultString(ex.messageId)}]): se llegó al límite intentos",
+                ex)
             errorMqResponse(ex.message ?: StringUtils.EMPTY)
         } catch (ex: Exception) {
             logger.error("Error enviando acreditación a MQ: ${ex.message}", ex)

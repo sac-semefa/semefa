@@ -7,6 +7,7 @@ import com.ibm.mq.MQQueue
 import com.ibm.mq.constants.CMQC
 import com.saludaunclic.semefa.common.config.MqProperties
 import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
+import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.codec.Hex
@@ -107,8 +108,8 @@ class MqClientService(private val mqProperties: MqProperties) {
         }
 
         throw MqMaxAttemptReachedException(
-            Hex.encode(message.messageId).toString(),
-            "Número máximo de intentos para conectarse a MQ se alcanzó, abortando")
+            Hex.encode(message.messageId).contentToString(),
+            "Número máximo de intentos (${mqProperties.numberOfTries}) para conectarse a MQ se alcanzó, abortando")
     }
 
     private fun processResponse(message: MQMessage): MutableMap<String, String> {
