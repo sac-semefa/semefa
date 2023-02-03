@@ -157,10 +157,12 @@ class RegafiService(
 
             try {
                 mqClientService.sendMessageSync(this)
-            } catch (ex: MQException) {
-                throw ex
             } catch (ex: Exception) {
-                throw ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
+                throw when(ex) {
+                    is MQException,
+                    is MqMaxAttemptReachedException -> ex
+                    else -> ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
+                }
             }
         }
 

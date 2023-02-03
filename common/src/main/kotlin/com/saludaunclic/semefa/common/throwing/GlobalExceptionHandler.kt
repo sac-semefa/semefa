@@ -15,18 +15,18 @@ class GlobalExceptionHandler: ResponseEntityExceptionHandler() {
         const val UNKNOWN_ERROR_MESSAGE: String = "Unknown server error occurred"
     }
 
-    @ExceptionHandler(ServiceException::class)
+    @ExceptionHandler(value = [ServiceException::class, MqMaxAttemptReachedException::class])
     fun handleServiceException(exception: ServiceException): ResponseEntity<SemefaMessage> =
         with(exception) {
             logger.error("Found exception", this)
-            return ResponseEntity<SemefaMessage>(toMessage(exception), status)
+            ResponseEntity<SemefaMessage>(toMessage(exception), status)
         }
 
     @ExceptionHandler(MQException::class)
     fun handleServiceException(exception: MQException): ResponseEntity<MqMessage> =
         with(exception) {
             logger.error("Found exception", this)
-            return ResponseEntity<MqMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
+            ResponseEntity<MqMessage>(toMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     @ExceptionHandler(Exception::class)

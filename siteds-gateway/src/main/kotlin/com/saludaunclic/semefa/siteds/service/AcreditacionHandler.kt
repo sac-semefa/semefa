@@ -33,14 +33,13 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
         return try {
             val message = putAndGetMessage(x12)
             mqResponse(message)
-        } catch (ex: MqMaxAttemptReachedException) {
-            logger.error(
-                "Error enviando acreditación a MQ (con messageId [${StringUtils.defaultString(ex.messageId)}]): se llegó al límite intentos",
-                ex)
-            errorMqResponse(ex.message ?: StringUtils.EMPTY)
         } catch (ex: Exception) {
             logger.error("Error enviando acreditación a MQ: ${ex.message}", ex)
-            errorMqResponse(ex.message ?: StringUtils.EMPTY)
+            MqAckResponse(
+                if (ex is MqMaxAttemptReachedException) ex.messageId else StringUtils.EMPTY,
+                ex.message ?: StringUtils.EMPTY,
+                StringUtils.EMPTY,
+                x12)
         }
     }
 
@@ -51,10 +50,12 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
 
             try {
                 mqClientService.sendMessageSync(this)
-            } catch (ex: MQException) {
-                throw ex
             } catch (ex: Exception) {
-                throw ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
+                throw when(ex) {
+                    is MQException,
+                    is MqMaxAttemptReachedException -> ex
+                    else -> ServiceException("Error en comunicación con MQ", ex, HttpStatus.SERVICE_UNAVAILABLE)
+                }
             }
         }
 
@@ -98,10 +99,4 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
             logger.debug("From X12 to bean, X12:${System.lineSeparator()}$x12")
             MqAckResponse(messageId, message, errorCode, x12)
         }
-
-    private fun errorMqResponse(message: String) = MqAckResponse(
-        StringUtils.EMPTY,
-        message,
-        StringUtils.EMPTY,
-        StringUtils.EMPTY)
 }

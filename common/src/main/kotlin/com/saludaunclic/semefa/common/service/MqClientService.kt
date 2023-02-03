@@ -107,9 +107,10 @@ class MqClientService(private val mqProperties: MqProperties) {
             }
         }
 
+        val messageId = StringUtils.defaultString(Hex.encode(message.messageId).contentToString())
         throw MqMaxAttemptReachedException(
-            Hex.encode(message.messageId).contentToString(),
-            "Número máximo de intentos (${mqProperties.numberOfTries}) para conectarse a MQ se alcanzó, abortando")
+            messageId,
+            "Límite de intentos (${mqProperties.numberOfTries}) para consumir MQ se alcanzó, messageId: [$messageId]")
     }
 
     private fun processResponse(message: MQMessage): MutableMap<String, String> {
