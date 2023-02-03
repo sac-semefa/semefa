@@ -13,6 +13,6 @@ object SemefaUtils {
         val second = split[if (split.size > 1) 1 else 0]
         return second
             .substring(1, second.length - 2)
-            .also { logger.debug("X12 extracted: $this") }
+            .also { logger.debug("X12 extracted: $it") }
     }
 }

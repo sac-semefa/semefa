@@ -95,7 +95,7 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
             val messageId = this[MqClientService.MESSAGE_ID_KEY] ?: StringUtils.EMPTY
             val message = this[MqClientService.MESSAGE_KEY] ?: StringUtils.EMPTY
             val x12 = SemefaUtils.extractElement(logger, message, SemefaUtils.TX_RESPONSE_ELEMENT)
-            val errorCode = SemefaUtils.extractElement(logger, message, SemefaUtils.NO_ERROR)
+            val errorCode = SemefaUtils.extractElement(logger, message, SemefaUtils.ERROR_CODE_ELEMENT)
             logger.debug("From X12 to bean, X12:${System.lineSeparator()}$x12")
             MqAckResponse(messageId, message, errorCode, x12)
         }
