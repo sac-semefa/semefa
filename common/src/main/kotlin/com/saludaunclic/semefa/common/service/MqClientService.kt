@@ -107,7 +107,7 @@ class MqClientService(private val mqProperties: MqProperties) {
             }
         }
 
-        val messageId = StringUtils.defaultString(Hex.encode(message.messageId).contentToString())
+        val messageId = StringUtils.defaultString(Hex.encode(message.messageId).toString())
         throw MqMaxAttemptReachedException(
             messageId,
             "Límite de intentos (${mqProperties.numberOfTries}) para consumir MQ se alcanzó, messageId: [$messageId]")
