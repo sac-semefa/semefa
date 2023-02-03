@@ -41,6 +41,9 @@ mq:
   channel: ${MQ_CHANNEL:CH.SUSALUD.IAFAS_LA}
   hostname: ${MQ_HOSTNAME:app3.susalud.gob.pe}
   port: ${MQ_PORT:1430}
+  number-of-tries: ${MQ_NUMBER_OF_TRIES:10}
+  wait-after-try: ${MQ_WAIT_AFTER_TRY:3}
+  wait-interval: ${MQ_WAIT_INTERVAL:1000}
 date:
   time-zone: ${TIME_ZONE:UTC-5}
 jwt:
