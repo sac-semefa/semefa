@@ -7,6 +7,7 @@ import com.saludaunclic.semefa.common.service.MqClientService
 import com.saludaunclic.semefa.common.throwing.MqMaxAttemptReachedException
 import com.saludaunclic.semefa.common.throwing.ServiceException
 import com.saludaunclic.semefa.common.util.SemefaUtils
+import com.saludaunclic.semefa.siteds.SitedsConstants
 import com.saludaunclic.semefa.siteds.model.MqAckResponse
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
@@ -36,9 +37,9 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
         } catch (ex: Exception) {
             logger.error("Error enviando acreditación a MQ: ${ex.message}", ex)
             MqAckResponse(
-                if (ex is MqMaxAttemptReachedException) ex.messageId else StringUtils.EMPTY,
-                ex.message ?: StringUtils.EMPTY,
-                StringUtils.EMPTY,
+                if (ex is MqMaxAttemptReachedException) StringUtils.defaultString(ex.messageId) else StringUtils.EMPTY,
+                StringUtils.defaultString(ex.message),
+                SitedsConstants.ErrorCodes.SYSTEM_ERROR,
                 x12)
         }
     }
@@ -96,6 +97,6 @@ class AcreditacionHandler(private val logAcreInsert271Service: LogAcreInsert271S
             val message = this[MqClientService.MESSAGE_KEY] ?: StringUtils.EMPTY
             val errorCode = SemefaUtils.extractElement(logger, message, SemefaUtils.ERROR_CODE_ELEMENT)
             logger.debug("From X12 to bean, X12:${System.lineSeparator()}$message")
-            MqAckResponse(messageId, message, errorCode, message)
+            MqAckResponse(messageId, message, errorCode)
         }
 }
