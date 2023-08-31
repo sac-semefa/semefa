@@ -1,7 +1,9 @@
 version: "3.7"
 
-services:
+volumes:
+  logs:
 
+services:
   regafi-proxy:
     image: vicozizou/regafi-proxy:latest
     environment:
@@ -29,3 +31,5 @@ services:
       - "${ACTUATOR_PORT}:${ACTUATOR_PORT}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/app/logs
